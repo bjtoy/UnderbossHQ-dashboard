@@ -1,57 +1,56 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
-// Real pages
+import DashboardLayout from "./layouts/DashboardLayout.jsx";
+
+// Pages
 import LoginPage from "./pages/LoginPage.jsx";
 import NotAuthorized from "./pages/NotAuthorized.jsx";
 import MemberHome from "./pages/MemberHome.jsx";
-
-// Placeholder pages (these will be replaced next)
-function ModDashboard() {
-  return <h1>Moderator Dashboard</h1>;
-}
-
-function AdminDashboard() {
-  return <h1>Admin Dashboard</h1>;
-}
+import ModDashboard from "./pages/ModDashboard.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
 
-        {/* Public route */}
+        {/* Public Login Route */}
         <Route path="/login" element={<LoginPage />} />
 
-        {/* Not authorized */}
+        {/* Not Authorized */}
         <Route path="/not-authorized" element={<NotAuthorized />} />
 
-        {/* Member-only route */}
+        {/* Protected Routes Wrapped in Dashboard Layout */}
         <Route
           path="/"
           element={
             <ProtectedRoute>
-              <MemberHome />
+              <DashboardLayout>
+                <MemberHome />
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
 
-        {/* Moderator route */}
         <Route
           path="/moderator"
           element={
             <ProtectedRoute roles={["Admin", "Moderator"]}>
-              <ModDashboard />
+              <DashboardLayout>
+                <ModDashboard />
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
 
-        {/* Admin route */}
         <Route
           path="/admin"
           element={
             <ProtectedRoute roles={["Admin"]}>
-              <AdminDashboard />
+              <DashboardLayout>
+                <AdminDashboard />
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
