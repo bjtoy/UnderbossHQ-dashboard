@@ -1,32 +1,43 @@
-import { getRoles } from "../utils/roles.js";
 import { toastError } from "./toastHelper.js";
+
+let logoutFn = null;
+let refreshUserFn = null;
+
+// Allow AuthContext to inject logout + refreshUser
+export function registerAuthHandlers({ logout, refreshUser }) {
+  logoutFn = logout;
+  refreshUserFn = refreshUser;
+}
 
 const API_BASE = "/api";
 
-function hasRequiredRole(requiredRoles) {
-  const userRoles = getRoles();
-  if (!requiredRoles || requiredRoles.length === 0) return true;
-  return requiredRoles.some((role) => userRoles.includes(role));
-}
-
-async function request(method, endpoint, body = null, requiredRoles = null) {
-  if (!hasRequiredRole(requiredRoles)) {
-    window.location.href = "/not-authorized";
-    return;
-  }
+async function request(method, endpoint, body = null) {
+  const token = localStorage.getItem("authToken");
 
   const options = {
     method,
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token ? `Bearer ${token}` : "",
+    },
   };
 
-  if (body) options.body = JSON.stringify(body);
+  if (body) {
+    options.body = JSON.stringify(body);
+  }
 
-  const res = await fetch(`${API_BASE}${endpoint}`, options);
+  let res;
 
+  try {
+    res = await fetch(`${API_BASE}${endpoint}`, options);
+  } catch (err) {
+    toastError("Network error — server unreachable");
+    throw err;
+  }
+
+  // Handle auth errors
   if (res.status === 401) {
-    window.location.href = "/login";
+    if (logoutFn) logoutFn();
     return;
   }
 
@@ -35,7 +46,7 @@ async function request(method, endpoint, body = null, requiredRoles = null) {
     return;
   }
 
-  let data;
+  let data = null;
   try {
     data = await res.json();
   } catch {
@@ -47,11 +58,17 @@ async function request(method, endpoint, body = null, requiredRoles = null) {
     throw new Error(data?.error || "API request failed");
   }
 
+  // Optional: refresh user after successful write operations
+  if (["POST", "PUT", "DELETE"].includes(method) && refreshUserFn) {
+    refreshUserFn();
+  }
+
   return data;
 }
 
 export const api = {
-  get: (endpoint, roles = null) => request("GET", endpoint, null, roles),
-  post: (endpoint, body, roles = null) =>
-    request("POST", endpoint, body, roles),
+  get: (endpoint) => request("GET", endpoint),
+  post: (endpoint, body) => request("POST", endpoint, body),
+  put: (endpoint, body) => request("PUT", endpoint, body),
+  delete: (endpoint) => request("DELETE", endpoint),
 };
