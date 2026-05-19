@@ -3,7 +3,7 @@ import { toastError } from "./toastHelper.js";
 let logoutFn = null;
 let refreshUserFn = null;
 
-// Allow AuthContext to inject logout + refreshUser
+// Allow RoleContext to inject logout + refreshUser
 export function registerAuthHandlers({ logout, refreshUser }) {
   logoutFn = logout;
   refreshUserFn = refreshUser;
@@ -11,14 +11,15 @@ export function registerAuthHandlers({ logout, refreshUser }) {
 
 const API_BASE = "/api";
 
+// ================================================
+// UNIVERSAL REQUEST WRAPPER (SESSION-BASED AUTH)
+// ================================================
 async function request(method, endpoint, body = null) {
-  const token = localStorage.getItem("authToken");
-
   const options = {
     method,
+    credentials: "include", // IMPORTANT: send session cookies
     headers: {
       "Content-Type": "application/json",
-      Authorization: token ? `Bearer ${token}` : "",
     },
   };
 
@@ -35,17 +36,24 @@ async function request(method, endpoint, body = null) {
     throw err;
   }
 
-  // Handle auth errors
+  // ============================
+  // AUTH HANDLING
+  // ============================
   if (res.status === 401) {
+    // Session expired or not logged in
     if (logoutFn) logoutFn();
     return;
   }
 
   if (res.status === 403) {
+    // User exists but lacks permission
     window.location.href = "/not-authorized";
     return;
   }
 
+  // ============================
+  // PARSE JSON SAFELY
+  // ============================
   let data = null;
   try {
     data = await res.json();
@@ -53,12 +61,17 @@ async function request(method, endpoint, body = null) {
     data = null;
   }
 
+  // ============================
+  // ERROR HANDLING
+  // ============================
   if (!res.ok) {
     toastError(data?.error || "API request failed");
     throw new Error(data?.error || "API request failed");
   }
 
-  // Optional: refresh user after successful write operations
+  // ============================
+  // OPTIONAL: REFRESH USER AFTER WRITE
+  // ============================
   if (["POST", "PUT", "DELETE"].includes(method) && refreshUserFn) {
     refreshUserFn();
   }
@@ -66,6 +79,9 @@ async function request(method, endpoint, body = null) {
   return data;
 }
 
+// ================================================
+// PUBLIC API WRAPPER
+// ================================================
 export const api = {
   get: (endpoint) => request("GET", endpoint),
   post: (endpoint, body) => request("POST", endpoint, body),
