@@ -9,11 +9,15 @@ import NotAuthorized from "./pages/NotAuthorized.jsx";
 import MemberHome from "./pages/MemberHome.jsx";
 import ModDashboard from "./pages/ModDashboard.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
+import AuthCallback from "./pages/AuthCallback.jsx";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+
+        {/* OAuth Callback Route */}
+        <Route path="/auth/callback" element={<AuthCallback />} />
 
         {/* Public Login Route */}
         <Route path="/login" element={<LoginPage />} />
