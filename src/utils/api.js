@@ -1,21 +1,26 @@
-// ===============================
-// Grand Mafia Dashboard API Helper
-// ===============================
-//
-// Handles:
-// - GET + POST requests
-// - Sends cookies (session)
-// - Auto-redirect on 401/403
-// - Global error handling
-// - Clean, reusable API calls
-//
+import { getRoles } from "../utils/roles.js";
 
 const API_BASE = "/api";
 
-async function request(method, endpoint, body = null) {
+// Check if user has required roles
+function hasRequiredRole(requiredRoles) {
+  const userRoles = getRoles(); // from RoleContext helper
+
+  if (!requiredRoles || requiredRoles.length === 0) return true;
+
+  return requiredRoles.some((role) => userRoles.includes(role));
+}
+
+async function request(method, endpoint, body = null, requiredRoles = null) {
+  // Client-side role check
+  if (!hasRequiredRole(requiredRoles)) {
+    window.location.href = "/not-authorized";
+    return;
+  }
+
   const options = {
     method,
-    credentials: "include", // send session cookies
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -27,7 +32,6 @@ async function request(method, endpoint, body = null) {
 
   const res = await fetch(`${API_BASE}${endpoint}`, options);
 
-  // Auto-handle auth errors
   if (res.status === 401) {
     window.location.href = "/login";
     return;
@@ -38,7 +42,6 @@ async function request(method, endpoint, body = null) {
     return;
   }
 
-  // Parse JSON safely
   let data;
   try {
     data = await res.json();
@@ -54,6 +57,7 @@ async function request(method, endpoint, body = null) {
 }
 
 export const api = {
-  get: (endpoint) => request("GET", endpoint),
-  post: (endpoint, body) => request("POST", endpoint, body),
+  get: (endpoint, roles = null) => request("GET", endpoint, null, roles),
+  post: (endpoint, body, roles = null) =>
+    request("POST", endpoint, body, roles),
 };

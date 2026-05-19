@@ -11,7 +11,7 @@ export default function ModDashboard() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    api.get("/mod/stats")
+    api.get("/mod/stats", ["Admin", "Moderator"])
       .then((data) => setStats(data))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
@@ -51,20 +51,6 @@ export default function ModDashboard() {
               <h3>Warnings Issued</h3>
               <div className="value">{stats?.warnings ?? "—"}</div>
             </div>
-          </div>
-
-          <div className="card">
-            <h3>Moderator Tools</h3>
-
-            <button className="btn" style={{ marginRight: "12px" }}>
-              Review Reports
-            </button>
-
-            <button className="btn" style={{ marginRight: "12px" }}>
-              Manage Users
-            </button>
-
-            <button className="btn">Issue Warning</button>
           </div>
         </>
       )}

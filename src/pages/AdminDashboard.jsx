@@ -11,7 +11,7 @@ export default function AdminDashboard() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    api.get("/admin/stats")
+    api.get("/admin/stats", ["Admin"])
       .then((data) => setStats(data))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
@@ -58,20 +58,6 @@ export default function AdminDashboard() {
                 {stats?.systemStatus ?? "Unknown"}
               </div>
             </div>
-          </div>
-
-          <div className="card">
-            <h3>Admin Actions</h3>
-
-            <button className="btn" style={{ marginRight: "12px" }}>
-              Manage Users
-            </button>
-
-            <button className="btn" style={{ marginRight: "12px" }}>
-              View Logs
-            </button>
-
-            <button className="btn">System Settings</button>
           </div>
         </>
       )}
