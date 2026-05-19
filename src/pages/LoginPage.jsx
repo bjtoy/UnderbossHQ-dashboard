@@ -1,21 +1,38 @@
+import React from "react";
+
 export default function LoginPage() {
+  function handleLogin() {
+    // Redirect user to backend OAuth login
+    window.location.href = "/api/auth/login";
+  }
+
   return (
-    <div className="app-container" style={{ textAlign: "center", marginTop: "80px" }}>
-      <h1 className="header-title" style={{ fontSize: "48px" }}>The Grand Mafia</h1>
-      <h2 className="header-subtitle" style={{ fontSize: "28px", marginBottom: "30px" }}>
-        Dashboard Login
+    <div
+      className="app-container"
+      style={{
+        textAlign: "center",
+        marginTop: "120px",
+      }}
+    >
+      <h1 className="header-title" style={{ fontSize: "48px" }}>
+        TGM BOT CONTROL PANEL
+      </h1>
+
+      <h2 className="header-subtitle" style={{ marginTop: "10px" }}>
+        Login Required
       </h2>
 
-      <div className="card" style={{ maxWidth: "420px", margin: "0 auto" }}>
-        <h3>Login Required</h3>
-        <p style={{ marginBottom: "20px", color: "var(--text-muted)" }}>
-          Please log in using your Discord account.
-        </p>
+      <p style={{ marginTop: "20px", color: "var(--text-muted)" }}>
+        Sign in with Discord to access your dashboard.
+      </p>
 
-        <a href="/api/auth/login" className="btn">
-          Login with Discord
-        </a>
-      </div>
+      <button
+        className="btn"
+        style={{ marginTop: "40px", padding: "12px 28px" }}
+        onClick={handleLogin}
+      >
+        Login with Discord
+      </button>
     </div>
   );
 }
