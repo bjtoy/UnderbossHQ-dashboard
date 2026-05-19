@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { registerAuthHandlers } from "../utils/api.js";
 
 const RoleContext = createContext();
 
@@ -92,6 +92,12 @@ export function RoleProvider({ children }) {
     setPermissions([]);
     window.location.href = "/login";
   }
+
+  // Register handlers with the API helper
+  registerAuthHandlers({
+    logout,
+    refreshUser: loadUser,
+  });
 
   const value = {
     user,
