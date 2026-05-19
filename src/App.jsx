@@ -4,12 +4,9 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 // Real pages
 import LoginPage from "./pages/LoginPage.jsx";
 import NotAuthorized from "./pages/NotAuthorized.jsx";
+import MemberHome from "./pages/MemberHome.jsx";
 
 // Placeholder pages (these will be replaced next)
-function MemberHome() {
-  return <h1>Member Home</h1>;
-}
-
 function ModDashboard() {
   return <h1>Moderator Dashboard</h1>;
 }
