@@ -25,7 +25,11 @@ function App() {
         {/* Not Authorized */}
         <Route path="/not-authorized" element={<NotAuthorized />} />
 
-        {/* Protected Routes Wrapped in Dashboard Layout */}
+        {/* ================================
+            PROTECTED ROUTES (SESSION REQUIRED)
+        ================================= */}
+
+        {/* Member Home (any logged-in user) */}
         <Route
           path="/"
           element={
@@ -37,10 +41,11 @@ function App() {
           }
         />
 
+        {/* Moderator Dashboard */}
         <Route
           path="/moderator"
           element={
-            <ProtectedRoute roles={["Admin", "Moderator"]}>
+            <ProtectedRoute roles={["Admin", "Mod"]}>
               <DashboardLayout>
                 <ModDashboard />
               </DashboardLayout>
@@ -48,6 +53,7 @@ function App() {
           }
         />
 
+        {/* Admin Dashboard */}
         <Route
           path="/admin"
           element={
