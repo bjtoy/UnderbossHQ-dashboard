@@ -1,22 +1,30 @@
 import { Navigate } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
 
-export default function ProtectedRoute({ roles = null, children }) {
-  const token = localStorage.getItem("authToken");
-  const { user, loading, hasAnyRole } = useRoles();
+export default function ProtectedRoute({
+  roles = null,
+  permissions = null,
+  children,
+}) {
+  const { user, loading, hasAnyRole, hasPermission } = useRoles();
 
-  // No token → not logged in
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-
-  // Still loading user data (F3 will improve this)
+  // Still loading user data
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // If user data exists, enforce role checks
-  if (user && roles && !hasAnyRole(roles)) {
+  // Not logged in → redirect to login
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // Role-based protection
+  if (roles && !hasAnyRole(roles)) {
+    return <Navigate to="/not-authorized" replace />;
+  }
+
+  // Permission-based protection
+  if (permissions && !hasPermission(permissions)) {
     return <Navigate to="/not-authorized" replace />;
   }
 
