@@ -1,7 +1,14 @@
+import { useEffect, useState } from "react";
+import { api } from "../utils/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
 
 export default function ModDashboard() {
   const { user, roles } = useRoles();
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    api.get("/mod/stats").then((data) => setStats(data));
+  }, []);
 
   return (
     <div>
@@ -10,27 +17,27 @@ export default function ModDashboard() {
       <div className="card">
         <h3>Moderator</h3>
         <p style={{ fontSize: "20px", marginBottom: "6px" }}>
-          {user?.username || "Moderator"}
+          {user?.username}
         </p>
         <p style={{ color: "var(--text-muted)" }}>
-          Roles: {roles?.length ? roles.join(", ") : "None"}
+          Roles: {roles?.join(", ")}
         </p>
       </div>
 
       <div className="dashboard-grid">
         <div className="card">
           <h3>Reports Today</h3>
-          <div className="value">—</div>
+          <div className="value">{stats?.reportsToday ?? "—"}</div>
         </div>
 
         <div className="card">
           <h3>Active Cases</h3>
-          <div className="value">—</div>
+          <div className="value">{stats?.activeCases ?? "—"}</div>
         </div>
 
         <div className="card">
           <h3>Warnings Issued</h3>
-          <div className="value">—</div>
+          <div className="value">{stats?.warnings ?? "—"}</div>
         </div>
       </div>
 
