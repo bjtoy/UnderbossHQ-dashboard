@@ -1,62 +1,96 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 
-// Create the context
 const RoleContext = createContext();
 
-// Provider component
 export function RoleProvider({ children }) {
   const [user, setUser] = useState(null);
   const [roles, setRoles] = useState([]);
   const [permissions, setPermissions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch user + roles + permissions from backend
-  useEffect(() => {
-    async function loadUser() {
-      try {
-        const res = await fetch("/api/auth/me", {
-          credentials: "include",
-        });
+  // Load user from backend using stored token
+  async function loadUser() {
+    const token = localStorage.getItem("authToken");
 
-        if (!res.ok) {
-          setUser(null);
-          setRoles([]);
-          setPermissions([]);
-          setLoading(false);
-          return;
-        }
+    if (!token) {
+      setUser(null);
+      setRoles([]);
+      setPermissions([]);
+      setLoading(false);
+      return;
+    }
 
-        const data = await res.json();
+    try {
+      const res = await fetch("/api/auth/me", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        setUser(data.user || null);
-        setRoles(data.roles || []);
-        setPermissions(data.permissions || []);
-      } catch (err) {
-        console.error("Failed to load user:", err);
+      if (res.status === 401) {
+        // Token invalid or expired
+        localStorage.removeItem("authToken");
         setUser(null);
         setRoles([]);
         setPermissions([]);
-      } finally {
         setLoading(false);
+        return;
       }
-    }
 
+      if (res.status === 403) {
+        // User exists but has no permission
+        setUser(null);
+        setRoles([]);
+        setPermissions([]);
+        setLoading(false);
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch user");
+      }
+
+      const data = await res.json();
+
+      setUser(data.user || null);
+      setRoles(data.roles || []);
+      setPermissions(data.permissions || []);
+    } catch (err) {
+      console.error("Failed to load user:", err);
+      setUser(null);
+      setRoles([]);
+      setPermissions([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Load user on first mount
+  useEffect(() => {
     loadUser();
   }, []);
 
-  // Helper: check if user has a specific role
+  // Helpers
   function hasRole(roleName) {
     return roles.includes(roleName);
   }
 
-  // Helper: check if user has ANY role from a list
   function hasAnyRole(roleList) {
     return roleList.some((r) => roles.includes(r));
   }
 
-  // Helper: check if user has a specific permission
   function hasPermission(permissionName) {
     return permissions.includes(permissionName);
+  }
+
+  function logout() {
+    localStorage.removeItem("authToken");
+    setUser(null);
+    setRoles([]);
+    setPermissions([]);
+    window.location.href = "/login";
   }
 
   const value = {
@@ -67,6 +101,8 @@ export function RoleProvider({ children }) {
     hasRole,
     hasAnyRole,
     hasPermission,
+    refreshUser: loadUser,
+    logout,
   };
 
   return (
@@ -76,7 +112,6 @@ export function RoleProvider({ children }) {
   );
 }
 
-// Hook for easy access
 export function useRoles() {
   return useContext(RoleContext);
 }
