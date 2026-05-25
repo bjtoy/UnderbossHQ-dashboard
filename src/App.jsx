@@ -16,8 +16,9 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        {/* OAuth Callback Route */}
+        {/* Discord OAuth Callback Routes */}
         <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/auth/discord/callback" element={<AuthCallback />} />
 
         {/* Public Login Route */}
         <Route path="/login" element={<LoginPage />} />
@@ -29,7 +30,7 @@ function App() {
             PROTECTED ROUTES (SESSION REQUIRED)
         ================================= */}
 
-        {/* Member Home (any logged-in user) */}
+        {/* Member Home */}
         <Route
           path="/"
           element={
