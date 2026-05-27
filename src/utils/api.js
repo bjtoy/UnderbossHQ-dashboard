@@ -1,23 +1,34 @@
+// =======================================
+// FRONTEND API WRAPPER (FINAL MERGED VERSION)
+// Works with Render backend + Vercel frontend
+// =======================================
+
 import { toastError } from "./toastHelper.js";
 
 let logoutFn = null;
 let refreshUserFn = null;
 
-// Allow RoleContext to inject logout + refreshUser
+// Allow AuthContext to inject logout + refreshUser
 export function registerAuthHandlers({ logout, refreshUser }) {
   logoutFn = logout;
   refreshUserFn = refreshUser;
 }
 
-const API_BASE = "/api";
+// =======================================
+// CORRECT BASE URL
+// Must point to Render backend
+// =======================================
+const API_BASE = import.meta.env.VITE_API_URL; 
+// Example: https://tgm-backend-v5bp.onrender.com
 
-// ================================================
-// UNIVERSAL REQUEST WRAPPER (SESSION-BASED AUTH)
-// ================================================
+// =======================================
+// UNIVERSAL REQUEST WRAPPER
+// Handles cookies, errors, auth, redirects
+// =======================================
 async function request(method, endpoint, body = null) {
   const options = {
     method,
-    credentials: "include", // IMPORTANT: send session cookies
+    credentials: "include", // CRITICAL: sends session cookies
     headers: {
       "Content-Type": "application/json",
     },
@@ -40,13 +51,11 @@ async function request(method, endpoint, body = null) {
   // AUTH HANDLING
   // ============================
   if (res.status === 401) {
-    // Session expired or not logged in
-    if (logoutFn) logoutFn();
+    if (logoutFn) logoutFn(); // session expired
     return;
   }
 
   if (res.status === 403) {
-    // User exists but lacks permission
     window.location.href = "/not-authorized";
     return;
   }
@@ -79,12 +88,38 @@ async function request(method, endpoint, body = null) {
   return data;
 }
 
-// ================================================
+// =======================================
 // PUBLIC API WRAPPER
-// ================================================
+// =======================================
 export const api = {
   get: (endpoint) => request("GET", endpoint),
   post: (endpoint, body) => request("POST", endpoint, body),
   put: (endpoint, body) => request("PUT", endpoint, body),
   delete: (endpoint) => request("DELETE", endpoint),
-};
+
+  // ============================
+  // AUTH
+  // ============================
+  auth: {
+    me: () => request("GET", "/api/auth/me"),
+    logout: () => request("POST", "/api/auth/logout"),
+  },
+
+  // ============================
+  // GUILDS
+  // ============================
+  guilds: {
+    list: () => request("GET", "/api/guilds"),
+  },
+
+  // ============================
+  // BOT → MODERATION
+  // ============================
+  bot: {
+    mod: {
+      overview: () => request("GET", "/bot/mod/overview"),
+      activeCases: () => request("GET", "/bot/mod/active-cases"),
+      warnings: (userId) => request("GET", `/bot/mod/warnings/${userId}`),
+
+      warn: (data) => request("POST", "/bot/mod/warn", data),
+      kick: (data) => request("POST",

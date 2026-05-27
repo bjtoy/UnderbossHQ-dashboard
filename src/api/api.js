@@ -1,80 +1,125 @@
 // =======================================
-// FRONTEND API WRAPPER
-// Centralized fetch helpers for the dashboard
+// FRONTEND API WRAPPER (FINAL MERGED VERSION)
+// Works with Render backend + Vercel frontend
 // =======================================
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001";
+import { toastError } from "./toastHelper.js";
 
-// Helper to attach guildId to all requests
-function withGuild(path) {
-  const guildId = localStorage.getItem("guildId");
+let logoutFn = null;
+let refreshUserFn = null;
 
-  if (!guildId) return path;
+// Allow AuthContext to inject logout + refreshUser
+export function registerAuthHandlers({ logout, refreshUser }) {
+  logoutFn = logout;
+  refreshUserFn = refreshUser;
+}
 
-  // If path already has query params
-  if (path.includes("?")) {
-    return `${path}&guildId=${guildId}`;
+// =======================================
+// CORRECT BASE URL
+// Must point to Render backend
+// =======================================
+const API_BASE = import.meta.env.VITE_API_URL; 
+// Example: https://tgm-backend-v5bp.onrender.com
+
+// =======================================
+// UNIVERSAL REQUEST WRAPPER
+// Handles cookies, errors, auth, redirects
+// =======================================
+async function request(method, endpoint, body = null) {
+  const options = {
+    method,
+    credentials: "include", // CRITICAL: sends session cookies
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  if (body) {
+    options.body = JSON.stringify(body);
   }
 
-  return `${path}?guildId=${guildId}`;
-}
+  let res;
 
-// Helper for GET requests
-async function get(path) {
-  const res = await fetch(`${API_BASE}${withGuild(path)}`, {
-    method: "GET",
-    credentials: "include",
-  });
-  return res.json();
-}
+  try {
+    res = await fetch(`${API_BASE}${endpoint}`, options);
+  } catch (err) {
+    toastError("Network error — server unreachable");
+    throw err;
+  }
 
-// Helper for POST requests
-async function post(path, body = {}) {
-  const res = await fetch(`${API_BASE}${withGuild(path)}`, {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  return res.json();
-}
-
-// =======================================
-// API NAMESPACE
-// =======================================
-
-export const api = {
   // ============================
-  // BOT → MODERATOR ENDPOINTS
+  // AUTH HANDLING
+  // ============================
+  if (res.status === 401) {
+    if (logoutFn) logoutFn(); // session expired
+    return;
+  }
+
+  if (res.status === 403) {
+    window.location.href = "/not-authorized";
+    return;
+  }
+
+  // ============================
+  // PARSE JSON SAFELY
+  // ============================
+  let data = null;
+  try {
+    data = await res.json();
+  } catch {
+    data = null;
+  }
+
+  // ============================
+  // ERROR HANDLING
+  // ============================
+  if (!res.ok) {
+    toastError(data?.error || "API request failed");
+    throw new Error(data?.error || "API request failed");
+  }
+
+  // ============================
+  // OPTIONAL: REFRESH USER AFTER WRITE
+  // ============================
+  if (["POST", "PUT", "DELETE"].includes(method) && refreshUserFn) {
+    refreshUserFn();
+  }
+
+  return data;
+}
+
+// =======================================
+// PUBLIC API WRAPPER
+// =======================================
+export const api = {
+  get: (endpoint) => request("GET", endpoint),
+  post: (endpoint, body) => request("POST", endpoint, body),
+  put: (endpoint, body) => request("PUT", endpoint, body),
+  delete: (endpoint) => request("DELETE", endpoint),
+
+  // ============================
+  // AUTH
+  // ============================
+  auth: {
+    me: () => request("GET", "/api/auth/me"),
+    logout: () => request("POST", "/api/auth/logout"),
+  },
+
+  // ============================
+  // GUILDS
+  // ============================
+  guilds: {
+    list: () => request("GET", "/api/guilds"),
+  },
+
+  // ============================
+  // BOT → MODERATION
   // ============================
   bot: {
     mod: {
-      overview: () => get("/bot/mod/overview"),
-      activeCases: () => get("/bot/mod/active-cases"),
-      warnings: (userId) => get(`/bot/mod/warnings/${userId}`),
+      overview: () => request("GET", "/bot/mod/overview"),
+      activeCases: () => request("GET", "/bot/mod/active-cases"),
+      warnings: (userId) => request("GET", `/bot/mod/warnings/${userId}`),
 
-      warn: (data) => post("/bot/mod/warn", data),
-      kick: (data) => post("/bot/mod/kick", data),
-      ban: (data) => post("/bot/mod/ban", data),
-    },
-
-    // ============================
-    // BOT → ADMIN ENDPOINTS
-    // ============================
-    admin: {
-      status: () => get("/bot/admin/status"),
-      guildInfo: () => get("/bot/admin/guild-info"),
-
-      reloadConfig: () => post("/bot/admin/reload-config"),
-      syncRoles: () => post("/bot/admin/sync-roles"),
-    },
-
-    // ============================
-    // BOT → LOGS ENDPOINTS
-    // ============================
-    logs: {
-      recent: () => get("/bot/logs/recent"),
-      cases: () => get("/bot/logs/cases"),
-    },
-  },
-};
+      warn: (data) => request("POST", "/bot/mod/warn", data),
+      kick: (data) => request("POST",
