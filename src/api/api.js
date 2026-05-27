@@ -3,7 +3,7 @@
 // Works with Render backend + Vercel frontend
 // =======================================
 
-import { toastError } from "./toastHelper.js";
+import { toastError } from "../utils/toastHelper.js";
 
 let logoutFn = null;
 let refreshUserFn = null;
