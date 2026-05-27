@@ -5,9 +5,23 @@
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
+// Helper to attach guildId to all requests
+function withGuild(path) {
+  const guildId = localStorage.getItem("guildId");
+
+  if (!guildId) return path;
+
+  // If path already has query params
+  if (path.includes("?")) {
+    return `${path}&guildId=${guildId}`;
+  }
+
+  return `${path}?guildId=${guildId}`;
+}
+
 // Helper for GET requests
 async function get(path) {
-  const res = await fetch(`${API_BASE}${path}`, {
+  const res = await fetch(`${API_BASE}${withGuild(path)}`, {
     method: "GET",
     credentials: "include",
   });
@@ -16,7 +30,7 @@ async function get(path) {
 
 // Helper for POST requests
 async function post(path, body = {}) {
-  const res = await fetch(`${API_BASE}${path}`, {
+  const res = await fetch(`${API_BASE}${withGuild(path)}`, {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
