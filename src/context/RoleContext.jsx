@@ -12,6 +12,22 @@ export function RoleProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   // ================================
+  // GUILD CONTEXT
+  // ================================
+  const [guildId, setGuildId] = useState(() => {
+    return localStorage.getItem("guildId") || null;
+  });
+
+  // Keep localStorage in sync when guildId changes
+  useEffect(() => {
+    if (guildId) {
+      localStorage.setItem("guildId", guildId);
+    } else {
+      localStorage.removeItem("guildId");
+    }
+  }, [guildId]);
+
+  // ================================
   // LOAD USER FROM BACKEND SESSION
   // ================================
   async function loadUser() {
@@ -85,6 +101,7 @@ export function RoleProvider({ children }) {
     setUser(null);
     setRoles([]);
     setPermissions([]);
+    setGuildId(null);
     window.location.href = "/login";
   }
 
@@ -97,6 +114,8 @@ export function RoleProvider({ children }) {
     user,
     roles,
     permissions,
+    guildId,
+    setGuildId,
     loading,
     hasRole,
     hasAnyRole,
