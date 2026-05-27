@@ -5,19 +5,30 @@ import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
 
 export default function ModDashboard() {
-  const { user, roles } = useRoles();
+  const { user, roles, guildId } = useRoles();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Load moderator stats
+  // Load moderator stats (guild-aware)
   useEffect(() => {
+    if (!guildId) return;
+
+    setLoading(true);
+    setError(null);
+
     api
       .get("/mod/stats")
-      .then((data) => setStats(data))
+      .then((data) => {
+        if (!data || data.error) {
+          setError(data?.error || "Failed to load moderator stats");
+          return;
+        }
+        setStats(data);
+      })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, [guildId]);
 
   return (
     <div>
