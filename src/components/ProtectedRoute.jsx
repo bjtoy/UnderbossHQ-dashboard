@@ -6,9 +6,7 @@ export default function ProtectedRoute({
   permissions = null,
   children,
 }) {
-  const { user, loading, hasAnyRole, hasPermission } = useRoles();
-
-  const guildId = localStorage.getItem("guildId");
+  const { user, loading, hasAnyRole, hasPermission, guildId } = useRoles();
 
   // Still loading user data
   if (loading) {

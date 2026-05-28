@@ -15,15 +15,23 @@ export function RoleProvider({ children }) {
   // GUILD CONTEXT
   // ================================
   const [guildId, setGuildId] = useState(() => {
-    return localStorage.getItem("guildId") || null;
+    try {
+      return localStorage.getItem("guildId") || null;
+    } catch {
+      return null;
+    }
   });
 
   // Keep localStorage in sync when guildId changes
   useEffect(() => {
-    if (guildId) {
-      localStorage.setItem("guildId", guildId);
-    } else {
-      localStorage.removeItem("guildId");
+    try {
+      if (guildId) {
+        localStorage.setItem("guildId", guildId);
+      } else {
+        localStorage.removeItem("guildId");
+      }
+    } catch {
+      /* ignore storage errors */
     }
   }, [guildId]);
 
@@ -51,9 +59,9 @@ export function RoleProvider({ children }) {
 
       const data = await res.json();
 
-      setUser(data.user || null);
-      setRoles(data.roles || []);
-      setPermissions(data.permissions || []);
+      setUser(data?.user || null);
+      setRoles(Array.isArray(data?.roles) ? data.roles : []);
+      setPermissions(Array.isArray(data?.permissions) ? data.permissions : []);
     } catch (err) {
       console.error("Failed to load user:", err);
 
@@ -78,7 +86,7 @@ export function RoleProvider({ children }) {
   }
 
   function hasAnyRole(roleList) {
-    return roleList.some((r) => roles.includes(r));
+    return Array.isArray(roleList) && roleList.some((r) => roles.includes(r));
   }
 
   function hasPermission(permissionName) {
@@ -102,6 +110,11 @@ export function RoleProvider({ children }) {
     setRoles([]);
     setPermissions([]);
     setGuildId(null);
+
+    try {
+      localStorage.removeItem("guildId");
+    } catch {}
+
     window.location.href = "/login";
   }
 

@@ -22,11 +22,14 @@ export default function DashboardLayout({ children }) {
     );
   }
 
-  const isMod = roles.includes("Moderator") || roles.includes("Admin");
-  const isAdmin = roles.includes("Admin");
+  const safeRoles = Array.isArray(roles) ? roles : [];
+  const isMod = safeRoles.includes("Moderator") || safeRoles.includes("Admin");
+  const isAdmin = safeRoles.includes("Admin");
 
   const changeServer = () => {
-    localStorage.removeItem("guildId");
+    try {
+      localStorage.removeItem("guildId");
+    } catch {}
     navigate("/select-guild");
   };
 
@@ -69,7 +72,7 @@ export default function DashboardLayout({ children }) {
               color: "var(--text-muted)",
             }}
           >
-            Welcome back, <strong>{user?.username}</strong>
+            Welcome back, <strong>{user?.username || "User"}</strong>
           </p>
         </div>
 

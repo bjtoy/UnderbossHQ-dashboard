@@ -7,21 +7,29 @@ export default function AuthCallback() {
   const { refreshUser } = useRoles();
 
   useEffect(() => {
+    let isMounted = true;
+
     async function finishLogin() {
       try {
-        // Refresh authenticated user from backend session
         await refreshUser();
 
-        // Redirect to dashboard
+        if (!isMounted) return;
+
         navigate("/", { replace: true });
       } catch (error) {
         console.error("Login finalisation failed:", error);
+
+        if (!isMounted) return;
 
         navigate("/login", { replace: true });
       }
     }
 
     finishLogin();
+
+    return () => {
+      isMounted = false;
+    };
   }, [navigate, refreshUser]);
 
   return (
