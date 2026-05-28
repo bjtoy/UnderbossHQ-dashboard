@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "../utils/api.js";
+import { api } from "../api/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
 import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
@@ -27,7 +27,6 @@ export default function MemberHome() {
 
       {!loading && !error && (
         <>
-          {/* PROFILE CARD */}
           <div className="card" style={{ marginBottom: "30px" }}>
             <h3>Welcome</h3>
 
@@ -39,7 +38,6 @@ export default function MemberHome() {
             <p className="muted">Rank: {profile?.rank || "Unknown"}</p>
           </div>
 
-          {/* STATS GRID */}
           <div className="card-grid card-grid-3">
             <div className="card">
               <h3>Daily Tasks</h3>
