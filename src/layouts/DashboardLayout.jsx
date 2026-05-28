@@ -34,62 +34,14 @@ export default function DashboardLayout({ children }) {
   };
 
   return (
-    <div className="dashboard-wrapper">
-      {/* ===========================
-          TOPBAR
-      ============================ */}
-      <header
-        className="topbar"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "16px 28px",
-          background: "var(--bg-dark)",
-          borderBottom: "1px solid rgba(255, 46, 46, 0.2)",
-          boxShadow: "0 0 12px rgba(255, 46, 46, 0.25)",
-          position: "sticky",
-          top: 0,
-          zIndex: 20,
-        }}
-      >
-        {/* Left: Title */}
-        <div>
-          <h1
-            className="header-title"
-            style={{
-              fontSize: "26px",
-              marginBottom: "4px",
-              textShadow: "0 0 10px rgba(255, 46, 46, 0.6)",
-            }}
-          >
-            TGM BOT CONTROL PANEL
-          </h1>
-          <p
-            className="header-subtitle"
-            style={{
-              fontSize: "14px",
-              color: "var(--text-muted)",
-            }}
-          >
-            Welcome back, <strong>{user?.username || "User"}</strong>
-          </p>
-        </div>
-
-        {/* Right: Mascot */}
-        <div className="header-art">
-          <img
-            src={mascot}
-            alt="Mascot"
-            className="mascot-img"
-            style={{
-              height: "58px",
-              filter: "drop-shadow(0 0 8px rgba(255, 46, 46, 0.6))",
-            }}
-          />
-        </div>
-      </header>
-
+    <div
+      className="dashboard-wrapper"
+      style={{
+        display: "flex",
+        minHeight: "100vh",
+        background: "var(--bg-darkest)",
+      }}
+    >
       {/* ===========================
           SIDEBAR
       ============================ */}
@@ -103,11 +55,11 @@ export default function DashboardLayout({ children }) {
           position: "fixed",
           top: "0",
           bottom: "0",
-          marginTop: "90px",
+          left: "0",
           overflowY: "auto",
+          zIndex: 10,
         }}
       >
-        {/* Home */}
         <NavLink
           to="/"
           className={({ isActive }) =>
@@ -117,7 +69,6 @@ export default function DashboardLayout({ children }) {
           Home
         </NavLink>
 
-        {/* Guides */}
         <NavLink
           to="/guides"
           className={({ isActive }) =>
@@ -127,7 +78,6 @@ export default function DashboardLayout({ children }) {
           Guides
         </NavLink>
 
-        {/* Create Guide */}
         {isMod && (
           <NavLink
             to="/guides/create"
@@ -139,7 +89,6 @@ export default function DashboardLayout({ children }) {
           </NavLink>
         )}
 
-        {/* Drafts */}
         {isMod && (
           <NavLink
             to="/guides/drafts"
@@ -151,7 +100,6 @@ export default function DashboardLayout({ children }) {
           </NavLink>
         )}
 
-        {/* Publish Guide */}
         {isMod && (
           <NavLink
             to="/guides/publish"
@@ -163,7 +111,6 @@ export default function DashboardLayout({ children }) {
           </NavLink>
         )}
 
-        {/* Moderator Tools */}
         {isMod && (
           <>
             <div className="sidebar-section-label">Moderator</div>
@@ -178,7 +125,6 @@ export default function DashboardLayout({ children }) {
           </>
         )}
 
-        {/* Admin Tools */}
         {isAdmin && (
           <>
             <div className="sidebar-section-label">Admin</div>
@@ -230,9 +176,6 @@ export default function DashboardLayout({ children }) {
           </>
         )}
 
-        {/* ===========================
-            CHANGE SERVER BUTTON
-        ============================ */}
         <button
           className="btn"
           onClick={changeServer}
@@ -246,7 +189,6 @@ export default function DashboardLayout({ children }) {
           Change Server
         </button>
 
-        {/* Logout */}
         <button
           className="btn logout-btn"
           onClick={logout}
@@ -261,17 +203,83 @@ export default function DashboardLayout({ children }) {
       </nav>
 
       {/* ===========================
-          MAIN CONTENT
+          MAIN CONTENT AREA
       ============================ */}
-      <main
-        className="app-container"
+      <div
         style={{
           marginLeft: "240px",
-          padding: "30px",
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
         }}
       >
-        {children}
-      </main>
+        {/* ===========================
+            TOPBAR
+        ============================ */}
+        <header
+          className="topbar"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "16px 28px",
+            background: "var(--bg-dark)",
+            borderBottom: "1px solid rgba(255, 46, 46, 0.2)",
+            boxShadow: "0 0 12px rgba(255, 46, 46, 0.25)",
+            position: "sticky",
+            top: 0,
+            zIndex: 5,
+          }}
+        >
+          <div>
+            <h1
+              className="header-title"
+              style={{
+                fontSize: "26px",
+                marginBottom: "4px",
+                textShadow: "0 0 10px rgba(255, 46, 46, 0.6)",
+              }}
+            >
+              TGM BOT CONTROL PANEL
+            </h1>
+            <p
+              className="header-subtitle"
+              style={{
+                fontSize: "14px",
+                color: "var(--text-muted)",
+              }}
+            >
+              Welcome back, <strong>{user?.username}</strong>
+            </p>
+          </div>
+
+          <div className="header-art">
+            <img
+              src={mascot}
+              alt="Mascot"
+              className="mascot-img"
+              style={{
+                height: "58px",
+                filter: "drop-shadow(0 0 8px rgba(255, 46, 46, 0.6))",
+              }}
+            />
+          </div>
+        </header>
+
+        {/* ===========================
+            PAGE CONTENT
+        ============================ */}
+        <main
+          className="app-container"
+          style={{
+            padding: "30px",
+            flexGrow: 1,
+          }}
+        >
+          {children}
+        </main>
+      </div>
     </div>
   );
 }
