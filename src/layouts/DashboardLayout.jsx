@@ -60,53 +60,28 @@ export default function DashboardLayout({ children }) {
           zIndex: 10,
         }}
       >
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive ? "nav-item active" : "nav-item"
-          }
-        >
+        <NavLink to="/" className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}>
           Home
         </NavLink>
 
-        <NavLink
-          to="/guides"
-          className={({ isActive }) =>
-            isActive ? "nav-item active" : "nav-item"
-          }
-        >
+        <NavLink to="/guides" className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}>
           Guides
         </NavLink>
 
         {isMod && (
-          <NavLink
-            to="/guides/create"
-            className={({ isActive }) =>
-              isActive ? "nav-item active" : "nav-item"
-            }
-          >
+          <NavLink to="/guides/create" className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}>
             Create Guide
           </NavLink>
         )}
 
         {isMod && (
-          <NavLink
-            to="/guides/drafts"
-            className={({ isActive }) =>
-              isActive ? "nav-item active" : "nav-item"
-            }
-          >
+          <NavLink to="/guides/drafts" className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}>
             Drafts
           </NavLink>
         )}
 
         {isMod && (
-          <NavLink
-            to="/guides/publish"
-            className={({ isActive }) =>
-              isActive ? "nav-item active" : "nav-item"
-            }
-          >
+          <NavLink to="/guides/publish" className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}>
             Publish Guide
           </NavLink>
         )}
@@ -114,12 +89,7 @@ export default function DashboardLayout({ children }) {
         {isMod && (
           <>
             <div className="sidebar-section-label">Moderator</div>
-            <NavLink
-              to="/moderator"
-              className={({ isActive }) =>
-                isActive ? "nav-item active" : "nav-item"
-              }
-            >
+            <NavLink to="/moderator" className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}>
               Moderation Tools
             </NavLink>
           </>
@@ -129,48 +99,23 @@ export default function DashboardLayout({ children }) {
           <>
             <div className="sidebar-section-label">Admin</div>
 
-            <NavLink
-              to="/admin"
-              className={({ isActive }) =>
-                isActive ? "nav-item active" : "nav-item"
-              }
-            >
+            <NavLink to="/admin" className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}>
               Admin Dashboard
             </NavLink>
 
-            <NavLink
-              to="/admin/users"
-              className={({ isActive }) =>
-                isActive ? "nav-item active" : "nav-item"
-              }
-            >
+            <NavLink to="/admin/users" className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}>
               User Management
             </NavLink>
 
-            <NavLink
-              to="/admin/roles"
-              className={({ isActive }) =>
-                isActive ? "nav-item active" : "nav-item"
-              }
-            >
+            <NavLink to="/admin/roles" className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}>
               Role Management
             </NavLink>
 
-            <NavLink
-              to="/admin/categories"
-              className={({ isActive }) =>
-                isActive ? "nav-item active" : "nav-item"
-              }
-            >
+            <NavLink to="/admin/categories" className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}>
               Guide Categories
             </NavLink>
 
-            <NavLink
-              to="/admin/logs"
-              className={({ isActive }) =>
-                isActive ? "nav-item active" : "nav-item"
-              }
-            >
+            <NavLink to="/admin/logs" className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}>
               System Logs
             </NavLink>
           </>
@@ -215,7 +160,7 @@ export default function DashboardLayout({ children }) {
         }}
       >
         {/* ===========================
-            TOPBAR
+            TOPBAR — HERO HEADER
         ============================ */}
         <header
           className="topbar"
@@ -223,10 +168,10 @@ export default function DashboardLayout({ children }) {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            padding: "16px 28px",
+            padding: "26px 36px",
             background: "var(--bg-dark)",
-            borderBottom: "1px solid rgba(255, 46, 46, 0.2)",
-            boxShadow: "0 0 12px rgba(255, 46, 46, 0.25)",
+            borderBottom: "1px solid rgba(255, 46, 46, 0.25)",
+            boxShadow: "0 0 20px rgba(255, 46, 46, 0.35)",
             position: "sticky",
             top: 0,
             zIndex: 5,
@@ -236,17 +181,20 @@ export default function DashboardLayout({ children }) {
             <h1
               className="header-title"
               style={{
-                fontSize: "26px",
-                marginBottom: "4px",
-                textShadow: "0 0 10px rgba(255, 46, 46, 0.6)",
+                fontSize: "46px",
+                marginBottom: "6px",
+                fontWeight: "800",
+                letterSpacing: "1.5px",
+                textShadow: "0 0 16px rgba(255, 46, 46, 0.9)",
               }}
             >
-              TGM BOT CONTROL PANEL
+              UnderbossHQ
             </h1>
+
             <p
               className="header-subtitle"
               style={{
-                fontSize: "14px",
+                fontSize: "16px",
                 color: "var(--text-muted)",
               }}
             >
@@ -254,14 +202,14 @@ export default function DashboardLayout({ children }) {
             </p>
           </div>
 
-          <div className="header-art">
+          <div className="header-art" style={{ display: "flex", alignItems: "center" }}>
             <img
               src={mascot}
               alt="Mascot"
               className="mascot-img"
               style={{
-                height: "58px",
-                filter: "drop-shadow(0 0 8px rgba(255, 46, 46, 0.6))",
+                height: "90px",
+                filter: "drop-shadow(0 0 12px rgba(255, 46, 46, 0.9))",
               }}
             />
           </div>
