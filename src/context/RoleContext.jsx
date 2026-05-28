@@ -25,6 +25,9 @@ export function RoleProvider({ children }) {
     }
   });
 
+  // ================================
+  // KEEP STORAGE IN SYNC
+  // ================================
   useEffect(() => {
     try {
       if (guildId) {
@@ -37,6 +40,10 @@ export function RoleProvider({ children }) {
     }
   }, [guildId]);
 
+  // ================================
+  // LOAD USER SESSION
+  // ================================
+  // ================================
   async function loadUser() {
     try {
       const res = await fetch(`${API_URL}/api/auth/me`, {
@@ -82,10 +89,44 @@ export function RoleProvider({ children }) {
     }
   }
 
+  // ================================
+  // INITIAL LOAD
+  // ================================
   useEffect(() => {
     loadUser();
   }, []);
 
+  // ================================
+  // REGISTER AUTH HANDLERS
+  // ================================
+  useEffect(() => {
+    registerAuthHandlers({
+      logout,
+      refreshUser: loadUser,
+    });
+  }, []);
+
+  // ================================
+  // HELPERS
+  // ================================
+  function hasRole(roleName) {
+    return roles.includes(roleName);
+  }
+
+  function hasAnyRole(roleList) {
+    return (
+      Array.isArray(roleList) &&
+      roleList.some((r) => roles.includes(r))
+    );
+  }
+
+  function hasPermission(permissionName) {
+    return permissions.includes(permissionName);
+  }
+
+  // ================================
+  // LOGOUT
+  // ================================
   async function logout() {
     try {
       await fetch(`${API_URL}/api/auth/logout`, {
@@ -108,13 +149,6 @@ export function RoleProvider({ children }) {
     window.location.href = "/login";
   }
 
-  useEffect(() => {
-    registerAuthHandlers({
-      logout,
-      refreshUser: loadUser,
-    });
-  }, []);
-
   const value = {
     user,
     roles,
@@ -122,12 +156,9 @@ export function RoleProvider({ children }) {
     guildId,
     setGuildId,
     loading,
-    hasRole: (roleName) => roles.includes(roleName),
-    hasAnyRole: (roleList) =>
-      Array.isArray(roleList) &&
-      roleList.some((r) => roles.includes(r)),
-    hasPermission: (permissionName) =>
-      permissions.includes(permissionName),
+    hasRole,
+    hasAnyRole,
+    hasPermission,
     refreshUser: loadUser,
     logout,
   };

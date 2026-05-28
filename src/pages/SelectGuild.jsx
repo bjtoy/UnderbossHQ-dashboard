@@ -32,22 +32,60 @@ function SelectGuild() {
   const selectGuild = (guildId) => {
     if (!guildId) return;
 
+    console.log("Saving guildId:", guildId);
+
     localStorage.setItem("guildId", guildId);
 
+    // HARD REFRESH SO CONTEXT RELOADS
     window.location.href = "/";
   };
 
   if (loading) {
-    return <div className="loading-screen">Loading your servers...</div>;
+    return (
+      <div className="loading-screen">
+        Loading your servers...
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="loading-screen">{error}</div>;
+    return (
+      <div className="loading-screen">
+        {error}
+      </div>
+    );
+  }
+
+  if (!guilds || guilds.length === 0) {
+    return (
+      <div className="loading-screen">
+        <div>
+          <h1>No Manageable Servers Found</h1>
+
+          <p style={{ marginTop: "14px" }}>
+            You must have Manage Server permissions
+            and the bot must exist in the server.
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="app-container" style={{ marginLeft: "0", maxWidth: "100%" }}>
-      <h1 className="header-title" style={{ marginBottom: "30px", textAlign: "center" }}>
+    <div
+      className="app-container"
+      style={{
+        marginLeft: "0",
+        maxWidth: "100%",
+      }}
+    >
+      <h1
+        className="header-title"
+        style={{
+          marginBottom: "30px",
+          textAlign: "center",
+        }}
+      >
         Select Your Server
       </h1>
 
@@ -62,9 +100,18 @@ function SelectGuild() {
               key={safeId}
               className="card"
               onClick={() => selectGuild(guild.id)}
-              style={{ cursor: "pointer", transition: "0.2s ease" }}
+              style={{
+                cursor: "pointer",
+                transition: "0.2s ease",
+              }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "18px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "18px",
+                }}
+              >
                 {safeIcon ? (
                   <img
                     src={`https://cdn.discordapp.com/icons/${guild.id}/${safeIcon}.png?size=128`}
@@ -97,7 +144,12 @@ function SelectGuild() {
                 <div>
                   <h2>{safeName}</h2>
 
-                  <p style={{ color: "var(--text-muted)", marginTop: "6px" }}>
+                  <p
+                    style={{
+                      color: "var(--text-muted)",
+                      marginTop: "6px",
+                    }}
+                  >
                     Click to manage server
                   </p>
                 </div>
