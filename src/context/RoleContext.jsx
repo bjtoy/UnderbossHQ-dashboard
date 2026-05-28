@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+
 import { registerAuthHandlers } from "../api/api.js";
 
 const RoleContext = createContext();
@@ -22,7 +28,9 @@ export function RoleProvider({ children }) {
     }
   });
 
-  // Keep localStorage in sync when guildId changes
+  // ================================
+  // KEEP STORAGE IN SYNC
+  // ================================
   useEffect(() => {
     try {
       if (guildId) {
@@ -31,12 +39,12 @@ export function RoleProvider({ children }) {
         localStorage.removeItem("guildId");
       }
     } catch {
-      /* ignore storage errors */
+      console.error("Failed to sync guildId");
     }
   }, [guildId]);
 
   // ================================
-  // LOAD USER FROM BACKEND SESSION
+  // LOAD USER SESSION
   // ================================
   async function loadUser() {
     try {
@@ -60,8 +68,18 @@ export function RoleProvider({ children }) {
       const data = await res.json();
 
       setUser(data?.user || null);
-      setRoles(Array.isArray(data?.roles) ? data.roles : []);
-      setPermissions(Array.isArray(data?.permissions) ? data.permissions : []);
+
+      setRoles(
+        Array.isArray(data?.roles)
+          ? data.roles
+          : []
+      );
+
+      setPermissions(
+        Array.isArray(data?.permissions)
+          ? data.permissions
+          : []
+      );
     } catch (err) {
       console.error("Failed to load user:", err);
 
@@ -73,9 +91,21 @@ export function RoleProvider({ children }) {
     }
   }
 
-  // Load user on mount
+  // ================================
+  // INITIAL LOAD
+  // ================================
   useEffect(() => {
     loadUser();
+  }, []);
+
+  // ================================
+  // REGISTER AUTH HANDLERS
+  // ================================
+  useEffect(() => {
+    registerAuthHandlers({
+      logout,
+      refreshUser: loadUser,
+    });
   }, []);
 
   // ================================
@@ -86,7 +116,10 @@ export function RoleProvider({ children }) {
   }
 
   function hasAnyRole(roleList) {
-    return Array.isArray(roleList) && roleList.some((r) => roles.includes(r));
+    return (
+      Array.isArray(roleList) &&
+      roleList.some((r) => roles.includes(r))
+    );
   }
 
   function hasPermission(permissionName) {
@@ -117,11 +150,6 @@ export function RoleProvider({ children }) {
 
     window.location.href = "/login";
   }
-
-  registerAuthHandlers({
-    logout,
-    refreshUser: loadUser,
-  });
 
   const value = {
     user,

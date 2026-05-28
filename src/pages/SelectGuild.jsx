@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { api } from "../api/api.js";
-import { useRoles } from "../context/RoleContext.jsx";
 
 function SelectGuild() {
-  const navigate = useNavigate();
-
-  const { setGuildId } = useRoles();
-
   const [guilds, setGuilds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -24,10 +18,10 @@ function SelectGuild() {
         }
 
         setGuilds(Array.isArray(data.guilds) ? data.guilds : []);
-        setLoading(false);
       } catch (err) {
         console.error("Guild fetch error:", err);
         setError("Unable to fetch guilds.");
+      } finally {
         setLoading(false);
       }
     };
@@ -35,25 +29,20 @@ function SelectGuild() {
     fetchGuilds();
   }, []);
 
-  // =========================================
-  // SELECT GUILD
-  // =========================================
   const selectGuild = (guildId) => {
     if (!guildId) return;
 
-    // Update React state immediately
-    setGuildId(guildId);
+    console.log("Saving guildId:", guildId);
 
-    // Persist to localStorage
     localStorage.setItem("guildId", guildId);
 
-    // Navigate to dashboard
-    navigate("/", { replace: true });
+    // HARD REFRESH SO CONTEXT RELOADS
+    window.location.href = "/";
   };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen text-white text-xl">
+      <div className="loading-screen">
         Loading your servers...
       </div>
     );
@@ -61,7 +50,7 @@ function SelectGuild() {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen text-red-400 text-xl">
+      <div className="loading-screen">
         {error}
       </div>
     );
@@ -69,25 +58,38 @@ function SelectGuild() {
 
   if (!guilds || guilds.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen text-white">
-        <h1 className="text-2xl font-bold mb-4">
-          No Manageable Servers Found
-        </h1>
+      <div className="loading-screen">
+        <div>
+          <h1>No Manageable Servers Found</h1>
 
-        <p className="text-gray-400">
-          You must have <strong>Manage Server</strong> permissions and the bot must be in the server.
-        </p>
+          <p style={{ marginTop: "14px" }}>
+            You must have Manage Server permissions
+            and the bot must exist in the server.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-white p-8">
-      <h1 className="text-3xl font-bold mb-6 text-center">
-        Select a Server
+    <div
+      className="app-container"
+      style={{
+        marginLeft: "0",
+        maxWidth: "100%",
+      }}
+    >
+      <h1
+        className="header-title"
+        style={{
+          marginBottom: "30px",
+          textAlign: "center",
+        }}
+      >
+        Select Your Server
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      <div className="dashboard-grid">
         {guilds.map((guild, index) => {
           const safeId = guild?.id || `guild-${index}`;
           const safeName = guild?.name || "Unknown Server";
@@ -96,29 +98,59 @@ function SelectGuild() {
           return (
             <div
               key={safeId}
-              onClick={() => selectGuild(guild?.id)}
-              className="cursor-pointer bg-[#1a1a1a] p-6 rounded-xl border border-[#333] hover:border-[#5865F2] hover:bg-[#111] transition"
+              className="card"
+              onClick={() => selectGuild(guild.id)}
+              style={{
+                cursor: "pointer",
+                transition: "0.2s ease",
+              }}
             >
-              <div className="flex items-center gap-4">
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "18px",
+                }}
+              >
                 {safeIcon ? (
                   <img
                     src={`https://cdn.discordapp.com/icons/${guild.id}/${safeIcon}.png?size=128`}
                     alt={safeName}
-                    className="w-16 h-16 rounded-full"
+                    style={{
+                      width: "72px",
+                      height: "72px",
+                      borderRadius: "50%",
+                      border: "2px solid var(--red-deep)",
+                    }}
                   />
                 ) : (
-                  <div className="w-16 h-16 rounded-full bg-[#333] flex items-center justify-center text-xl">
+                  <div
+                    style={{
+                      width: "72px",
+                      height: "72px",
+                      borderRadius: "50%",
+                      background: "#1a0507",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "26px",
+                      border: "2px solid var(--red-deep)",
+                    }}
+                  >
                     {safeName.charAt(0)}
                   </div>
                 )}
 
                 <div>
-                  <h2 className="text-xl font-semibold">
-                    {safeName}
-                  </h2>
+                  <h2>{safeName}</h2>
 
-                  <p className="text-gray-400 text-sm">
-                    Click to manage
+                  <p
+                    style={{
+                      color: "var(--text-muted)",
+                      marginTop: "6px",
+                    }}
+                  >
+                    Click to manage server
                   </p>
                 </div>
               </div>
