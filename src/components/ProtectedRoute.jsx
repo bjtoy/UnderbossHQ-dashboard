@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
 
 export default function ProtectedRoute({
@@ -6,33 +6,73 @@ export default function ProtectedRoute({
   permissions = null,
   children,
 }) {
-  const { user, loading, hasAnyRole, hasPermission, guildId } = useRoles();
+  const {
+    user,
+    loading,
+    hasAnyRole,
+    hasPermission,
+    guildId,
+  } = useRoles();
 
-  // Still loading user data
+  const location = useLocation();
+
+  // ========================================
+  // STILL LOADING
+  // ========================================
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        style={{
+          color: "white",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          fontSize: "24px",
+        }}
+      >
+        Loading...
+      </div>
+    );
   }
 
-  // Not logged in → redirect to login
+  // ========================================
+  // NOT LOGGED IN
+  // ========================================
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  // No guild selected → redirect to guild selector
-  if (!guildId) {
+  // ========================================
+  // ALLOW ACCESS TO GUILD SELECTOR
+  // WITHOUT guildId
+  // ========================================
+  if (
+    !guildId &&
+    location.pathname !== "/select-guild"
+  ) {
     return <Navigate to="/select-guild" replace />;
   }
 
-  // Role-based protection
+  // ========================================
+  // ROLE CHECK
+  // ========================================
   if (roles && !hasAnyRole(roles)) {
     return <Navigate to="/not-authorized" replace />;
   }
 
-  // Permission-based protection
-  if (permissions && !hasPermission(permissions)) {
+  // ========================================
+  // PERMISSION CHECK
+  // ========================================
+  if (
+    permissions &&
+    !permissions.every((p) => hasPermission(p))
+  ) {
     return <Navigate to="/not-authorized" replace />;
   }
 
-  // User is allowed
+  // ========================================
+  // ALLOWED
+  // ========================================
   return children;
 }
