@@ -16,9 +16,14 @@ export default function ProtectedRoute({
   } = useRoles();
 
   /**
-   * WAIT FOR AUTH
+   * =========================
+   * WAIT FOR HYDRATION
+   * =========================
    */
-  if (loading) {
+  if (
+    loading ||
+    user === undefined
+  ) {
 
     return (
       <div className="loading-screen">
@@ -28,9 +33,11 @@ export default function ProtectedRoute({
   }
 
   /**
+   * =========================
    * NOT LOGGED IN
+   * =========================
    */
-  if (!user) {
+  if (user === null) {
 
     return (
       <Navigate
@@ -41,7 +48,9 @@ export default function ProtectedRoute({
   }
 
   /**
-   * ALLOW ACCESS
+   * =========================
+   * AUTHENTICATED
+   * =========================
    */
   return children;
 }

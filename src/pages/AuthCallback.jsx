@@ -6,28 +6,83 @@ import {
   useNavigate,
 } from "react-router-dom";
 
+import {
+  useRoles,
+} from "../context/RoleContext.jsx";
+
 export default function AuthCallback() {
 
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
+  const {
+    user,
+    loading,
+    refreshUser,
+  } = useRoles();
+
+  /**
+   * =========================
+   * HYDRATE AUTH
+   * =========================
+   */
+  useEffect(() => {
+
+    refreshUser();
+
+  }, []);
+
+  /**
+   * =========================
+   * WAIT FOR AUTH
+   * =========================
+   */
   useEffect(() => {
 
     /**
-     * AUTH SUCCESS
-     * SEND USER TO DASHBOARD
+     * STILL LOADING
      */
-    navigate(
-      "/member",
-      {
-        replace: true,
-      }
-    );
+    if (loading) {
+      return;
+    }
 
-  }, [navigate]);
+    /**
+     * AUTHENTICATED
+     */
+    if (user) {
+
+      navigate(
+        "/member",
+        {
+          replace: true,
+        }
+      );
+
+      return;
+    }
+
+    /**
+     * FAILED LOGIN
+     */
+    if (user === null) {
+
+      navigate(
+        "/login",
+        {
+          replace: true,
+        }
+      );
+    }
+
+  }, [
+    user,
+    loading,
+    navigate,
+  ]);
 
   return (
     <div className="loading-screen">
-      Logging in...
+      Finalising login...
     </div>
   );
 }
