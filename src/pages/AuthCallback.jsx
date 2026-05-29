@@ -7,35 +7,44 @@ export default function AuthCallback() {
 
   const {
     refreshUser,
-    setGuildId,
+    guildId,
   } = useRoles();
 
   useEffect(() => {
-    let isMounted = true;
+    let mounted = true;
 
     async function finishLogin() {
       try {
-        // Clear previous guild selection
-        localStorage.removeItem("guildId");
-        setGuildId(null);
-
-        // Refresh authenticated user
+        // Load authenticated user
         await refreshUser();
 
-        if (!isMounted) return;
+        if (!mounted) return;
 
-        // ALWAYS go to guild selector
-        navigate("/select-guild", {
+        // Check stored guild
+        const storedGuild =
+          localStorage.getItem("guildId");
+
+        // If no guild selected yet
+        if (!storedGuild) {
+          navigate("/select-guild", {
+            replace: true,
+          });
+
+          return;
+        }
+
+        // Otherwise continue to dashboard
+        navigate("/", {
           replace: true,
         });
 
       } catch (error) {
         console.error(
-          "Login finalisation failed:",
+          "OAuth callback failed:",
           error
         );
 
-        if (!isMounted) return;
+        if (!mounted) return;
 
         navigate("/login", {
           replace: true,
@@ -46,35 +55,13 @@ export default function AuthCallback() {
     finishLogin();
 
     return () => {
-      isMounted = false;
+      mounted = false;
     };
-  }, [navigate, refreshUser, setGuildId]);
+  }, [navigate, refreshUser, guildId]);
 
   return (
-    <div
-      className="app-container"
-      style={{
-        textAlign: "center",
-        marginTop: "100px",
-      }}
-    >
-      <h1
-        className="header-title"
-        style={{
-          fontSize: "42px",
-        }}
-      >
-        Signing you in...
-      </h1>
-
-      <p
-        style={{
-          marginTop: "20px",
-          color: "var(--text-muted)",
-        }}
-      >
-        Please wait while we load your dashboard.
-      </p>
+    <div className="loading-screen">
+      Signing you in...
     </div>
   );
 }
