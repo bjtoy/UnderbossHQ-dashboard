@@ -3,6 +3,7 @@ import {
   useContext,
   useEffect,
   useState,
+  useRef,
 } from "react";
 
 import { registerAuthHandlers } from "../api/api.js";
@@ -16,12 +17,22 @@ export function RoleProvider({ children }) {
   // =========================
   // AUTH STATE
   // =========================
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState(null);
 
   const [roles, setRoles] = useState([]);
   const [permissions, setPermissions] = useState([]);
 
   const [loading, setLoading] = useState(true);
+
+  /**
+   * Prevent duplicate auth hydration
+   */
+  const loadedRef = useRef(false);
+
+  /**
+   * Prevent state updates after unmount
+   */
+  const mountedRef = useRef(true);
 
   // =========================
   // GUILD STATE
@@ -37,6 +48,8 @@ export function RoleProvider({ children }) {
 
     try {
 
+      setLoading(true);
+
       const response = await fetch(
         `${API_URL}/api/auth/me`,
         {
@@ -44,8 +57,10 @@ export function RoleProvider({ children }) {
         }
       );
 
-      // NOT LOGGED IN
+      // UNAUTHORISED
       if (response.status === 401) {
+
+        if (!mountedRef.current) return;
 
         setUser(null);
         setRoles([]);
@@ -54,7 +69,17 @@ export function RoleProvider({ children }) {
         return;
       }
 
+      // INVALID RESPONSE
+      if (!response.ok) {
+
+        throw new Error(
+          `Auth request failed: ${response.status}`
+        );
+      }
+
       const data = await response.json();
+
+      if (!mountedRef.current) return;
 
       // SUCCESS
       setUser(data.user || null);
@@ -78,11 +103,19 @@ export function RoleProvider({ children }) {
         error
       );
 
+      if (!mountedRef.current) return;
+
       setUser(null);
+      setRoles([]);
+      setPermissions([]);
 
     } finally {
 
+      if (!mountedRef.current) return;
+
       setLoading(false);
+
+      loadedRef.current = true;
     }
   }
 
@@ -91,7 +124,15 @@ export function RoleProvider({ children }) {
   // =========================
   useEffect(() => {
 
-    loadUser();
+    mountedRef.current = true;
+
+    if (!loadedRef.current) {
+      loadUser();
+    }
+
+    return () => {
+      mountedRef.current = false;
+    };
 
   }, []);
 
@@ -132,10 +173,15 @@ export function RoleProvider({ children }) {
 
     } catch (error) {
 
-      console.error(error);
+      console.error(
+        "Logout error:",
+        error
+      );
     }
 
     setUser(null);
+    setRoles([]);
+    setPermissions([]);
 
     localStorage.removeItem("guildId");
 
