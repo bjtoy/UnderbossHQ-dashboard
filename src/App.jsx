@@ -12,6 +12,11 @@ import LoginPage from "./pages/LoginPage.jsx";
 import AuthCallback from "./pages/AuthCallback.jsx";
 
 /**
+ * GUILD
+ */
+import SelectGuild from "./pages/SelectGuild.jsx";
+
+/**
  * DASHBOARDS
  */
 import MemberHome from "./pages/MemberHome.jsx";
@@ -40,19 +45,25 @@ export default function App() {
 
       <Routes>
 
-        {/* LOGIN */}
         <Route
           path="/login"
           element={<LoginPage />}
         />
 
-        {/* CALLBACK */}
         <Route
           path="/auth/callback"
           element={<AuthCallback />}
         />
 
-        {/* MEMBER */}
+        <Route
+          path="/select-guild"
+          element={
+            <ProtectedRoute>
+              <SelectGuild />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/member"
           element={
@@ -64,7 +75,6 @@ export default function App() {
           }
         />
 
-        {/* MODERATOR */}
         <Route
           path="/moderator"
           element={
@@ -76,7 +86,6 @@ export default function App() {
           }
         />
 
-        {/* ADMIN */}
         <Route
           path="/admin"
           element={
@@ -88,7 +97,6 @@ export default function App() {
           }
         />
 
-        {/* ACCESS DENIED */}
         <Route
           path="/not-authorized"
           element={
@@ -96,7 +104,6 @@ export default function App() {
           }
         />
 
-        {/* DEFAULT */}
         <Route
           path="/"
           element={
@@ -107,7 +114,6 @@ export default function App() {
           }
         />
 
-        {/* FALLBACK */}
         <Route
           path="*"
           element={
