@@ -3,6 +3,7 @@ import { api } from "../api/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
 import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
+import { normalizeProfile } from "../utils/profileNormalizer.js";
 
 export default function MemberHome() {
 
@@ -18,36 +19,27 @@ export default function MemberHome() {
     useState(null);
 
   useEffect(() => {
+    let mounted = true;
 
-    console.log(
-      "MemberHome useEffect fired"
-    );
-
-    api
-      .get("/api/member/profile")
-      .then((data) => {
-
-        console.log(
-          "Profile loaded:",
-          data
-        );
-
-        setProfile(data);
-      })
-      .catch((err) => {
-
-        console.error(
-          "Profile load failed:",
-          err
-        );
-
-        setError(err.message);
-      })
-      .finally(() => {
-
+    async function load() {
+      try {
+        const data = await api.member.profile();
+        if (!mounted) return;
+        const n = normalizeProfile(data || {});
+        setProfile(n);
+      } catch (err) {
+        console.error("Profile load failed:", err);
+        if (!mounted) return;
+        setError(err.message || String(err));
+      } finally {
+        if (!mounted) return;
         setLoading(false);
-      });
+      }
+    }
 
+    load();
+
+    return () => (mounted = false);
   }, []);
 
   return (
@@ -115,8 +107,9 @@ export default function MemberHome() {
               </h3>
 
               <div className="value">
-                {profile?.dailyTasks ??
-                  "—"}
+                {typeof profile?.dailyTasks === "number"
+                  ? profile.dailyTasks
+                  : profile?.dailyTasks ?? "—"}
               </div>
             </div>
 
@@ -126,8 +119,9 @@ export default function MemberHome() {
               </h3>
 
               <div className="value">
-                {profile?.power ??
-                  "—"}
+                {typeof profile?.power === "number"
+                  ? profile.power
+                  : profile?.power ?? "—"}
               </div>
             </div>
 
@@ -137,8 +131,9 @@ export default function MemberHome() {
               </h3>
 
               <div className="value">
-                {profile?.influence ??
-                  "—"}
+                {typeof profile?.influence === "number"
+                  ? profile.influence
+                  : profile?.influence ?? "—"}
               </div>
             </div>
 

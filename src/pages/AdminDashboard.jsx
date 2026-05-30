@@ -9,8 +9,8 @@ export default function AdminDashboard() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    api
-      .get("/admin/stats")
+    api.bot.admin
+      .status()
       .then((data) => setStats(data))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));

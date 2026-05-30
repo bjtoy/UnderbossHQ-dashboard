@@ -9,8 +9,8 @@ export default function ModDashboard() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    api
-      .get("/moderator/active-cases")
+    api.bot.mod
+      .activeCases()
       .then((data) => setCases(data))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));

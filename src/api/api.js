@@ -37,6 +37,11 @@ async function request(method, endpoint, body = null) {
         ? { "x-guild-id": guildId }
         : {}),
     },
+
+    member: {
+      profile: () =>
+        request("GET", "/api/member/profile"),
+    },
   };
 
   if (body) {
