@@ -15,6 +15,16 @@ export default function ProtectedRoute({
     loading,
   } = useRoles();
 
+  console.log(
+    "ProtectedRoute",
+    {
+      loading,
+      user,
+      pathname:
+        window.location.pathname,
+    }
+  );
+
   /**
    * =========================
    * WAIT FOR HYDRATION
