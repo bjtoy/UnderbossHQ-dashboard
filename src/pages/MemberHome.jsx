@@ -1,39 +1,20 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
-import {
-  api,
-} from "../api/api.js";
-
-import {
-  useRoles,
-} from "../context/RoleContext.jsx";
-
+import { useEffect, useState } from "react";
+import { api } from "../api/api.js";
+import { useRoles } from "../context/RoleContext.jsx";
 import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
 
 export default function MemberHome() {
 
-  console.log(
-    "MemberHome rendered"
-  );
+  const { user } = useRoles();
 
-  const {
-    user,
-  } = useRoles();
-
-  const [profile,
-    setProfile] =
+  const [profile, setProfile] =
     useState(null);
 
-  const [loading,
-    setLoading] =
+  const [loading, setLoading] =
     useState(true);
 
-  const [error,
-    setError] =
+  const [error, setError] =
     useState(null);
 
   useEffect(() => {
@@ -43,16 +24,29 @@ export default function MemberHome() {
     );
 
     api
-      .get("/member/profile")
-      .then((data) =>
-        setProfile(data)
-      )
-      .catch((err) =>
-        setError(err.message)
-      )
-      .finally(() =>
-        setLoading(false)
-      );
+      .get("/api/member/profile")
+      .then((data) => {
+
+        console.log(
+          "Profile loaded:",
+          data
+        );
+
+        setProfile(data);
+      })
+      .catch((err) => {
+
+        console.error(
+          "Profile load failed:",
+          err
+        );
+
+        setError(err.message);
+      })
+      .finally(() => {
+
+        setLoading(false);
+      });
 
   }, []);
 
@@ -63,7 +57,9 @@ export default function MemberHome() {
         Member Dashboard
       </h1>
 
-      {loading && <Loader />}
+      {loading && (
+        <Loader />
+      )}
 
       {error && (
         <ErrorCard
@@ -71,84 +67,84 @@ export default function MemberHome() {
         />
       )}
 
-      {!loading &&
-        !error && (
-          <>
-            <div
-              className="card"
+      {!loading && !error && (
+        <>
+          <div
+            className="card"
+            style={{
+              marginBottom:
+                "30px",
+            }}
+          >
+
+            <h3>
+              Welcome
+            </h3>
+
+            <p
               style={{
+                fontSize:
+                  "20px",
                 marginBottom:
-                  "30px",
+                  "6px",
               }}
             >
+              {profile?.username ||
+                user?.username}
+            </p>
+
+            <p className="muted">
+              Faction:{" "}
+              {profile?.faction ||
+                "Unknown"}
+            </p>
+
+            <p className="muted">
+              Rank:{" "}
+              {profile?.rank ||
+                "Unknown"}
+            </p>
+
+          </div>
+
+          <div className="card-grid card-grid-3">
+
+            <div className="card">
               <h3>
-                Welcome
+                Daily Tasks
               </h3>
 
-              <p
-                style={{
-                  fontSize:
-                    "20px",
-                  marginBottom:
-                    "6px",
-                }}
-              >
-                {profile?.username ||
-                  user?.username}
-              </p>
-
-              <p className="muted">
-                Faction:{" "}
-                {profile?.faction ||
-                  "Unknown"}
-              </p>
-
-              <p className="muted">
-                Rank:{" "}
-                {profile?.rank ||
-                  "Unknown"}
-              </p>
-
+              <div className="value">
+                {profile?.dailyTasks ??
+                  "—"}
+              </div>
             </div>
 
-            <div className="card-grid card-grid-3">
+            <div className="card">
+              <h3>
+                Power
+              </h3>
 
-              <div className="card">
-                <h3>
-                  Daily Tasks
-                </h3>
-
-                <div className="value">
-                  {profile?.dailyTasks ??
-                    "—"}
-                </div>
+              <div className="value">
+                {profile?.power ??
+                  "—"}
               </div>
-
-              <div className="card">
-                <h3>
-                  Power
-                </h3>
-
-                <div className="value">
-                  {profile?.power ??
-                    "—"}
-                </div>
-              </div>
-
-              <div className="card">
-                <h3>
-                  Influence
-                </h3>
-
-                <div className="value">
-                  {profile?.influence ??
-                    "—"}
-                </div>
-              </div>
-
             </div>
-          </>
-        )}
+
+            <div className="card">
+              <h3>
+                Influence
+              </h3>
+
+              <div className="value">
+                {profile?.influence ??
+                  "—"}
+              </div>
+            </div>
+
+          </div>
+        </>
+      )}
 
     </div>
   );
