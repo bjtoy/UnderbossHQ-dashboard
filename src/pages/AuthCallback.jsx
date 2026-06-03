@@ -23,6 +23,8 @@ export default function AuthCallback() {
     const guildId =
       localStorage.getItem("guildId");
 
+    console.log("AuthCallback: user is loaded, guildId is", guildId);
+
     if (!guildId) {
       navigate("/select-guild", {
         replace: true,

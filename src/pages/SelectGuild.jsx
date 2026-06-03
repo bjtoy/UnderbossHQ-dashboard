@@ -26,14 +26,23 @@ export default function SelectGuild() {
     api.guilds
       .list()
       .then((data) => {
+        if (!data || !data.success) {
+          throw new Error(data?.message || "Failed to fetch guilds");
+        }
 
         const guildList =
           data.guilds || [];
 
         setGuilds(guildList);
+        
+        // Auto-select if only one guild
+        if (guildList.length === 1) {
+          selectGuild(guildList[0]);
+        }
       })
       .catch((err) => {
-        setError(err.message);
+        console.error("Guild list error:", err);
+        setError(err.message || "Failed to load servers. Please ensure you have the 'Manage Server' permission on at least one Discord server.");
       })
       .finally(() => {
         setLoading(false);
