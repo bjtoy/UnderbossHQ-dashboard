@@ -59,6 +59,23 @@ export default function ProtectedRoute({
 
   /**
    * =========================
+   * GUILD SELECTION CHECK
+   * =========================
+   */
+  const guildId = localStorage.getItem("guildId");
+  const isSelectingGuild = window.location.pathname === "/select-guild";
+
+  if (!guildId && !isSelectingGuild) {
+    return (
+      <Navigate
+        to="/select-guild"
+        replace
+      />
+    );
+  }
+
+  /**
+   * =========================
    * AUTHENTICATED
    * =========================
    */

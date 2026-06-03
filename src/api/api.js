@@ -157,4 +157,101 @@ export const api = {
         "/api/member/profile"
       ),
   },
+
+  bot: {
+    admin: {
+      status: () =>
+        request(
+          "GET",
+          "/api/bot/admin/status"
+        ),
+
+      guildInfo: () =>
+        request(
+          "GET",
+          "/api/bot/admin/guild-info"
+        ),
+
+      reloadConfig: () =>
+        request(
+          "POST",
+          "/api/bot/admin/reload-config"
+        ),
+
+      syncRoles: () =>
+        request(
+          "POST",
+          "/api/bot/admin/sync-roles"
+        ),
+    },
+
+    mod: {
+      overview: () =>
+        request(
+          "GET",
+          "/api/bot/mod/overview"
+        ),
+
+      activeCases: () =>
+        request(
+          "GET",
+          "/api/bot/mod/active-cases"
+        ),
+
+      warnings: (userId) =>
+        request(
+          "GET",
+          `/api/bot/mod/warnings/${userId}`
+        ),
+
+      warn: (body) =>
+        request(
+          "POST",
+          "/api/bot/mod/warn",
+          body
+        ),
+
+      kick: (body) =>
+        request(
+          "POST",
+          "/api/bot/mod/kick",
+          body
+        ),
+
+      ban: (body) =>
+        request(
+          "POST",
+          "/api/bot/mod/ban",
+          body
+        ),
+
+      promote: (body) =>
+        request(
+          "POST",
+          "/api/bot/mod/promote",
+          body
+        ),
+
+      demote: (body) =>
+        request(
+          "POST",
+          "/api/bot/mod/demote",
+          body
+        ),
+    },
+
+    logs: {
+      recent: () =>
+        request(
+          "GET",
+          "/api/bot/logs/recent"
+        ),
+
+      cases: () =>
+        request(
+          "GET",
+          "/api/bot/logs/cases"
+        ),
+    },
+  },
 };

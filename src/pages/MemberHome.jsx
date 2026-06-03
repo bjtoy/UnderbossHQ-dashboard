@@ -15,6 +15,12 @@ export default function MemberHome() {
     let mounted = true;
 
     async function load() {
+      const guildId = localStorage.getItem("guildId");
+      if (!guildId) {
+        setLoading(false);
+        return;
+      }
+
       try {
         const data = await api.member.profile();
         if (!mounted) return;

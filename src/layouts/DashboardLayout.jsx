@@ -11,7 +11,7 @@ export default function DashboardLayout({
         minHeight: "100vh",
         display: "flex",
         background:
-          "var(--background-primary)",
+          "var(--bg-darkest)",
         overflow: "hidden",
       }}
     >

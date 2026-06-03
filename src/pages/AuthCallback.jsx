@@ -27,12 +27,11 @@ export default function AuthCallback() {
       navigate("/select-guild", {
         replace: true,
       });
-      return;
+    } else {
+      navigate("/member", {
+        replace: true,
+      });
     }
-
-    navigate("/member", {
-      replace: true,
-    });
 
   }, [
     user,

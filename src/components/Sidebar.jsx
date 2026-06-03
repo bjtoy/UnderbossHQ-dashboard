@@ -16,28 +16,48 @@ export default function Sidebar() {
       <nav className="sidebar-nav">
 
         {/* MEMBER */}
-        <Link
-          to="/member"
-          className={`sidebar-link ${isActive("/member") ? "active" : ""}`}
-        >
-          Member Dashboard
-        </Link>
+            <Link
+              to="/member"
+              className={`nav-item ${isActive("/member") ? "active" : ""}`}
+            >
+              Member Dashboard
+            </Link>
 
         {/* MODERATOR */}
         {(user?.role === "moderator" || user?.role === "admin") && (
-          <Link
-            to="/moderator"
-            className={`sidebar-link ${isActive("/moderator") ? "active" : ""}`}
-          >
-            Moderator Tools
-          </Link>
+          <>
+            <Link
+              to="/moderator"
+              className={`nav-item ${isActive("/moderator") ? "active" : ""}`}
+            >
+              Moderator Tools
+            </Link>
+            <Link
+              to="/moderator/active-cases"
+              className={`nav-item ${isActive("/moderator/active-cases") ? "active" : ""}`}
+            >
+              Active Cases
+            </Link>
+            <Link
+              to="/moderator/case-history"
+              className={`nav-item ${isActive("/moderator/case-history") ? "active" : ""}`}
+            >
+              Case History
+            </Link>
+            <Link
+              to="/moderator/user-lookup"
+              className={`nav-item ${isActive("/moderator/user-lookup") ? "active" : ""}`}
+            >
+              User Lookup
+            </Link>
+          </>
         )}
 
         {/* ADMIN */}
         {user?.role === "admin" && (
           <Link
             to="/admin"
-            className={`sidebar-link ${isActive("/admin") ? "active" : ""}`}
+            className={`nav-item ${isActive("/admin") ? "active" : ""}`}
           >
             Admin Panel
           </Link>
