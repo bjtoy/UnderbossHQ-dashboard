@@ -3,52 +3,44 @@ import { toastError } from "../utils/toastHelper.js";
 let logoutFn = null;
 let refreshUserFn = null;
 
-// Allow AuthContext to inject logout + refreshUser
-export function registerAuthHandlers({ logout, refreshUser }) {
+export function registerAuthHandlers({
+  logout,
+  refreshUser,
+}) {
   logoutFn = logout;
   refreshUserFn = refreshUser;
 }
 
-// =======================================
-// API BASE
-// =======================================
 const API_BASE = import.meta.env.VITE_API_URL;
 
-// =======================================
-// UNIVERSAL REQUEST WRAPPER
-// =======================================
-async function request(method, endpoint, body = null) {
-  // ===================================
-  // GET CURRENT GUILD ID
-  // ===================================
-  const guildId = localStorage.getItem("guildId");
+async function request(
+  method,
+  endpoint,
+  body = null
+) {
+  const guildId =
+    localStorage.getItem("guildId");
 
   const options = {
     method,
     credentials: "include",
 
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type":
+        "application/json",
 
-      // ===================================
-      // SEND GUILD ID TO BACKEND
-      // ===================================
       ...(guildId
-        ? { "x-guild-id": guildId }
+        ? {
+            "x-guild-id":
+              guildId,
+          }
         : {}),
-    },
-
-    member: {
-      profile: async () => {
-        const res = await request("GET", "/api/member/profile");
-        // Normalize undefined -> empty object to avoid callers reading properties of undefined
-        return res || {};
-      },
     },
   };
 
   if (body) {
-    options.body = JSON.stringify(body);
+    options.body =
+      JSON.stringify(body);
   }
 
   let res;
@@ -66,11 +58,11 @@ async function request(method, endpoint, body = null) {
     throw err;
   }
 
-  // ===================================
-  // AUTH
-  // ===================================
   if (res.status === 401) {
-    if (logoutFn) logoutFn();
+    if (logoutFn) {
+      logoutFn();
+    }
+
     return;
   }
 
@@ -81,9 +73,6 @@ async function request(method, endpoint, body = null) {
     return;
   }
 
-  // ===================================
-  // PARSE RESPONSE
-  // ===================================
   let data = null;
 
   try {
@@ -92,9 +81,6 @@ async function request(method, endpoint, body = null) {
     data = null;
   }
 
-  // ===================================
-  // ERROR HANDLING
-  // ===================================
   if (!res.ok) {
     const msg =
       data?.error ||
@@ -106,11 +92,10 @@ async function request(method, endpoint, body = null) {
     throw new Error(msg);
   }
 
-  // ===================================
-  // REFRESH USER
-  // ===================================
   if (
-    ["POST", "PUT", "DELETE"].includes(method) &&
+    ["POST", "PUT", "DELETE"].includes(
+      method
+    ) &&
     refreshUserFn
   ) {
     refreshUserFn();
@@ -119,100 +104,60 @@ async function request(method, endpoint, body = null) {
   return data;
 }
 
-// =======================================
-// API METHODS
-// =======================================
 export const api = {
   get: (endpoint) =>
     request("GET", endpoint),
 
   post: (endpoint, body) =>
-    request("POST", endpoint, body),
+    request(
+      "POST",
+      endpoint,
+      body
+    ),
 
   put: (endpoint, body) =>
-    request("PUT", endpoint, body),
+    request(
+      "PUT",
+      endpoint,
+      body
+    ),
 
   delete: (endpoint) =>
-    request("DELETE", endpoint),
+    request(
+      "DELETE",
+      endpoint
+    ),
 
   auth: {
     me: () =>
-      request("GET", "/api/auth/me"),
+      request(
+        "GET",
+        "/api/auth/me"
+      ),
 
     logout: () =>
-      request("POST", "/api/auth/logout"),
+      request(
+        "POST",
+        "/api/auth/logout"
+      ),
   },
 
   guilds: {
     list: () =>
-      request("GET", "/api/guilds"),
+      request(
+        "GET",
+        "/api/guilds"
+      ),
   },
 
-  bot: {
-    mod: {
-      overview: () =>
-        request(
-          "GET",
-          "/bot/mod/overview"
-        ),
-
-      activeCases: () =>
-        request(
-          "GET",
-          "/bot/mod/active-cases"
-        ),
-
-      warnings: (userId) =>
-        request(
-          "GET",
-          `/bot/mod/warnings/${userId}`
-        ),
-
-      warn: (data) =>
-        request(
-          "POST",
-          "/bot/mod/warn",
-          data
-        ),
-
-      kick: (data) =>
-        request(
-          "POST",
-          "/bot/mod/kick",
-          data
-        ),
-
-      ban: (data) =>
-        request(
-          "POST",
-          "/bot/mod/ban",
-          data
-        ),
-    },
-
-    admin: {
-      status: () =>
-        request(
-          "GET",
-          "/bot/admin/status"
-        ),
-
-      guildInfo: () =>
-        request(
-          "GET",
-          "/bot/admin/guild-info"
-        ),
-
-      reloadConfig: () =>
-        request(
-          "POST",
-          "/bot/admin/reload-config"
-        ),
-
-      syncRoles: () =>
-        request(
-          "POST",
-          "/bot/admin/sync-roles"
+  member: {
+    profile: () =>
+      request(
+        "GET",
+        "/api/member/profile"
+      ),
+  },
+};in/sync-roles"
         ),
     },
 

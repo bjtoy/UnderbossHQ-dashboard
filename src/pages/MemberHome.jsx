@@ -12,80 +12,94 @@ export default function MemberHome() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let mounted = true;
+    const guildId = localStorage.getItem("guildId");
 
-    async function load() {
-      try {
-        const data = await api.member.profile();
-
-        if (!mounted) return;
-
-        // Handle all possible backend shapes safely
-        const raw =
-          data?.profile ||    // { profile: {...} }
-          data?.data ||       // { data: {...} }
-          data || {};         // fallback
-
-        setProfile(raw);
-
-      } catch (err) {
+    api
+      .get("/member/profile", {
+        headers: {
+          "x-guild-id": guildId,
+        },
+      })
+      .then((data) => {
+        console.log("PROFILE RESPONSE:", data);
+        setProfile(data);
+      })
+      .catch((err) => {
         console.error("Profile load failed:", err);
-        if (!mounted) return;
-        setError(err.message || String(err));
-      } finally {
-        if (!mounted) return;
+        setError(err.message);
+      })
+      .finally(() => {
         setLoading(false);
-      }
-    }
-
-    load();
-    return () => (mounted = false);
+      });
   }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <ErrorCard message={error} />;
+  }
 
   return (
     <div>
       <h1 className="section-title">Member Dashboard</h1>
 
-      {loading && <Loader />}
-      {error && <ErrorCard message={error} />}
+      <div
+        className="card"
+        style={{
+          marginBottom: "30px",
+        }}
+      >
+        <h3>Welcome</h3>
 
-      {!loading && !error && profile && (
-        <>
-          <div className="card" style={{ marginBottom: "30px" }}>
-            <h3>Welcome</h3>
+        <p
+          style={{
+            fontSize: "20px",
+            marginBottom: "6px",
+          }}
+        >
+          {profile?.username || user?.username}
+        </p>
 
-            <p style={{ fontSize: "20px", marginBottom: "6px" }}>
-              {profile.username || user?.username}
-            </p>
+        <p className="muted">
+          Faction: {profile?.faction || "Unknown"}
+        </p>
 
-            <p className="muted">Faction: {profile.faction || "Unknown"}</p>
-            <p className="muted">Rank: {profile.rank || "Unknown"}</p>
+        <p className="muted">
+          Rank: {profile?.rank || "Unknown"}
+        </p>
+
+        <p className="muted">
+          Warnings: {profile?.warnings ?? 0}
+        </p>
+      </div>
+
+      <div className="card-grid card-grid-3">
+        <div className="card">
+          <h3>Daily Tasks</h3>
+
+          <div className="value">
+            {profile?.dailyTasks ?? "—"}
           </div>
+        </div>
 
-          <div className="card-grid card-grid-3">
-            <div className="card">
-              <h3>Daily Tasks</h3>
-              <div className="value">
-                {profile.dailyTasks ?? "—"}
-              </div>
-            </div>
+        <div className="card">
+          <h3>Power</h3>
 
-            <div className="card">
-              <h3>Power</h3>
-              <div className="value">
-                {profile.power ?? "—"}
-              </div>
-            </div>
-
-            <div className="card">
-              <h3>Influence</h3>
-              <div className="value">
-                {profile.influence ?? "—"}
-              </div>
-            </div>
+          <div className="value">
+            {profile?.power ?? "—"}
           </div>
-        </>
-      )}
+        </div>
+
+        <div className="card">
+          <h3>Influence</h3>
+
+          <div className="value">
+            {profile?.influence ?? "—"}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
