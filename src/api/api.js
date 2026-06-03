@@ -157,22 +157,4 @@ export const api = {
         "/api/member/profile"
       ),
   },
-};in/sync-roles"
-        ),
-    },
-
-    logs: {
-      recent: () =>
-        request(
-          "GET",
-          "/bot/logs/recent"
-        ),
-
-      cases: () =>
-        request(
-          "GET",
-          "/bot/logs/cases"
-        ),
-    },
-  },
 };
