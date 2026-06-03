@@ -17,6 +17,11 @@
     text-decoration: none;
     color: var(--text-bright);
     background: var(--surface-2);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.35);
+}
+
+.btn:active {
+    transform: scale(0.96);
 }
 
 /* ============================
@@ -26,13 +31,13 @@
 .btn-gold {
     background: var(--accent-gold);
     color: #000;
-    box-shadow: 0 0 6px rgba(212, 175, 55, 0.35);
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.45);
 }
 
 .btn-gold:hover {
     background: var(--accent-gold-hover);
     color: #000;
-    box-shadow: 0 0 12px rgba(255, 58, 58, 0.45); /* red glow */
+    box-shadow: 0 0 14px rgba(212, 175, 55, 0.65);
     transform: translateY(-2px);
 }
 
@@ -43,13 +48,13 @@
 .btn-red {
     background: var(--brand-red);
     color: var(--text-bright);
-    box-shadow: 0 0 6px rgba(255, 58, 58, 0.25);
+    box-shadow: 0 0 8px rgba(255, 58, 58, 0.35);
 }
 
 .btn-red:hover {
     background: var(--brand-red-glow);
     color: var(--text-bright);
-    box-shadow: 0 0 14px rgba(255, 58, 58, 0.55);
+    box-shadow: 0 0 16px rgba(255, 58, 58, 0.65);
     transform: translateY(-2px);
 }
 
@@ -60,12 +65,12 @@
 .btn-danger {
     background: var(--danger);
     color: var(--text-bright);
-    box-shadow: 0 0 6px rgba(138, 0, 21, 0.35);
+    box-shadow: 0 0 8px rgba(138, 0, 21, 0.45);
 }
 
 .btn-danger:hover {
-    background: #B3001B; /* brighter danger red */
-    box-shadow: 0 0 14px rgba(255, 58, 58, 0.55);
+    background: #B3001B;
+    box-shadow: 0 0 16px rgba(255, 58, 58, 0.65);
     transform: translateY(-2px);
 }
 
@@ -77,12 +82,13 @@
     background: transparent;
     border: 2px solid var(--accent-gold);
     color: var(--accent-gold);
+    box-shadow: none;
 }
 
 .btn-outline-gold:hover {
     background: rgba(212, 175, 55, 0.12);
     color: var(--accent-gold-hover);
-    box-shadow: 0 0 12px rgba(255, 58, 58, 0.35);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
     transform: translateY(-2px);
 }
 
