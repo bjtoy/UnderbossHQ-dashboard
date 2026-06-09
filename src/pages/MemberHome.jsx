@@ -5,85 +5,121 @@ import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
 
 export default function MemberHome() {
-  const { user } = useRoles();
+const { user } = useRoles();
 
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const [profile, setProfile] = useState(null);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
 
-  useEffect(() => {
-    let mounted = true;
+useEffect(() => {
+let mounted = true;
 
-    async function load() {
-      const guildId = localStorage.getItem("guildId");
-      if (!guildId) {
-        setLoading(false);
-        return;
-      }
+```
+async function load() {
+  const guildId = localStorage.getItem("guildId");
 
-      try {
-        const data = await api.member.profile();
-        if (!mounted) return;
+  if (!guildId) {
+    window.location.href = "/select-guild";
+    return;
+  }
 
-        // Backend now returns: { success: true, profile: { ... } }
-        const raw = data?.profile || {};
+  try {
+    const data = await api.member.profile();
 
-        setProfile(raw);
+    if (!mounted) return;
 
-      } catch (err) {
-        console.error("Profile load failed:", err);
-        if (!mounted) return;
-        setError(err.message || String(err));
-      } finally {
-        if (!mounted) return;
-        setLoading(false);
-      }
-    }
+    setProfile(data || {});
+  } catch (err) {
+    console.error("Profile load failed:", err);
 
-    load();
-    return () => (mounted = false);
-  }, []);
+    if (!mounted) return;
 
-  return (
-    <div>
-      <h1 className="section-title">Member Dashboard</h1>
+    setError(err.message || "Failed to load profile");
+  } finally {
+    if (!mounted) return;
 
-      {loading && <Loader />}
-      {error && <ErrorCard message={error} />}
+    setLoading(false);
+  }
+}
 
-      {!loading && !error && profile && (
-        <>
-          {/* PROFILE CARD */}
-          <div className="card" style={{ marginBottom: "30px" }}>
-            <h3>Welcome</h3>
+load();
 
-            <p style={{ fontSize: "20px", marginBottom: "6px" }}>
-              {profile.username || user?.username || "Unknown"}
-            </p>
+return () => {
+  mounted = false;
+};
+```
 
-            <p className="muted">Faction: {profile.faction || "Unknown"}</p>
-            <p className="muted">Rank: {profile.rank || "Unknown"}</p>
+}, []);
+
+return ( <div> <h1 className="section-title">
+Member Dashboard </h1>
+
+```
+  {loading && <Loader />}
+
+  {error && (
+    <ErrorCard message={error} />
+  )}
+
+  {!loading && !error && profile && (
+    <>
+      <div
+        className="card"
+        style={{
+          marginBottom: "30px",
+        }}
+      >
+        <h3>Welcome</h3>
+
+        <p
+          style={{
+            fontSize: "20px",
+            marginBottom: "6px",
+          }}
+        >
+          {profile.username ||
+            user?.username ||
+            "Unknown"}
+        </p>
+
+        <p className="muted">
+          Faction: {profile.faction || "Unknown"}
+        </p>
+
+        <p className="muted">
+          Rank: {profile.rank || "Unknown"}
+        </p>
+      </div>
+
+      <div className="card-grid card-grid-3">
+        <div className="card">
+          <h3>Daily Tasks</h3>
+
+          <div className="value">
+            {profile.dailyTasks ?? "—"}
           </div>
+        </div>
 
-          {/* STATS GRID */}
-          <div className="card-grid card-grid-3">
-            <div className="card">
-              <h3>Daily Tasks</h3>
-              <div className="value">{profile.dailyTasks ?? "—"}</div>
-            </div>
+        <div className="card">
+          <h3>Power</h3>
 
-            <div className="card">
-              <h3>Power</h3>
-              <div className="value">{profile.power ?? "—"}</div>
-            </div>
-
-            <div className="card">
-              <h3>Influence</h3>
-              <div className="value">{profile.influence ?? "—"}</div>
-            </div>
+          <div className="value">
+            {profile.power ?? "—"}
           </div>
-        </>
-      )}
-    </div>
-  );
+        </div>
+
+        <div className="card">
+          <h3>Influence</h3>
+
+          <div className="value">
+            {profile.influence ?? "—"}
+          </div>
+        </div>
+      </div>
+    </>
+  )}
+</div>
+```
+
+);
 }
