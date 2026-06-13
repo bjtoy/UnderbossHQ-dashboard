@@ -65,6 +65,11 @@ export default function AdminDashboard() {
               <div className="value">
                 {status?.online ? "Online" : "Offline"}
               </div>
+              {!status?.online && (
+                <p className="muted card-note">
+                  Set DISCORD_TOKEN on the backend for live bot status
+                </p>
+              )}
             </div>
 
             <div className="card">

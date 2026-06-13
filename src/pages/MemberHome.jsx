@@ -77,29 +77,30 @@ export default function MemberHome() {
               {profile.username || user?.username || "Unknown"}
             </p>
 
-            <p className="muted">Faction: {profile.faction || "—"}</p>
+            <p className="muted">Server: {profile.guildName || profile.faction || "—"}</p>
 
             <p className="muted">Rank: {profile.rank || "—"}</p>
-            <p className="muted">Warnings: {profile.warnings ?? "—"}</p>
+            <p className="muted">Warnings: {profile.warnings ?? 0}</p>
           </div>
 
           <div className="card-grid card-grid-3">
             <div className="card">
               <h3>Daily Tasks</h3>
 
-              <div className="value">{profile.dailyTasks ?? "—"}</div>
+              <div className="value">{profile.dailyTasks ?? "N/A"}</div>
+              <p className="muted card-note">Game stats not connected yet</p>
             </div>
 
             <div className="card">
               <h3>Power</h3>
 
-              <div className="value">{profile.power ?? "—"}</div>
+              <div className="value">{profile.power ?? "N/A"}</div>
             </div>
 
             <div className="card">
               <h3>Influence</h3>
 
-              <div className="value">{profile.influence ?? "—"}</div>
+              <div className="value">{profile.influence ?? "N/A"}</div>
             </div>
           </div>
         </>

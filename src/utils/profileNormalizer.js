@@ -17,8 +17,9 @@ export function normalizeProfile(raw = {}) {
   return {
     username:
       get(["username", "user.username", "name", "displayName"]) || null,
+    guildName: get(["guildName", "guild.name"]) || null,
     faction:
-      get(["faction", "stats.faction"]) || null,
+      get(["faction", "guildName", "stats.faction"]) || null,
     rank: get(["rank", "stats.rank"]) || null,
     dailyTasks:
       get([

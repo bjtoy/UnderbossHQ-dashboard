@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
 
 export default function Sidebar() {
-  const { hasAnyRole, roles } = useRoles();
+  const { hasAnyRole, roles, user, logout } = useRoles();
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
@@ -14,6 +14,9 @@ export default function Sidebar() {
     <aside className="sidebar">
       <div className="sidebar-header">
         <h2 className="sidebar-title">UnderbossHQ</h2>
+        {user?.username && (
+          <p className="sidebar-user muted">{user.username}</p>
+        )}
       </div>
 
       <nav className="sidebar-nav">
@@ -31,47 +34,55 @@ export default function Sidebar() {
           Guides
         </Link>
 
-        <Link
-          to="/guides/new"
-          className={`nav-item ${isActive("/guides/new") ? "active" : ""}`}
-        >
-          Create Guide
-        </Link>
+        {canEditGuides && (
+          <Link
+            to="/guides/new"
+            className={`nav-item ${isActive("/guides/new") ? "active" : ""}`}
+          >
+            Create Guide
+          </Link>
+        )}
 
-        <Link
-          to="/moderator"
-          className={`nav-item ${isActive("/moderator") ? "active" : ""}`}
-        >
-          Moderator Tools
-        </Link>
+        {isModerator && (
+          <>
+            <Link
+              to="/moderator"
+              className={`nav-item ${isActive("/moderator") ? "active" : ""}`}
+            >
+              Moderator Tools
+            </Link>
 
-        <Link
-          to="/moderator/active-cases"
-          className={`nav-item ${isActive("/moderator/active-cases") ? "active" : ""}`}
-        >
-          Active Cases
-        </Link>
+            <Link
+              to="/moderator/active-cases"
+              className={`nav-item ${isActive("/moderator/active-cases") ? "active" : ""}`}
+            >
+              Active Cases
+            </Link>
 
-        <Link
-          to="/moderator/case-history"
-          className={`nav-item ${isActive("/moderator/case-history") ? "active" : ""}`}
-        >
-          Case History
-        </Link>
+            <Link
+              to="/moderator/case-history"
+              className={`nav-item ${isActive("/moderator/case-history") ? "active" : ""}`}
+            >
+              Case History
+            </Link>
 
-        <Link
-          to="/moderator/user-lookup"
-          className={`nav-item ${isActive("/moderator/user-lookup") ? "active" : ""}`}
-        >
-          User Lookup
-        </Link>
+            <Link
+              to="/moderator/user-lookup"
+              className={`nav-item ${isActive("/moderator/user-lookup") ? "active" : ""}`}
+            >
+              User Lookup
+            </Link>
+          </>
+        )}
 
-        <Link
-          to="/admin"
-          className={`nav-item ${isActive("/admin") ? "active" : ""}`}
-        >
-          Admin Panel
-        </Link>
+        {isAdmin && (
+          <Link
+            to="/admin"
+            className={`nav-item ${isActive("/admin") ? "active" : ""}`}
+          >
+            Admin Panel
+          </Link>
+        )}
       </nav>
 
       {!isModerator && !isAdmin && (
@@ -80,6 +91,12 @@ export default function Sidebar() {
           {roles?.length ? ` Roles: ${roles.join(", ")}` : ""}
         </p>
       )}
+
+      <div className="sidebar-footer">
+        <button type="button" className="btn btn-outline-gold btn-sm" onClick={logout}>
+          Log out
+        </button>
+      </div>
     </aside>
   );
 }

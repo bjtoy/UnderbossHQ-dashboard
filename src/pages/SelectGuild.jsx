@@ -52,7 +52,6 @@ export default function SelectGuild() {
   }, []);
 
   async function selectGuild(guild) {
-    localStorage.setItem("guildId", guild.id);
     setGuildId(guild.id);
     await refreshUser();
 

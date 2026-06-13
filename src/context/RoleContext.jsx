@@ -63,16 +63,18 @@ export function RoleProvider({
    * GUILD STATE
    * =========================
    */
-  const [guildId,
-    setGuildId] =
-    useState(() => {
+  const [guildId, setGuildIdState] = useState(() => {
+    return localStorage.getItem("guildId") || null;
+  });
 
-      return (
-        localStorage.getItem(
-          "guildId"
-        ) || null
-      );
-    });
+  function setGuildId(id) {
+    if (id) {
+      localStorage.setItem("guildId", id);
+    } else {
+      localStorage.removeItem("guildId");
+    }
+    setGuildIdState(id);
+  }
 
   /**
    * =========================

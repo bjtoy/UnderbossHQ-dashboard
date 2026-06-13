@@ -67,10 +67,8 @@ async function request(
   }
 
   if (res.status === 403) {
-    window.location.href =
-      "/not-authorized";
-
-    return;
+    window.location.href = "/not-authorized";
+    throw new Error("Forbidden");
   }
 
   let data = null;

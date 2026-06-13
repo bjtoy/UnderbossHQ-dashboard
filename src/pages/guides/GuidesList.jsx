@@ -31,11 +31,7 @@ export default function GuidesList() {
           <Link to="/guides/new" className="btn btn-gold">
             Create Guide
           </Link>
-        ) : (
-          <Link to="/guides/new" className="btn btn-outline-gold">
-            Create Guide
-          </Link>
-        )}
+        ) : null}
       </div>
 
       {loading && <Loader />}

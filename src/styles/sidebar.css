@@ -10,6 +10,30 @@
     padding-bottom: 20px;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+}
+
+.sidebar-header {
+    padding: 0 20px 12px;
+}
+
+.sidebar-title {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.sidebar-user {
+    margin: 6px 0 0;
+    font-size: 0.85rem;
+}
+
+.sidebar-nav {
+    flex: 1;
+}
+
+.sidebar-footer {
+    padding: 16px 20px 0;
+    margin-top: auto;
 }
 
 /* NAV ITEM */
