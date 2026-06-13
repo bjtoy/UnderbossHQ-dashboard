@@ -23,6 +23,7 @@ export default function ModDashboard() {
   return (
     <div className="dashboard-page">
       <PageHeader
+        brand
         title="Moderator Dashboard"
         subtitle="Live moderation stats for the selected server."
       />

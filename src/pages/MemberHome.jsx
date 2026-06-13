@@ -55,6 +55,7 @@ export default function MemberHome() {
   return (
     <div className="dashboard-page">
       <PageHeader
+        brand
         title="Member Dashboard"
         subtitle={`Welcome back, ${profile?.username || user?.username || "Member"}`}
       />

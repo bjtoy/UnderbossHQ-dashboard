@@ -55,7 +55,8 @@ export default function AdminDashboard() {
   return (
     <div className="dashboard-page">
       <PageHeader
-        title="Admin Panel"
+        brand
+        title="Admin Dashboard"
         subtitle="Bot status, guild info, and server sync tools."
       />
 
@@ -96,7 +97,7 @@ export default function AdminDashboard() {
           <div className="action-row">
             <button
               type="button"
-              className="btn btn-gold"
+              className="btn btn-gold btn-sm"
               disabled={actionLoading}
               onClick={() => runAction("reload")}
             >
@@ -104,7 +105,7 @@ export default function AdminDashboard() {
             </button>
             <button
               type="button"
-              className="btn btn-outline-gold"
+              className="btn btn-outline-gold btn-sm"
               disabled={actionLoading}
               onClick={() => runAction("sync")}
             >

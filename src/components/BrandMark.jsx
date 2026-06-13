@@ -1,8 +1,15 @@
 import mascot from "../assets/images/underboss-mascot.png";
 
-export default function BrandMark({ size = "md", showName = true, className = "" }) {
+export default function BrandMark({
+  size = "md",
+  showName = true,
+  subtitle = null,
+  className = "",
+}) {
   const sizes = {
+    sidebar: { img: 44, title: "1.15rem" },
     sm: { img: 48, title: "1rem" },
+    header: { img: 64, title: "2rem" },
     md: { img: 120, title: "1.25rem" },
     lg: { img: 200, title: "2.5rem" },
   };
@@ -20,8 +27,16 @@ export default function BrandMark({ size = "md", showName = true, className = ""
       />
       {showName && (
         <div className="brand-mark-text">
-          <span className="brand-mark-title">UnderbossHQ</span>
-          {size === "lg" && (
+          <span
+            className="brand-mark-title"
+            style={size !== "lg" && size !== "md" ? { fontSize: config.title } : undefined}
+          >
+            UnderbossHQ
+          </span>
+          {subtitle && (
+            <span className="brand-mark-page-label">{subtitle}</span>
+          )}
+          {size === "lg" && !subtitle && (
             <span className="brand-mark-tagline">TGM Bot Control Panel</span>
           )}
         </div>

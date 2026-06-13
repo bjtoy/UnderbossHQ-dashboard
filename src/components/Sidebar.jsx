@@ -2,6 +2,20 @@ import { Link, useLocation } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
 import BrandMark from "./BrandMark.jsx";
 
+function getPageLabel(path) {
+  if (path === "/member") return "Member Dashboard";
+  if (path === "/moderator") return "Moderator Dashboard";
+  if (path === "/admin") return "Admin Dashboard";
+  if (path.startsWith("/admin/logs")) return "Live Logs";
+  if (path.startsWith("/admin/settings")) return "Server Settings";
+  if (path.startsWith("/guides")) return "Guides";
+  if (path.startsWith("/announcements")) return "Announcements";
+  if (path.startsWith("/moderator/active-cases")) return "Active Cases";
+  if (path.startsWith("/moderator/case-history")) return "Case History";
+  if (path.startsWith("/moderator/user-lookup")) return "User Lookup";
+  return "Dashboard";
+}
+
 export default function Sidebar() {
   const { hasAnyRole, roles, user, logout } = useRoles();
   const location = useLocation();
@@ -15,10 +29,10 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <BrandMark size="sm" />
         {user?.username && (
-          <p className="sidebar-user muted">{user.username}</p>
+          <p className="sidebar-user">{user.username}</p>
         )}
+        <BrandMark size="sidebar" subtitle={getPageLabel(path)} />
       </div>
 
       <nav className="sidebar-nav">
