@@ -25,7 +25,8 @@ export default function Loader() {
       <p
         style={{
           marginTop: "14px",
-          color: "var(--text-muted)",
+          color: "var(--text-red-soft)",
+          textShadow: "var(--text-glow-red-soft)",
           fontSize: "15px",
           letterSpacing: "0.5px",
         }}

@@ -45,5 +45,6 @@
 
 .log-promote,
 .log-demote {
-  color: var(--accent-gold);
+  color: var(--text-red);
+  text-shadow: var(--text-glow-red-soft);
 }

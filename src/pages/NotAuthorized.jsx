@@ -33,7 +33,8 @@ export default function NotAuthorized() {
           style={{
             marginTop: "10px",
             marginBottom: "30px",
-            color: "var(--text-muted)",
+            color: "var(--text-red-soft)",
+            textShadow: "var(--text-glow-red-soft)",
             fontSize: "16px",
           }}
         >

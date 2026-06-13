@@ -24,8 +24,9 @@
     font-size: 1.25rem;
     font-family: var(--font-heading);
     font-weight: 400;
-    color: var(--text-bright);
+    color: var(--text-red);
     letter-spacing: 0.08em;
+    text-shadow: var(--text-glow-red);
 }
 
 .sidebar-user {
