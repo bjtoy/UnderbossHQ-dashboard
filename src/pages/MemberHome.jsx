@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { api } from "../api/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
 import Loader from "../components/Loader.jsx";
@@ -9,6 +10,7 @@ export default function MemberHome() {
   const { user } = useRoles();
 
   const [profile, setProfile] = useState(null);
+  const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -24,12 +26,16 @@ export default function MemberHome() {
       }
 
       try {
-        const data = await api.member.profile();
+        const [profileData, announcementData] = await Promise.all([
+          api.member.profile(),
+          api.announcements.list().catch(() => ({ data: [] })),
+        ]);
 
         if (!mounted) return;
 
-        const normalized = normalizeProfile(data);
+        const normalized = normalizeProfile(profileData);
         setProfile(normalized);
+        setAnnouncements((announcementData?.data || []).slice(0, 3));
       } catch (err) {
         console.error("Profile load failed:", err);
 
@@ -102,6 +108,38 @@ export default function MemberHome() {
 
               <div className="value">{profile.influence ?? "N/A"}</div>
             </div>
+          </div>
+
+          <div className="card mt-4">
+            <div
+              className="action-row"
+              style={{ justifyContent: "space-between", alignItems: "center" }}
+            >
+              <h3 style={{ marginBottom: 0 }}>Recent Announcements</h3>
+              <Link to="/announcements" className="btn btn-outline-gold btn-sm">
+                View all
+              </Link>
+            </div>
+
+            {announcements.length === 0 ? (
+              <p className="empty-state">No announcements yet.</p>
+            ) : (
+              <div className="page-stack mt-3">
+                {announcements.map((item) => (
+                  <div key={item.id}>
+                    <h4>{item.title}</h4>
+                    <p className="muted">
+                      {new Date(item.createdAt).toLocaleString()}
+                    </p>
+                    <p className="guide-preview">
+                      {item.description.length > 120
+                        ? `${item.description.slice(0, 120)}…`
+                        : item.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </>
       )}

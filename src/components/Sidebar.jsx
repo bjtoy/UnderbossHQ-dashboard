@@ -10,6 +10,7 @@ export default function Sidebar() {
   const isModerator = hasAnyRole(["Admin", "Mod", "Moderator"]);
   const isAdmin = hasAnyRole(["Admin"]);
   const canEditGuides = hasAnyRole(["Admin", "Mod", "Moderator", "Enforcer"]);
+  const canManageAnnouncements = hasAnyRole(["Admin", "Mod", "Moderator"]);
 
   return (
     <aside className="sidebar">
@@ -34,6 +35,22 @@ export default function Sidebar() {
         >
           Guides
         </Link>
+
+        <Link
+          to="/announcements"
+          className={`nav-item ${location.pathname.startsWith("/announcements") && !isActive("/announcements/new") ? "active" : ""}`}
+        >
+          Announcements
+        </Link>
+
+        {canManageAnnouncements && (
+          <Link
+            to="/announcements/new"
+            className={`nav-item ${isActive("/announcements/new") ? "active" : ""}`}
+          >
+            New Announcement
+          </Link>
+        )}
 
         {canEditGuides && (
           <Link
@@ -89,6 +106,12 @@ export default function Sidebar() {
               className={`nav-item ${isActive("/admin/logs") ? "active" : ""}`}
             >
               Live Logs
+            </Link>
+            <Link
+              to="/admin/settings"
+              className={`nav-item ${isActive("/admin/settings") ? "active" : ""}`}
+            >
+              Settings
             </Link>
           </>
         )}

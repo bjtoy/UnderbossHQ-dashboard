@@ -266,4 +266,23 @@ export const api = {
 
     publish: (id) => request("POST", `/api/guides/${id}/publish`),
   },
+
+  announcements: {
+    list: () => request("GET", "/api/announcements"),
+
+    get: (id) => request("GET", `/api/announcements/${id}`),
+
+    create: (body) => request("POST", "/api/announcements", body),
+
+    update: (id, body) =>
+      request("PUT", `/api/announcements/${id}`, body),
+
+    remove: (id) => request("DELETE", `/api/announcements/${id}`),
+  },
+
+  settings: {
+    get: () => request("GET", "/api/settings"),
+
+    update: (body) => request("PUT", "/api/settings", body),
+  },
 };

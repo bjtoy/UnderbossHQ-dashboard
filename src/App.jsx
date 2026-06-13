@@ -18,6 +18,9 @@ import UserLookup from "./pages/moderation/UserLookup.jsx";
 import GuidesList from "./pages/guides/GuidesList.jsx";
 import GuideView from "./pages/guides/GuideView.jsx";
 import GuideEditor from "./pages/guides/GuideEditor.jsx";
+import AnnouncementsList from "./pages/announcements/AnnouncementsList.jsx";
+import AnnouncementEditor from "./pages/announcements/AnnouncementEditor.jsx";
+import AdminSettings from "./pages/AdminSettings.jsx";
 import NotAuthorized from "./pages/NotAuthorized.jsx";
 import DashboardLayout from "./layouts/DashboardLayout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -25,6 +28,7 @@ import FallbackRoute from "./components/FallbackRoute.jsx";
 
 const MOD_ROLES = ["Admin", "Mod", "Moderator"];
 const GUIDE_EDITOR_ROLES = ["Admin", "Mod", "Moderator", "Enforcer"];
+const ANNOUNCEMENT_EDITOR_ROLES = ["Admin", "Mod", "Moderator"];
 
 export default function App() {
   return (
@@ -98,6 +102,39 @@ export default function App() {
         />
 
         <Route
+          path="/announcements"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <AnnouncementsList />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/announcements/new"
+          element={
+            <ProtectedRoute roles={ANNOUNCEMENT_EDITOR_ROLES}>
+              <DashboardLayout>
+                <AnnouncementEditor />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/announcements/:id/edit"
+          element={
+            <ProtectedRoute roles={ANNOUNCEMENT_EDITOR_ROLES}>
+              <DashboardLayout>
+                <AnnouncementEditor />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/moderator"
           element={
             <ProtectedRoute roles={MOD_ROLES}>
@@ -147,6 +184,17 @@ export default function App() {
             <ProtectedRoute roles={["Admin"]}>
               <DashboardLayout>
                 <AdminLogs />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/settings"
+          element={
+            <ProtectedRoute roles={["Admin"]}>
+              <DashboardLayout>
+                <AdminSettings />
               </DashboardLayout>
             </ProtectedRoute>
           }
