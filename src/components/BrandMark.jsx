@@ -33,12 +33,17 @@ export default function BrandMark({
           >
             UnderbossHQ
           </span>
-          {subtitle && (
-            <span className="brand-mark-page-label">{subtitle}</span>
-          )}
-          {size === "lg" && !subtitle && (
-            <span className="brand-mark-tagline">TGM Bot Control Panel</span>
-          )}
+          {subtitle ? (
+            <span
+              className={
+                size === "lg" ? "brand-mark-tagline" : "brand-mark-page-label"
+              }
+            >
+              {subtitle}
+            </span>
+          ) : size === "lg" ? (
+            <span className="brand-mark-tagline">Discord server management</span>
+          ) : null}
         </div>
       )}
     </div>
