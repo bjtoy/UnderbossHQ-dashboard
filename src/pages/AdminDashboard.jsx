@@ -55,7 +55,6 @@ export default function AdminDashboard() {
   return (
     <div className="dashboard-page">
       <PageHeader
-        brand
         title="Admin Dashboard"
         subtitle="Bot status, guild info, and server sync tools."
       />

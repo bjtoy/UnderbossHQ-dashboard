@@ -1,24 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
-import BrandMark from "./BrandMark.jsx";
-
-function getPageLabel(path) {
-  if (path === "/member") return "Member Dashboard";
-  if (path === "/moderator") return "Moderator Dashboard";
-  if (path === "/admin") return "Admin Dashboard";
-  if (path.startsWith("/admin/logs")) return "Live Logs";
-  if (path.startsWith("/admin/settings")) return "Server Settings";
-  if (path.startsWith("/guides")) return "Guides";
-  if (path.startsWith("/announcements")) return "Announcements";
-  if (path.startsWith("/moderator/active-cases")) return "Active Cases";
-  if (path.startsWith("/moderator/case-history")) return "Case History";
-  if (path.startsWith("/moderator/user-lookup")) return "User Lookup";
-  return "Dashboard";
-}
 
 export default function Sidebar() {
-  const { hasAnyRole, roles, user, logout } = useRoles();
+  const { hasAnyRole, roles, user, logout, setGuildId } = useRoles();
   const location = useLocation();
+  const navigate = useNavigate();
   const path = location.pathname;
 
   const isModerator = hasAnyRole(["Admin", "Mod", "Moderator"]);
@@ -26,20 +12,24 @@ export default function Sidebar() {
 
   const navClass = (active) => `nav-item${active ? " active" : ""}`;
 
+  function changeServer() {
+    setGuildId(null);
+    navigate("/select-guild");
+  }
+
   return (
     <aside className="sidebar">
-      <div className="sidebar-header">
-        {user?.username && (
+      {user?.username && (
+        <div className="sidebar-header">
           <p className="sidebar-user">{user.username}</p>
-        )}
-        <BrandMark size="sidebar" subtitle={getPageLabel(path)} />
-      </div>
+        </div>
+      )}
 
       <nav className="sidebar-nav">
         <div className="sidebar-section">
           <p className="sidebar-section-label">Member</p>
           <Link to="/member" className={navClass(path === "/member")}>
-            Dashboard
+            Home
           </Link>
         </div>
 
@@ -66,9 +56,9 @@ export default function Sidebar() {
 
         {isModerator && (
           <div className="sidebar-section">
-            <p className="sidebar-section-label">Moderation</p>
+            <p className="sidebar-section-label">Moderator</p>
             <Link to="/moderator" className={navClass(path === "/moderator")}>
-              Overview
+              Moderation Tools
             </Link>
             <Link
               to="/moderator/active-cases"
@@ -95,13 +85,13 @@ export default function Sidebar() {
           <div className="sidebar-section">
             <p className="sidebar-section-label">Admin</p>
             <Link to="/admin" className={navClass(path === "/admin")}>
-              Bot Panel
+              Admin Dashboard
             </Link>
             <Link
               to="/admin/logs"
               className={navClass(path === "/admin/logs")}
             >
-              Live Logs
+              System Logs
             </Link>
             <Link
               to="/admin/settings"
@@ -123,7 +113,14 @@ export default function Sidebar() {
       <div className="sidebar-footer">
         <button
           type="button"
-          className="btn btn-outline-gold btn-sm btn-block"
+          className="btn btn-red btn-sm btn-block"
+          onClick={changeServer}
+        >
+          Change Server
+        </button>
+        <button
+          type="button"
+          className="btn btn-outline-gold btn-sm btn-block sidebar-logout"
           onClick={logout}
         >
           Log out

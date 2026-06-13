@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api/api.js";
-import { useRoles } from "../context/RoleContext.jsx";
 import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
 import PageHeader from "../components/PageHeader.jsx";
 import { normalizeProfile } from "../utils/profileNormalizer.js";
 
 export default function MemberHome() {
-  const { user } = useRoles();
-
   const [profile, setProfile] = useState(null);
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,9 +52,8 @@ export default function MemberHome() {
   return (
     <div className="dashboard-page">
       <PageHeader
-        brand
         title="Member Dashboard"
-        subtitle={`Welcome back, ${profile?.username || user?.username || "Member"}`}
+        subtitle={`Your profile and server activity.`}
       />
 
       {loading && <Loader />}
