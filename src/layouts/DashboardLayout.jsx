@@ -5,55 +5,16 @@ export default function DashboardLayout({
 }) {
 
   return (
-    <div
-      className="dashboard-layout"
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        background:
-          "var(--bg-darkest)",
-        overflow: "hidden",
-      }}
-    >
-
-      {/* =========================
-          SIDEBAR
-      ========================== */}
-      <aside
-        style={{
-          flexShrink: 0,
-          zIndex: 10,
-        }}
-      >
+    <div className="dashboard-layout">
+      <aside style={{ flexShrink: 0, zIndex: 10 }}>
         <Sidebar />
       </aside>
 
-      {/* =========================
-          MAIN CONTENT
-      ========================== */}
-      <main
-        className="dashboard-content"
-        style={{
-          flex: 1,
-          minWidth: 0,
-          overflowY: "auto",
-          overflowX: "hidden",
-          padding: "32px",
-        }}
-      >
-
-        <div
-          style={{
-            width: "100%",
-            maxWidth: "1600px",
-            margin: "0 auto",
-          }}
-        >
+      <main className="dashboard-content">
+        <div className="dashboard-inner">
           {children}
         </div>
-
       </main>
-
     </div>
   );
 }

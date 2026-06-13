@@ -47,10 +47,9 @@ export default function LoginPage() {
       </p>
 
       <button
-        className="btn"
+        className="btn btn-gold"
         style={{
           marginTop: "40px",
-          padding: "12px 28px",
         }}
         onClick={handleLogin}
       >

@@ -1,6 +1,4 @@
-/* ===========================
-   IMPORTS MUST BE FIRST
-   =========================== */
+/* @import rules must stay first (CSS spec) */
 @import "./buttons.css";
 @import "./cards.css";
 @import "./typography.css";
@@ -11,32 +9,50 @@
    UNDERBOSSHQ — GLOBAL ROOT + BASE STYLES
    ============================================ */
 
+/* ===========================
+   UNDERBOSSHQ BRAND PALETTE
+   =========================== */
+
 :root {
+    /* Backgrounds */
     --bg-darkest: #050505;
     --bg-darker: #0D0D0F;
 
+    /* Text */
     --text-bright: #F5E9C9;
     --text-muted: #8A8A8A;
 
+    /* Brand Red */
     --brand-red: #B3001B;
     --brand-red-glow: #FF3A3A;
 
+    /* Gold Accent */
     --accent-gold: #D4AF37;
     --accent-gold-hover: #E8C45A;
 
+    /* Danger */
     --danger: #8A0015;
 
+    /* Surfaces */
     --surface-1: #0A0A0A;
     --surface-2: #111111;
     --surface-3: #161616;
 
+    /* Borders */
     --border-soft: rgba(212, 175, 55, 0.15);
     --border-strong: rgba(179, 0, 27, 0.35);
 
+    /* Glows */
     --glow-red: 0 0 12px rgba(255, 58, 58, 0.55);
     --glow-gold: 0 0 10px rgba(212, 175, 55, 0.45);
-    --red-neon: #ff2e2e;
+
+    /* Legacy alias used by shared components */
+    --red-neon: var(--brand-red-glow);
 }
+
+/* ===========================
+   GLOBAL RESET
+   =========================== */
 
 * {
     margin: 0;
@@ -50,6 +66,31 @@ body {
     font-family: "Inter", sans-serif;
 }
 
+/* ===========================
+   GLOBAL LAYOUT HELPERS
+   =========================== */
+
 .app-container {
     padding: 30px;
+}
+
+.dashboard-layout {
+    min-height: 100vh;
+    display: flex;
+    background: var(--bg-darkest);
+    overflow: hidden;
+}
+
+.dashboard-content {
+    flex: 1;
+    min-width: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 32px;
+}
+
+.dashboard-inner {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
 }
