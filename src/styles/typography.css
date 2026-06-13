@@ -1,78 +1,88 @@
 /* ============================================
    UNDERBOSSHQ — GLOBAL TYPOGRAPHY SYSTEM
+   Red neon glow on Goldrops + Caudex
    ============================================ */
 
 /* Base Text */
 p {
     font-size: 16px;
     margin-bottom: 14px;
-    color: var(--text-bright);
+    color: var(--text-red);
     line-height: 1.6;
     font-family: var(--font-body);
+    text-shadow: var(--text-glow-red-soft);
 }
 
 small, .small {
     font-size: 14px;
-    color: var(--text-muted);
+    color: var(--text-red-muted);
     font-family: var(--font-body);
+    text-shadow: var(--text-glow-red-muted);
 }
 
 .muted {
-    color: var(--text-muted);
+    color: var(--text-red-muted);
+    text-shadow: var(--text-glow-red-muted);
 }
 
 /* ============================================
-   HEADERS — Goldrops headings, cream text
+   HEADERS — Goldrops + strong red glow
    ============================================ */
 
 h1, .h1 {
     font-family: var(--font-heading);
     font-size: 42px;
     font-weight: 400;
-    color: var(--text-bright);
+    color: var(--text-red);
     margin-bottom: 18px;
     letter-spacing: 1.2px;
+    text-shadow: var(--text-glow-red-strong);
 }
 
 h2, .h2 {
     font-family: var(--font-heading);
     font-size: 32px;
     font-weight: 400;
-    color: var(--text-bright);
+    color: var(--text-red);
     margin-bottom: 16px;
     letter-spacing: 1px;
+    text-shadow: var(--text-glow-red-strong);
 }
 
 h3, .h3 {
     font-family: var(--font-body);
     font-size: 24px;
     font-weight: 700;
-    color: var(--text-bright);
+    color: var(--text-red);
     margin-bottom: 12px;
+    text-shadow: var(--text-glow-red);
 }
 
 h4, .h4 {
     font-family: var(--font-body);
     font-size: 20px;
     font-weight: 700;
-    color: var(--text-bright);
+    color: var(--text-red);
     margin-bottom: 10px;
+    text-shadow: var(--text-glow-red-soft);
 }
 
 h5, .h5 {
     font-family: var(--font-body);
     font-size: 18px;
     font-weight: 700;
-    color: var(--text-muted);
+    color: var(--text-red-muted);
     margin-bottom: 8px;
+    text-shadow: var(--text-glow-red-muted);
 }
 
 h6, .h6 {
     font-family: var(--font-body);
     font-size: 16px;
     font-weight: 700;
-    color: var(--text-muted);
+    color: var(--text-red-muted);
     margin-bottom: 6px;
+    text-shadow: var(--text-glow-red-muted);
 }
 
 /* ============================================
@@ -84,8 +94,9 @@ h6, .h6 {
     font-size: 32px;
     font-weight: 400;
     margin-bottom: 25px;
-    color: var(--text-bright);
+    color: var(--text-red);
     letter-spacing: 1.2px;
+    text-shadow: var(--text-glow-red-strong);
 }
 
 /* ============================================
@@ -96,9 +107,10 @@ h6, .h6 {
     font-family: var(--font-body);
     font-size: 14px;
     font-weight: 700;
-    color: var(--text-muted);
+    color: var(--text-red-soft);
     text-transform: uppercase;
     letter-spacing: 1px;
+    text-shadow: var(--text-glow-red-soft);
 }
 
 .tag {
@@ -108,9 +120,10 @@ h6, .h6 {
     font-size: 13px;
     font-weight: 700;
     border-radius: 6px;
-    background: rgba(179, 0, 27, 0.15);
-    color: var(--text-bright);
+    background: rgba(179, 0, 27, 0.2);
+    color: var(--text-red);
     border: 1px solid var(--border-strong);
+    text-shadow: var(--text-glow-red-soft);
 }
 
 /* ============================================
@@ -123,9 +136,10 @@ h6, .h6 {
     align-items: center;
     justify-content: center;
     background: var(--bg-darkest);
-    color: var(--text-bright);
+    color: var(--text-red);
     font-family: var(--font-body);
     font-size: 18px;
+    text-shadow: var(--text-glow-red);
 }
 
 /* ============================================
@@ -139,15 +153,17 @@ h6, .h6 {
     font-family: var(--font-heading);
     font-size: 48px;
     font-weight: 400;
-    color: var(--text-bright);
+    color: var(--text-red);
     letter-spacing: 2px;
+    text-shadow: var(--text-glow-red-strong);
 }
 
 .header-subtitle {
     font-family: var(--font-body);
     font-size: 22px;
     font-weight: 400;
-    color: var(--text-muted);
+    color: var(--text-red-soft);
+    text-shadow: var(--text-glow-red-soft);
 }
 
 /* ============================================

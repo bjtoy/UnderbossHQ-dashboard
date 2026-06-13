@@ -45,9 +45,10 @@
 .brand-mark-title {
   font-family: var(--font-heading);
   font-weight: 400;
-  color: var(--text-bright);
+  color: var(--text-red);
   letter-spacing: 0.08em;
   line-height: 1.1;
+  text-shadow: var(--text-glow-red-strong);
 }
 
 .brand-mark-sm .brand-mark-title {
@@ -65,7 +66,8 @@
 .brand-mark-tagline {
   font-family: var(--font-body);
   font-size: 1.1rem;
-  color: var(--text-muted);
+  color: var(--text-red-soft);
+  text-shadow: var(--text-glow-red-soft);
 }
 
 .login-page .brand-mark-lg {

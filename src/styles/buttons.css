@@ -81,15 +81,17 @@
 
 .btn-outline-gold {
     background: transparent;
-    border: 2px solid var(--accent-gold);
-    color: var(--accent-gold);
+    border: 2px solid var(--brand-red-glow);
+    color: var(--text-red);
+    text-shadow: var(--text-glow-red-soft);
     box-shadow: none;
 }
 
 .btn-outline-gold:hover {
-    background: rgba(212, 175, 55, 0.12);
-    color: var(--accent-gold-hover);
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+    background: rgba(255, 58, 58, 0.12);
+    color: var(--text-red);
+    text-shadow: var(--text-glow-red);
+    box-shadow: 0 0 12px rgba(255, 58, 58, 0.45);
     transform: translateY(-2px);
 }
 

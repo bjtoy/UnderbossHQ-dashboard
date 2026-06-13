@@ -49,25 +49,26 @@
     font-size: 16px;
     font-weight: 400;
     font-family: var(--font-body);
-    color: var(--text-bright);
+    color: var(--text-red-soft);
+    text-shadow: var(--text-glow-red-soft);
     text-decoration: none;
     transition: 0.25s ease;
     border-left: 3px solid transparent;
 }
 
-/* ACTIVE ITEM — Gold text + Gold border */
 .nav-item.active {
-    color: var(--accent-gold);
-    background: rgba(212, 175, 55, 0.08);
-    border-left: 3px solid var(--accent-gold);
-    font-weight: 600;
-    box-shadow: inset 0 0 12px rgba(212, 175, 55, 0.25);
+    color: var(--text-red);
+    background: rgba(255, 58, 58, 0.1);
+    border-left: 3px solid var(--brand-red-glow);
+    font-weight: 700;
+    text-shadow: var(--text-glow-red);
+    box-shadow: inset 0 0 12px rgba(255, 58, 58, 0.2);
 }
 
-/* HOVER — Gold text + Red Glow */
 .nav-item:hover {
-    color: var(--accent-gold-hover);
+    color: var(--text-red);
     background: rgba(255, 58, 58, 0.12);
+    text-shadow: var(--text-glow-red);
     box-shadow: 0 0 12px rgba(255, 58, 58, 0.35);
     transform: translateX(6px);
 }
@@ -86,10 +87,10 @@
     padding-left: 26px;
     font-size: 13px;
     font-weight: 700;
-    color: var(--brand-red);
+    color: var(--text-red);
     text-transform: uppercase;
     letter-spacing: 1.2px;
-    opacity: 0.85;
+    text-shadow: var(--text-glow-red-soft);
 }
 
 /* Divider line for visual grouping */

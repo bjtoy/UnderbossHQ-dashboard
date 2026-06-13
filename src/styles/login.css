@@ -21,9 +21,10 @@
 }
 
 .login-copy {
-  color: var(--text-muted);
+  color: var(--text-red-soft);
   line-height: 1.6;
   margin-bottom: 32px;
+  text-shadow: var(--text-glow-red-soft);
 }
 
 .page-intro {

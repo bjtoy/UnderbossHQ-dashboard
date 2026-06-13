@@ -49,6 +49,24 @@
     --glow-red: 0 0 12px rgba(255, 58, 58, 0.55);
     --glow-gold: 0 0 10px rgba(212, 175, 55, 0.45);
 
+    /* Red neon typography glow */
+    --text-glow-red-strong:
+        0 0 10px rgba(255, 58, 58, 1),
+        0 0 22px rgba(255, 58, 58, 0.75),
+        0 0 36px rgba(255, 46, 46, 0.45);
+    --text-glow-red:
+        0 0 8px rgba(255, 58, 58, 0.95),
+        0 0 18px rgba(255, 58, 58, 0.55);
+    --text-glow-red-soft:
+        0 0 6px rgba(255, 58, 58, 0.75),
+        0 0 14px rgba(255, 58, 58, 0.35);
+    --text-glow-red-muted:
+        0 0 4px rgba(255, 58, 58, 0.5);
+
+    --text-red: var(--brand-red-glow);
+    --text-red-soft: #ff7a7a;
+    --text-red-muted: #e06a6a;
+
     /* Typography */
     --font-heading: "Goldrops", Georgia, serif;
     --font-body: "Caudex", Georgia, serif;
@@ -69,10 +87,11 @@
 
 body {
     background: var(--bg-darkest);
-    color: var(--text-bright);
+    color: var(--text-red);
     font-family: var(--font-body);
     font-size: 16px;
     line-height: 1.6;
+    text-shadow: var(--text-glow-red-soft);
 }
 
 /* ===========================
