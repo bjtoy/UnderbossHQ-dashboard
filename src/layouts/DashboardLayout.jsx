@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar.jsx";
 import { useRoles } from "../context/RoleContext.jsx";
-import mascot from "../assets/images/underboss-mascot.png";
+import mascot from "../assets/brandMascot.js";
 
 function getPageLabel(path) {
   if (path === "/member") return "Member Dashboard";

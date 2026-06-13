@@ -107,7 +107,7 @@ body {
     height: 58px;
     width: auto;
     object-fit: contain;
-    filter: drop-shadow(0 0 8px rgba(255, 58, 58, 0.6));
+    filter: drop-shadow(0 0 6px rgba(255, 58, 58, 0.45));
 }
 
 .dashboard-content {

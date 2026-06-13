@@ -1,4 +1,4 @@
-import mascot from "../assets/images/underboss-mascot.png";
+import mascot from "../assets/brandMascot.js";
 
 export default function BrandMark({
   size = "md",
