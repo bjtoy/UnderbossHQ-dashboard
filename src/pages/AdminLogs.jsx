@@ -6,13 +6,22 @@ import PageHeader from "../components/PageHeader.jsx";
 
 export default function AdminLogs() {
   const [logs, setLogs] = useState([]);
+  const [systemErrors, setSystemErrors] = useState([]);
+  const [health, setHealth] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    api.bot.logs
-      .recent()
-      .then((res) => setLogs(res?.logs || []))
+    Promise.all([
+      api.bot.logs.recent(),
+      api.health.errors(50),
+      api.health.status(),
+    ])
+      .then(([modRes, errorRes, healthRes]) => {
+        setLogs(modRes?.logs || []);
+        setSystemErrors(errorRes?.data || []);
+        setHealth(healthRes || null);
+      })
       .catch((err) => setError(err.message || "Failed to load logs"))
       .finally(() => setLoading(false));
   }, []);
@@ -21,18 +30,51 @@ export default function AdminLogs() {
     <div className="dashboard-page">
       <PageHeader
         title="Live Logs"
-        subtitle="Recent moderation actions for the selected server."
+        subtitle="Moderation actions and system error records."
       />
 
       {loading && <Loader />}
       {error && <ErrorCard message={error} />}
 
       {!loading && !error && (
-        <div className="page-body">
-          {logs.length === 0 ? (
-            <div className="card empty-state">No log entries yet.</div>
-          ) : (
-            <div className="card">
+        <div className="page-body page-stack">
+          {health && (
+            <div className="card page-stack">
+              <h3>System Health</h3>
+              <p className="muted">
+                Status:{" "}
+                <span
+                  className={
+                    health.status === "healthy"
+                      ? "log-level log-tip"
+                      : "log-level log-warn"
+                  }
+                >
+                  {health.status}
+                </span>
+                {" · "}
+                Database: {health.database}
+                {" · "}
+                Bot: {health.bot?.enabled ? "enabled" : "disabled"}
+              </p>
+              {health.env?.missing?.length > 0 && (
+                <p className="muted">
+                  Missing env: {health.env.missing.join(", ")}
+                </p>
+              )}
+              {health.env?.warnings?.length > 0 && (
+                <p className="muted">
+                  Warnings: {health.env.warnings.join(" · ")}
+                </p>
+              )}
+            </div>
+          )}
+
+          <div className="card">
+            <h3>Moderation Logs</h3>
+            {logs.length === 0 ? (
+              <p className="muted empty-state">No moderation entries yet.</p>
+            ) : (
               <table className="data-table">
                 <thead>
                   <tr>
@@ -61,8 +103,40 @@ export default function AdminLogs() {
                   ))}
                 </tbody>
               </table>
-            </div>
-          )}
+            )}
+          </div>
+
+          <div className="card">
+            <h3>System Errors</h3>
+            {systemErrors.length === 0 ? (
+              <p className="muted empty-state">No system errors recorded.</p>
+            ) : (
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Level</th>
+                    <th>Source</th>
+                    <th>Message</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {systemErrors.map((entry) => (
+                    <tr key={entry.id}>
+                      <td>
+                        <span className={`log-level log-${entry.level}`}>
+                          {entry.level}
+                        </span>
+                      </td>
+                      <td>{entry.source || "—"}</td>
+                      <td>{entry.message}</td>
+                      <td>{new Date(entry.createdAt).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
       )}
     </div>

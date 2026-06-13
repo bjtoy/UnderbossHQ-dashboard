@@ -1,17 +1,37 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { api } from "../../api/api.js";
 import Loader from "../../components/Loader.jsx";
 import ErrorCard from "../../components/ErrorCard.jsx";
 import PageHeader from "../../components/PageHeader.jsx";
+import GuideEditorToolbar from "../../components/GuideEditorToolbar.jsx";
+import GuideContent from "../../components/GuideContent.jsx";
+import { bannerSnippet } from "../../utils/guideMarkup.js";
+
+const STARTER_TEMPLATE = `${bannerSnippet("fancy", "Guide Title")}
+
+Write your introduction here.
+
+:::section
+Section Title
+:::
+
+:::color-red
+Important red text
+:::
+
+:::tip
+Helpful tip for readers
+:::`;
 
 export default function GuideEditor() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const textareaRef = useRef(null);
   const isNew = !id || id === "new";
 
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(isNew ? STARTER_TEMPLATE : "");
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -106,6 +126,7 @@ export default function GuideEditor() {
     <div className="dashboard-page">
       <PageHeader
         title={isNew ? "Create Guide" : "Edit Guide"}
+        subtitle="Use banners, colored text, and callouts to style your guide."
         actions={
           <Link to="/guides" className="btn btn-outline-gold btn-sm">
             Back to Guides
@@ -131,23 +152,38 @@ export default function GuideEditor() {
             />
           </div>
 
-          <div className="field-group">
-            <label className="field-label" htmlFor="guide-content">
-              Content
-            </label>
-            <textarea
-              id="guide-content"
-              className="field-textarea"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Write the guide content..."
-            />
+          <GuideEditorToolbar
+            content={content}
+            onChange={setContent}
+            textareaRef={textareaRef}
+          />
+
+          <div className="guide-editor-layout">
+            <div className="field-group">
+              <label className="field-label" htmlFor="guide-content">
+                Content
+              </label>
+              <textarea
+                id="guide-content"
+                ref={textareaRef}
+                className="field-textarea guide-editor-textarea"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Write the guide content..."
+                rows={18}
+              />
+            </div>
+
+            <div className="guide-preview-panel">
+              <p className="guide-preview-panel-title">Live preview</p>
+              <GuideContent content={content} />
+            </div>
           </div>
 
           <div className="action-row">
             <button
               type="button"
-              className="btn btn-gold"
+              className="btn btn-red btn-sm"
               onClick={handleSave}
               disabled={saving}
             >
@@ -157,7 +193,7 @@ export default function GuideEditor() {
               <>
                 <button
                   type="button"
-                  className="btn btn-outline-gold"
+                  className="btn btn-outline-gold btn-sm"
                   onClick={handlePublish}
                   disabled={saving}
                 >
@@ -165,7 +201,7 @@ export default function GuideEditor() {
                 </button>
                 <button
                   type="button"
-                  className="btn btn-danger"
+                  className="btn btn-danger btn-sm"
                   onClick={handleDelete}
                   disabled={saving}
                 >

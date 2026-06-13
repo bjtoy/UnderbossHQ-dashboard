@@ -5,6 +5,7 @@ import { useRoles } from "../../context/RoleContext.jsx";
 import Loader from "../../components/Loader.jsx";
 import ErrorCard from "../../components/ErrorCard.jsx";
 import PageHeader from "../../components/PageHeader.jsx";
+import GuideContent from "../../components/GuideContent.jsx";
 
 export default function GuideView() {
   const { id } = useParams();
@@ -57,7 +58,7 @@ export default function GuideView() {
             {canManage && (
               <Link
                 to={`/guides/${guide.id}/edit`}
-                className="btn btn-gold btn-sm"
+                className="btn btn-red btn-sm"
               >
                 Edit
               </Link>
@@ -68,7 +69,7 @@ export default function GuideView() {
 
       <div className="page-body">
         <div className="card">
-          <div className="guide-preview">{guide.content}</div>
+          <GuideContent content={guide.content} />
         </div>
       </div>
     </div>

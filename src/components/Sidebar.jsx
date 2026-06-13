@@ -94,6 +94,18 @@ export default function Sidebar() {
               System Logs
             </Link>
             <Link
+              to="/admin/invites"
+              className={navClass(path === "/admin/invites")}
+            >
+              Invites
+            </Link>
+            <Link
+              to="/admin/users"
+              className={navClass(path === "/admin/users")}
+            >
+              Users
+            </Link>
+            <Link
               to="/admin/settings"
               className={navClass(path === "/admin/settings")}
             >

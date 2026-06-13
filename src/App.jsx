@@ -21,6 +21,8 @@ import GuideEditor from "./pages/guides/GuideEditor.jsx";
 import AnnouncementsList from "./pages/announcements/AnnouncementsList.jsx";
 import AnnouncementEditor from "./pages/announcements/AnnouncementEditor.jsx";
 import AdminSettings from "./pages/AdminSettings.jsx";
+import UserManagement from "./pages/UserManagement.jsx";
+import InviteTracking from "./pages/InviteTracking.jsx";
 import NotAuthorized from "./pages/NotAuthorized.jsx";
 import DashboardLayout from "./layouts/DashboardLayout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -184,6 +186,28 @@ export default function App() {
             <ProtectedRoute roles={["Admin"]}>
               <DashboardLayout>
                 <AdminLogs />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/invites"
+          element={
+            <ProtectedRoute roles={["Admin"]}>
+              <DashboardLayout>
+                <InviteTracking />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute roles={["Admin"]}>
+              <DashboardLayout>
+                <UserManagement />
               </DashboardLayout>
             </ProtectedRoute>
           }

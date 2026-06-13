@@ -1,0 +1,255 @@
+/* Guide banners, colors, and callouts */
+
+.guide-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  line-height: 1.7;
+}
+
+.guide-text-block p,
+.guide-content p {
+  margin: 0 0 12px;
+}
+
+.guide-text-block p:last-child,
+.guide-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===========================
+   BANNERS
+   =========================== */
+
+.guide-banner {
+  padding: 18px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-1);
+  text-align: center;
+}
+
+.guide-banner-title {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  color: var(--text-red);
+  text-shadow: var(--text-glow-red);
+  letter-spacing: 0.06em;
+}
+
+.guide-banner-subtitle {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: var(--text-red-soft);
+  text-shadow: var(--text-glow-red-soft);
+}
+
+.guide-banner-fancy {
+  border-color: var(--brand-red-glow);
+  box-shadow: var(--glow-red);
+  background:
+    linear-gradient(180deg, rgba(255, 58, 58, 0.08), rgba(0, 0, 0, 0.2)),
+    var(--surface-1);
+}
+
+.guide-banner-fancy .guide-banner-title::before,
+.guide-banner-fancy .guide-banner-title::after {
+  content: "══ ";
+  color: var(--text-red-muted);
+}
+
+.guide-banner-minimal {
+  border: none;
+  border-top: 2px solid var(--brand-red-glow);
+  border-bottom: 2px solid var(--brand-red-glow);
+  border-radius: 0;
+  background: transparent;
+  padding: 14px 0;
+}
+
+.guide-banner-gaming .guide-banner-title::before {
+  content: "⚔️ ";
+}
+
+.guide-banner-gaming .guide-banner-title::after {
+  content: " ⚔️";
+}
+
+.guide-banner-tactical {
+  border-color: var(--border-strong);
+}
+
+.guide-banner-tactical .guide-banner-title::before {
+  content: "[ ";
+}
+
+.guide-banner-tactical .guide-banner-title::after {
+  content: " ]";
+}
+
+.guide-banner-standard {
+  text-align: left;
+}
+
+.guide-banner-standard .guide-banner-title {
+  font-size: 2rem;
+}
+
+/* ===========================
+   COLORED TEXT
+   =========================== */
+
+.guide-color-block {
+  margin: 0;
+  font-weight: 700;
+}
+
+.guide-color-red {
+  color: var(--text-red);
+  text-shadow: var(--text-glow-red);
+}
+
+.guide-color-soft {
+  color: var(--text-red-soft);
+  text-shadow: var(--text-glow-red-soft);
+}
+
+.guide-color-gold {
+  color: var(--accent-gold);
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.45);
+}
+
+.guide-color-green {
+  color: #7bff4f;
+  text-shadow: 0 0 8px rgba(123, 255, 79, 0.35);
+}
+
+.guide-color-yellow {
+  color: #ffd966;
+  text-shadow: 0 0 8px rgba(255, 217, 102, 0.35);
+}
+
+.guide-color-muted {
+  color: var(--text-red-muted);
+  text-shadow: var(--text-glow-red-muted);
+}
+
+/* ===========================
+   CALLOUTS
+   =========================== */
+
+.guide-callout {
+  padding: 14px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  background: rgba(255, 58, 58, 0.06);
+}
+
+.guide-callout-label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-red);
+  text-shadow: var(--text-glow-red-soft);
+}
+
+.guide-callout-body p {
+  margin: 0;
+  color: var(--text-red-soft);
+}
+
+.guide-callout-warning {
+  border-color: #ffd966;
+  background: rgba(255, 217, 102, 0.08);
+}
+
+.guide-callout-warning .guide-callout-label {
+  color: #ffd966;
+}
+
+.guide-callout-important {
+  border-color: var(--brand-red-glow);
+  box-shadow: 0 0 10px rgba(255, 58, 58, 0.25);
+}
+
+.guide-section-title {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  color: var(--text-red);
+  text-shadow: var(--text-glow-red);
+  margin: 8px 0 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ===========================
+   EDITOR TOOLBAR
+   =========================== */
+
+.guide-editor-toolbar {
+  padding: 16px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: var(--surface-1);
+}
+
+.guide-toolbar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.guide-toolbar-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-red-muted);
+}
+
+.guide-toolbar-help {
+  font-size: 13px;
+  margin: 0;
+}
+
+.guide-toolbar-help code {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-red-soft);
+}
+
+.guide-color-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border-soft);
+}
+
+.guide-editor-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.guide-preview-panel {
+  padding: 18px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: var(--surface-1);
+  min-height: 280px;
+}
+
+.guide-preview-panel-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-red-muted);
+  margin: 0 0 14px;
+}
+
+@media (max-width: 900px) {
+  .guide-editor-layout {
+    grid-template-columns: 1fr;
+  }
+}

@@ -285,4 +285,37 @@ export const api = {
 
     update: (body) => request("PUT", "/api/settings", body),
   },
+
+  users: {
+    list: (search = "") =>
+      request(
+        "GET",
+        search
+          ? `/api/users?search=${encodeURIComponent(search)}`
+          : "/api/users"
+      ),
+
+    get: (id) => request("GET", `/api/users/${id}`),
+
+    create: (body) => request("POST", "/api/users", body),
+
+    update: (id, body) => request("PUT", `/api/users/${id}`, body),
+
+    remove: (id) => request("DELETE", `/api/users/${id}`),
+  },
+
+  invites: {
+    stats: (limit = 20) =>
+      request("GET", `/api/invites/stats?limit=${limit}`),
+
+    recent: (limit = 50) =>
+      request("GET", `/api/invites/recent?limit=${limit}`),
+  },
+
+  health: {
+    status: () => request("GET", "/api/health"),
+
+    errors: (limit = 50) =>
+      request("GET", `/api/health/errors?limit=${limit}`),
+  },
 };

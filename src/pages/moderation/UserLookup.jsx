@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { api } from "../../api/api.js";
 import PageHeader from "../../components/PageHeader.jsx";
 import WarningsList from "./WarningsList.jsx";
 
 export default function UserLookup() {
-  const [userId, setUserId] = useState("");
+  const [searchParams] = useSearchParams();
+  const [userId, setUserId] = useState(searchParams.get("userId") || "");
   const [reason, setReason] = useState("");
   const [actionMessage, setActionMessage] = useState("");
   const [loadingAction, setLoadingAction] = useState(false);

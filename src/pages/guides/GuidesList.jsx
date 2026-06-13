@@ -5,6 +5,7 @@ import { useRoles } from "../../context/RoleContext.jsx";
 import Loader from "../../components/Loader.jsx";
 import ErrorCard from "../../components/ErrorCard.jsx";
 import PageHeader from "../../components/PageHeader.jsx";
+import { GuideContentPreview } from "../../components/GuideContent.jsx";
 
 export default function GuidesList() {
   const { hasAnyRole } = useRoles();
@@ -29,7 +30,7 @@ export default function GuidesList() {
         subtitle="Faction guides and reference material."
         actions={
           canManage ? (
-            <Link to="/guides/new" className="btn btn-gold">
+            <Link to="/guides/new" className="btn btn-red">
               Create Guide
             </Link>
           ) : null
@@ -51,10 +52,8 @@ export default function GuidesList() {
                   <p className="muted">
                     Updated {new Date(guide.updatedAt).toLocaleString()}
                   </p>
-                  <p className="guide-preview">
-                    {guide.content.length > 180
-                      ? `${guide.content.slice(0, 180)}…`
-                      : guide.content}
+                  <p className="guide-preview muted">
+                    <GuideContentPreview content={guide.content} maxLength={180} />
                   </p>
                   <div className="action-row">
                     <Link
@@ -66,7 +65,7 @@ export default function GuidesList() {
                     {canManage && (
                       <Link
                         to={`/guides/${guide.id}/edit`}
-                        className="btn btn-gold btn-sm"
+                        className="btn btn-red btn-sm"
                       >
                         Edit
                       </Link>
