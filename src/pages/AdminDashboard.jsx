@@ -97,7 +97,7 @@ export default function AdminDashboard() {
           <div className="action-row">
             <button
               type="button"
-              className="btn btn-gold btn-sm"
+              className="btn btn-red btn-sm"
               disabled={actionLoading}
               onClick={() => runAction("reload")}
             >

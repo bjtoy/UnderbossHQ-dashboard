@@ -132,7 +132,7 @@ export default function AdminSettings() {
             </div>
 
             <div className="action-row">
-              <button type="submit" className="btn btn-gold" disabled={saving}>
+              <button type="submit" className="btn btn-red btn-sm" disabled={saving}>
                 {saving ? "Saving..." : "Save Settings"}
               </button>
             </div>
