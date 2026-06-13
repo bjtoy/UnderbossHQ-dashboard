@@ -76,12 +76,20 @@ export default function Sidebar() {
         )}
 
         {isAdmin && (
-          <Link
-            to="/admin"
-            className={`nav-item ${isActive("/admin") ? "active" : ""}`}
-          >
-            Admin Panel
-          </Link>
+          <>
+            <Link
+              to="/admin"
+              className={`nav-item ${isActive("/admin") ? "active" : ""}`}
+            >
+              Admin Panel
+            </Link>
+            <Link
+              to="/admin/logs"
+              className={`nav-item ${isActive("/admin/logs") ? "active" : ""}`}
+            >
+              Live Logs
+            </Link>
+          </>
         )}
       </nav>
 

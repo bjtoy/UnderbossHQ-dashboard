@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
+import { getDefaultRoute } from "../utils/getDefaultRoute.js";
 
 export default function SelectGuild() {
   const navigate = useNavigate();
@@ -53,9 +54,9 @@ export default function SelectGuild() {
 
   async function selectGuild(guild) {
     setGuildId(guild.id);
-    await refreshUser();
+    const access = await refreshUser();
 
-    navigate("/member", { replace: true });
+    navigate(getDefaultRoute(access?.roles || []), { replace: true });
   }
 
   if (loading) {

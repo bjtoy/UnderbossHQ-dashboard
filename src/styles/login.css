@@ -1,0 +1,62 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  background:
+    radial-gradient(circle at top, rgba(179, 0, 27, 0.18), transparent 45%),
+    var(--bg-darkest);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  padding: 48px 40px;
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  background: var(--surface-2);
+  box-shadow: var(--glow-red);
+}
+
+.login-title {
+  font-family: "Goldman", sans-serif;
+  font-size: 2.5rem;
+  letter-spacing: 0.04em;
+  color: var(--accent-gold);
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.login-copy {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.page-intro {
+  margin-bottom: 24px;
+}
+
+.log-level {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.log-warn,
+.log-kick,
+.log-ban {
+  color: var(--brand-red-glow);
+}
+
+.log-promote,
+.log-demote {
+  color: var(--accent-gold);
+}

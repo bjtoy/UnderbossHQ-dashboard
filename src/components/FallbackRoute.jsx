@@ -1,8 +1,9 @@
 import { Navigate } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
+import { getDefaultRoute } from "../utils/getDefaultRoute.js";
 
 export default function FallbackRoute() {
-  const { user, loading } = useRoles();
+  const { user, roles, loading } = useRoles();
 
   if (loading || user === undefined) {
     return (
@@ -16,5 +17,5 @@ export default function FallbackRoute() {
     return <Navigate to="/login" replace />;
   }
 
-  return <Navigate to="/member" replace />;
+  return <Navigate to={getDefaultRoute(roles)} replace />;
 }

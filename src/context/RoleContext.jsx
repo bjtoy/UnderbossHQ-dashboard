@@ -82,121 +82,72 @@ export function RoleProvider({
    * =========================
    */
   async function loadUser() {
-
     try {
-
       setLoading(true);
 
-      const guildId =
-        localStorage.getItem("guildId");
+      const storedGuildId = localStorage.getItem("guildId");
 
-      const response =
-        await fetch(
-          `${API_URL}/api/auth/me`,
-          {
-            credentials:
-              "include",
-            headers: guildId
-              ? { "x-guild-id": guildId }
-              : {},
-          }
-        );
+      const response = await fetch(`${API_URL}/api/auth/me`, {
+        credentials: "include",
+        headers: storedGuildId ? { "x-guild-id": storedGuildId } : {},
+      });
 
-      /**
-       * UNAUTHORISED
-       */
-      if (
-        response.status === 401
-      ) {
-
-        if (
-          !mountedRef.current
-        ) {
-          return;
+      if (response.status === 401) {
+        if (!mountedRef.current) {
+          return { user: null, roles: [], permissions: [] };
         }
 
         setUser(null);
-
         setRoles([]);
-
         setPermissions([]);
 
-        return;
+        return { user: null, roles: [], permissions: [] };
       }
 
-      /**
-       * INVALID RESPONSE
-       */
       if (!response.ok) {
-
-        throw new Error(
-          `Auth request failed: ${response.status}`
-        );
+        throw new Error(`Auth request failed: ${response.status}`);
       }
 
-      const data =
-        await response.json();
+      const data = await response.json();
 
-      if (
-        !mountedRef.current
-      ) {
-        return;
+      if (!mountedRef.current) {
+        return null;
       }
 
-      /**
-       * SUCCESS
-       */
-      setUser(
-        data.user || null
-      );
+      const nextUser = data.user || null;
+      const nextRoles = Array.isArray(data.roles) ? data.roles : [];
+      const nextPermissions = Array.isArray(data.permissions)
+        ? data.permissions
+        : [];
 
-      setRoles(
-        Array.isArray(
-          data.roles
-        )
-          ? data.roles
-          : []
-      );
+      setUser(nextUser);
+      setRoles(nextRoles);
+      setPermissions(nextPermissions);
 
-      setPermissions(
-        Array.isArray(
-          data.permissions
-        )
-          ? data.permissions
-          : []
-      );
-
+      return {
+        user: nextUser,
+        roles: nextRoles,
+        permissions: nextPermissions,
+      };
     } catch (error) {
+      console.error("Failed loading auth state:", error);
 
-      console.error(
-        "Failed loading auth state:",
-        error
-      );
-
-      if (
-        !mountedRef.current
-      ) {
-        return;
+      if (!mountedRef.current) {
+        return { user: null, roles: [], permissions: [] };
       }
 
       setUser(null);
-
       setRoles([]);
-
       setPermissions([]);
 
+      return { user: null, roles: [], permissions: [] };
     } finally {
-
-      if (
-        !mountedRef.current
-      ) {
+      if (!mountedRef.current) {
         return;
       }
 
       setLoading(false);
-
-      loadedRef.current =
-        true;
+      loadedRef.current = true;
     }
   }
 
@@ -244,12 +195,9 @@ export function RoleProvider({
     );
   }
 
-  function hasPermission(
-    permission
-  ) {
-
-    return permissions.includes(
-      permission
+  function hasPermission(permission) {
+    return (
+      permissions.includes("*") || permissions.includes(permission)
     );
   }
 

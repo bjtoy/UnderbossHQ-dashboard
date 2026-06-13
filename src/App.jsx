@@ -11,6 +11,7 @@ import SelectGuild from "./pages/SelectGuild.jsx";
 import MemberHome from "./pages/MemberHome.jsx";
 import ModDashboard from "./pages/ModDashboard.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
+import AdminLogs from "./pages/AdminLogs.jsx";
 import ActiveCases from "./pages/moderation/ActiveCases.jsx";
 import CaseHistory from "./pages/moderation/CaseHistory.jsx";
 import UserLookup from "./pages/moderation/UserLookup.jsx";
@@ -135,6 +136,17 @@ export default function App() {
             <ProtectedRoute roles={MOD_ROLES}>
               <DashboardLayout>
                 <UserLookup />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/logs"
+          element={
+            <ProtectedRoute roles={["Admin"]}>
+              <DashboardLayout>
+                <AdminLogs />
               </DashboardLayout>
             </ProtectedRoute>
           }

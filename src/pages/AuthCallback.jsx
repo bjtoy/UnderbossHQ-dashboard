@@ -1,45 +1,29 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
+import { getDefaultRoute } from "../utils/getDefaultRoute.js";
 
 export default function AuthCallback() {
   const navigate = useNavigate();
-
-  const {
-    user,
-    loading,
-  } = useRoles();
+  const { user, roles, loading } = useRoles();
 
   useEffect(() => {
     if (loading) return;
 
     if (!user) {
-      navigate("/login", {
-        replace: true,
-      });
+      navigate("/login", { replace: true });
       return;
     }
 
-    const guildId =
-      localStorage.getItem("guildId");
-
-    console.log("AuthCallback: user is loaded, guildId is", guildId);
+    const guildId = localStorage.getItem("guildId");
 
     if (!guildId) {
-      navigate("/select-guild", {
-        replace: true,
-      });
-    } else {
-      navigate("/member", {
-        replace: true,
-      });
+      navigate("/select-guild", { replace: true });
+      return;
     }
 
-  }, [
-    user,
-    loading,
-    navigate,
-  ]);
+    navigate(getDefaultRoute(roles), { replace: true });
+  }, [user, roles, loading, navigate]);
 
   return (
     <div className="loading-screen">
