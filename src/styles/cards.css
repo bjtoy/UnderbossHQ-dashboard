@@ -23,19 +23,20 @@
 /* Card Title */
 .card h3,
 .card-title {
+    font-family: var(--font-body);
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 12px;
-    color: var(--accent-gold);
-    text-shadow: 0 0 10px rgba(212, 175, 55, 0.35);
+    color: var(--text-bright);
 }
 
 /* Stat Value */
 .card .value {
+    font-family: var(--font-heading);
     font-size: 32px;
-    font-weight: 800;
-    color: var(--accent-gold);
-    text-shadow: 0 0 8px rgba(212, 175, 55, 0.35);
+    font-weight: 400;
+    color: var(--text-bright);
+    letter-spacing: 0.5px;
 }
 
 /* ============================================

@@ -8,11 +8,13 @@ p {
     margin-bottom: 14px;
     color: var(--text-bright);
     line-height: 1.6;
+    font-family: var(--font-body);
 }
 
 small, .small {
     font-size: 14px;
     color: var(--text-muted);
+    font-family: var(--font-body);
 }
 
 .muted {
@@ -20,67 +22,70 @@ small, .small {
 }
 
 /* ============================================
-   HEADERS — Unified Mafia Theme
+   HEADERS — Goldrops headings, cream text
    ============================================ */
 
 h1, .h1 {
+    font-family: var(--font-heading);
     font-size: 42px;
-    font-weight: 800;
-    color: var(--accent-gold);
+    font-weight: 400;
+    color: var(--text-bright);
     margin-bottom: 18px;
     letter-spacing: 1.2px;
-    text-shadow: var(--glow-gold);
 }
 
 h2, .h2 {
+    font-family: var(--font-heading);
     font-size: 32px;
-    font-weight: 700;
-    color: var(--accent-gold);
+    font-weight: 400;
+    color: var(--text-bright);
     margin-bottom: 16px;
     letter-spacing: 1px;
-    text-shadow: var(--glow-gold);
 }
 
 h3, .h3 {
+    font-family: var(--font-body);
     font-size: 24px;
     font-weight: 700;
-    color: var(--accent-gold);
+    color: var(--text-bright);
     margin-bottom: 12px;
-    text-shadow: var(--glow-gold);
 }
 
 h4, .h4 {
+    font-family: var(--font-body);
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-bright);
     margin-bottom: 10px;
 }
 
 h5, .h5 {
+    font-family: var(--font-body);
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-muted);
     margin-bottom: 8px;
 }
 
 h6, .h6 {
+    font-family: var(--font-body);
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-muted);
     margin-bottom: 6px;
 }
 
 /* ============================================
-   SECTION TITLES — Unified (no more conflicts)
+   SECTION TITLES
    ============================================ */
 
 .section-title {
+    font-family: var(--font-heading);
     font-size: 32px;
-    font-weight: 800;
+    font-weight: 400;
     margin-bottom: 25px;
-    color: var(--accent-gold);
+    color: var(--text-bright);
     letter-spacing: 1.2px;
-    text-shadow: var(--glow-gold);
 }
 
 /* ============================================
@@ -88,9 +93,10 @@ h6, .h6 {
    ============================================ */
 
 .label {
+    font-family: var(--font-body);
     font-size: 14px;
-    font-weight: 600;
-    color: var(--accent-gold);
+    font-weight: 700;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -98,12 +104,13 @@ h6, .h6 {
 .tag {
     display: inline-block;
     padding: 4px 10px;
+    font-family: var(--font-body);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     border-radius: 6px;
-    background: rgba(212, 175, 55, 0.12);
-    color: var(--accent-gold);
-    border: 1px solid var(--accent-gold);
+    background: rgba(179, 0, 27, 0.15);
+    color: var(--text-bright);
+    border: 1px solid var(--border-strong);
 }
 
 /* ============================================
@@ -117,6 +124,7 @@ h6, .h6 {
     justify-content: center;
     background: var(--bg-darkest);
     color: var(--text-bright);
+    font-family: var(--font-body);
     font-size: 18px;
 }
 
@@ -126,16 +134,19 @@ h6, .h6 {
 
 .text-center { text-align: center; }
 .text-right { text-align: right; }
+
 .header-title {
+    font-family: var(--font-heading);
     font-size: 48px;
-    font-weight: 800;
-    color: var(--accent-gold);
-    text-shadow: var(--glow-gold);
+    font-weight: 400;
+    color: var(--text-bright);
+    letter-spacing: 2px;
 }
 
 .header-subtitle {
+    font-family: var(--font-body);
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--text-muted);
 }
 

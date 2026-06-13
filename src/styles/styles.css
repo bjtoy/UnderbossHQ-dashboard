@@ -1,4 +1,5 @@
 /* @import rules must stay first (CSS spec) */
+@import "./fonts.css";
 @import "./buttons.css";
 @import "./cards.css";
 @import "./typography.css";
@@ -47,6 +48,10 @@
     --glow-red: 0 0 12px rgba(255, 58, 58, 0.55);
     --glow-gold: 0 0 10px rgba(212, 175, 55, 0.45);
 
+    /* Typography */
+    --font-heading: "Goldrops", Georgia, serif;
+    --font-body: "Caudex", Georgia, serif;
+
     /* Legacy alias used by shared components */
     --red-neon: var(--brand-red-glow);
 }
@@ -64,7 +69,9 @@
 body {
     background: var(--bg-darkest);
     color: var(--text-bright);
-    font-family: "Inter", sans-serif;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
 }
 
 /* ===========================
