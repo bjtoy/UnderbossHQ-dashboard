@@ -37,9 +37,11 @@ export default function AdminDashboard() {
 
       setActionMessage(
         result?.result?.message ||
-          (result?.result?.status === "not_implemented"
-            ? `${action} is not available yet`
-            : `${action} completed`)
+          (result?.result?.status === "completed" && result?.result?.memberCount != null
+            ? `Synced ${result.result.memberCount} members in ${result.result.guildName || "guild"}`
+            : result?.result?.status === "failed"
+              ? result.result.message || `${action} failed`
+              : `${action} completed`)
       );
     } catch (err) {
       setError(err.message);
