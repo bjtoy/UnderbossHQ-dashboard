@@ -126,7 +126,18 @@ h6, .h6 {
 
 .text-center { text-align: center; }
 .text-right { text-align: right; }
-.text-left { text-align: left; }
+.header-title {
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--accent-gold);
+    text-shadow: var(--glow-gold);
+}
+
+.header-subtitle {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
 
 /* ============================================
    SPACING UTILITIES

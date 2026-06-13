@@ -8,6 +8,7 @@ export default function Sidebar() {
   const isActive = (path) => location.pathname === path;
   const isModerator = hasAnyRole(["Admin", "Mod", "Moderator"]);
   const isAdmin = hasAnyRole(["Admin"]);
+  const canEditGuides = hasAnyRole(["Admin", "Mod", "Moderator", "Enforcer"]);
 
   return (
     <aside className="sidebar">
@@ -22,6 +23,22 @@ export default function Sidebar() {
         >
           Member Dashboard
         </Link>
+
+        <Link
+          to="/guides"
+          className={`nav-item ${location.pathname.startsWith("/guides") ? "active" : ""}`}
+        >
+          Guides
+        </Link>
+
+        {canEditGuides && (
+          <Link
+            to="/guides/new"
+            className={`nav-item ${isActive("/guides/new") ? "active" : ""}`}
+          >
+            Create Guide
+          </Link>
+        )}
 
         {isModerator && (
           <>

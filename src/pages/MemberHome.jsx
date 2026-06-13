@@ -28,7 +28,8 @@ export default function MemberHome() {
 
         if (!mounted) return;
 
-        setProfile(normalizeProfile(data));
+        const normalized = normalizeProfile(data);
+        setProfile(normalized);
       } catch (err) {
         console.error("Profile load failed:", err);
 

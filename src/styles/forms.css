@@ -1,0 +1,118 @@
+/* Forms, tables, and moderation layout */
+
+.field-group {
+    margin-bottom: 20px;
+}
+
+.field-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+}
+
+.field-input,
+.field-textarea,
+.field-select {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--surface-1);
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    color: var(--text-bright);
+    font-size: 15px;
+    font-family: inherit;
+}
+
+.field-input:focus,
+.field-textarea:focus,
+.field-select:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+}
+
+.field-textarea {
+    min-height: 160px;
+    resize: vertical;
+}
+
+.action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.btn-sm {
+    padding: 8px 14px;
+    font-size: 14px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+.data-table th,
+.data-table td {
+    padding: 12px 14px;
+    border: 1px solid var(--border-soft);
+    text-align: left;
+    color: var(--text-bright);
+}
+
+.data-table th {
+    background: var(--surface-3);
+    color: var(--accent-gold);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.data-table tbody tr {
+    background: var(--surface-1);
+}
+
+.data-table tbody tr:hover {
+    background: var(--surface-2);
+}
+
+.empty-state {
+    color: var(--text-muted);
+    padding: 24px 0;
+}
+
+.message-banner {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-soft);
+    color: var(--text-bright);
+}
+
+.message-banner.success {
+    border-color: var(--accent-gold);
+    background: rgba(212, 175, 55, 0.08);
+}
+
+.message-banner.error {
+    border-color: var(--danger);
+    background: rgba(138, 0, 21, 0.15);
+}
+
+.page-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.guide-preview {
+    white-space: pre-wrap;
+    line-height: 1.7;
+    color: var(--text-bright);
+}

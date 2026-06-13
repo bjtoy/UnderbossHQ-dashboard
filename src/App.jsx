@@ -5,62 +5,32 @@ import {
   Navigate,
 } from "react-router-dom";
 
-/**
- * AUTH
- */
 import LoginPage from "./pages/LoginPage.jsx";
 import AuthCallback from "./pages/AuthCallback.jsx";
-
-/**
- * GUILD
- */
 import SelectGuild from "./pages/SelectGuild.jsx";
-
-/**
- * DASHBOARDS
- */
 import MemberHome from "./pages/MemberHome.jsx";
 import ModDashboard from "./pages/ModDashboard.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
-
-/**
- * MODERATION
- */
 import ActiveCases from "./pages/moderation/ActiveCases.jsx";
 import CaseHistory from "./pages/moderation/CaseHistory.jsx";
 import UserLookup from "./pages/moderation/UserLookup.jsx";
-
-/**
- * ACCESS
- */
+import GuidesList from "./pages/guides/GuidesList.jsx";
+import GuideView from "./pages/guides/GuideView.jsx";
+import GuideEditor from "./pages/guides/GuideEditor.jsx";
 import NotAuthorized from "./pages/NotAuthorized.jsx";
-
-/**
- * LAYOUT
- */
 import DashboardLayout from "./layouts/DashboardLayout.jsx";
-
-/**
- * PROTECTION
- */
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import FallbackRoute from "./components/FallbackRoute.jsx";
+
+const MOD_ROLES = ["Admin", "Mod", "Moderator"];
+const GUIDE_EDITOR_ROLES = ["Admin", "Mod", "Moderator", "Enforcer"];
 
 export default function App() {
-
   return (
     <Router>
-
       <Routes>
-
-        <Route
-          path="/login"
-          element={<LoginPage />}
-        />
-
-        <Route
-          path="/auth/callback"
-          element={<AuthCallback />}
-        />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
 
         <Route
           path="/select-guild"
@@ -83,9 +53,53 @@ export default function App() {
         />
 
         <Route
-          path="/moderator"
+          path="/guides"
           element={
             <ProtectedRoute>
+              <DashboardLayout>
+                <GuidesList />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/guides/new"
+          element={
+            <ProtectedRoute roles={GUIDE_EDITOR_ROLES}>
+              <DashboardLayout>
+                <GuideEditor />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/guides/:id/edit"
+          element={
+            <ProtectedRoute roles={GUIDE_EDITOR_ROLES}>
+              <DashboardLayout>
+                <GuideEditor />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/guides/:id"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <GuideView />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/moderator"
+          element={
+            <ProtectedRoute roles={MOD_ROLES}>
               <DashboardLayout>
                 <ModDashboard />
               </DashboardLayout>
@@ -96,7 +110,7 @@ export default function App() {
         <Route
           path="/moderator/active-cases"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={MOD_ROLES}>
               <DashboardLayout>
                 <ActiveCases />
               </DashboardLayout>
@@ -107,7 +121,7 @@ export default function App() {
         <Route
           path="/moderator/case-history"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={MOD_ROLES}>
               <DashboardLayout>
                 <CaseHistory />
               </DashboardLayout>
@@ -118,7 +132,7 @@ export default function App() {
         <Route
           path="/moderator/user-lookup"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={MOD_ROLES}>
               <DashboardLayout>
                 <UserLookup />
               </DashboardLayout>
@@ -129,7 +143,7 @@ export default function App() {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["Admin"]}>
               <DashboardLayout>
                 <AdminDashboard />
               </DashboardLayout>
@@ -137,35 +151,10 @@ export default function App() {
           }
         />
 
-        <Route
-          path="/not-authorized"
-          element={
-            <NotAuthorized />
-          }
-        />
-
-        <Route
-          path="/"
-          element={
-            <Navigate
-              to="/member"
-              replace
-            />
-          }
-        />
-
-        <Route
-          path="*"
-          element={
-            <Navigate
-              to="/login"
-              replace
-            />
-          }
-        />
-
+        <Route path="/not-authorized" element={<NotAuthorized />} />
+        <Route path="/" element={<Navigate to="/member" replace />} />
+        <Route path="*" element={<FallbackRoute />} />
       </Routes>
-
     </Router>
   );
 }

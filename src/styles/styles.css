@@ -5,6 +5,7 @@
 @import "./cards.css";
 @import "./typography.css";
 @import "./sidebar.css";
+@import "./forms.css";
 
 /* ============================================
    UNDERBOSSHQ — GLOBAL ROOT + BASE STYLES
@@ -34,6 +35,7 @@
 
     --glow-red: 0 0 12px rgba(255, 58, 58, 0.55);
     --glow-gold: 0 0 10px rgba(212, 175, 55, 0.45);
+    --red-neon: #ff2e2e;
 }
 
 * {

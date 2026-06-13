@@ -254,4 +254,18 @@ export const api = {
         ),
     },
   },
+
+  guides: {
+    list: () => request("GET", "/api/guides"),
+
+    get: (id) => request("GET", `/api/guides/${id}`),
+
+    create: (body) => request("POST", "/api/guides", body),
+
+    update: (id, body) => request("PUT", `/api/guides/${id}`, body),
+
+    remove: (id) => request("DELETE", `/api/guides/${id}`),
+
+    publish: (id) => request("POST", `/api/guides/${id}/publish`),
+  },
 };
