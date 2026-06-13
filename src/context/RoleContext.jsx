@@ -85,12 +85,18 @@ export function RoleProvider({
 
       setLoading(true);
 
+      const guildId =
+        localStorage.getItem("guildId");
+
       const response =
         await fetch(
           `${API_URL}/api/auth/me`,
           {
             credentials:
               "include",
+            headers: guildId
+              ? { "x-guild-id": guildId }
+              : {},
           }
         );
 
@@ -202,12 +208,7 @@ export function RoleProvider({
     mountedRef.current =
       true;
 
-    if (
-      !loadedRef.current
-    ) {
-
-      loadUser();
-    }
+    loadUser();
 
     return () => {
 
@@ -215,7 +216,7 @@ export function RoleProvider({
         false;
     };
 
-  }, []);
+  }, [guildId]);
 
   /**
    * =========================

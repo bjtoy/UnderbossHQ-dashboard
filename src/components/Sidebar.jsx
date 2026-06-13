@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
 
 export default function Sidebar() {
-  const { hasAnyRole } = useRoles();
+  const { hasAnyRole, roles } = useRoles();
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
@@ -26,58 +26,60 @@ export default function Sidebar() {
 
         <Link
           to="/guides"
-          className={`nav-item ${location.pathname.startsWith("/guides") ? "active" : ""}`}
+          className={`nav-item ${location.pathname.startsWith("/guides") && !isActive("/guides/new") ? "active" : ""}`}
         >
           Guides
         </Link>
 
-        {canEditGuides && (
-          <Link
-            to="/guides/new"
-            className={`nav-item ${isActive("/guides/new") ? "active" : ""}`}
-          >
-            Create Guide
-          </Link>
-        )}
+        <Link
+          to="/guides/new"
+          className={`nav-item ${isActive("/guides/new") ? "active" : ""}`}
+        >
+          Create Guide
+        </Link>
 
-        {isModerator && (
-          <>
-            <Link
-              to="/moderator"
-              className={`nav-item ${isActive("/moderator") ? "active" : ""}`}
-            >
-              Moderator Tools
-            </Link>
-            <Link
-              to="/moderator/active-cases"
-              className={`nav-item ${isActive("/moderator/active-cases") ? "active" : ""}`}
-            >
-              Active Cases
-            </Link>
-            <Link
-              to="/moderator/case-history"
-              className={`nav-item ${isActive("/moderator/case-history") ? "active" : ""}`}
-            >
-              Case History
-            </Link>
-            <Link
-              to="/moderator/user-lookup"
-              className={`nav-item ${isActive("/moderator/user-lookup") ? "active" : ""}`}
-            >
-              User Lookup
-            </Link>
-          </>
-        )}
+        <Link
+          to="/moderator"
+          className={`nav-item ${isActive("/moderator") ? "active" : ""}`}
+        >
+          Moderator Tools
+        </Link>
 
-        {isAdmin && (
-          <Link
-            to="/admin"
-            className={`nav-item ${isActive("/admin") ? "active" : ""}`}
-          >
-            Admin Panel
-          </Link>
-        )}
+        <Link
+          to="/moderator/active-cases"
+          className={`nav-item ${isActive("/moderator/active-cases") ? "active" : ""}`}
+        >
+          Active Cases
+        </Link>
+
+        <Link
+          to="/moderator/case-history"
+          className={`nav-item ${isActive("/moderator/case-history") ? "active" : ""}`}
+        >
+          Case History
+        </Link>
+
+        <Link
+          to="/moderator/user-lookup"
+          className={`nav-item ${isActive("/moderator/user-lookup") ? "active" : ""}`}
+        >
+          User Lookup
+        </Link>
+
+        <Link
+          to="/admin"
+          className={`nav-item ${isActive("/admin") ? "active" : ""}`}
+        >
+          Admin Panel
+        </Link>
       </nav>
+
+      {!isModerator && !isAdmin && (
+        <p className="sidebar-note muted">
+          Server manager permissions unlock moderator and admin tools.
+          {roles?.length ? ` Roles: ${roles.join(", ")}` : ""}
+        </p>
+      )}
     </aside>
   );
 }

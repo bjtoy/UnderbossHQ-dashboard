@@ -27,8 +27,12 @@ export default function GuidesList() {
         <h1 className="section-title" style={{ marginBottom: 0 }}>
           Guides
         </h1>
-        {canManage && (
+        {canManage ? (
           <Link to="/guides/new" className="btn btn-gold">
+            Create Guide
+          </Link>
+        ) : (
+          <Link to="/guides/new" className="btn btn-outline-gold">
             Create Guide
           </Link>
         )}

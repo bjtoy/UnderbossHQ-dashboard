@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api/api.js";
+import { useRoles } from "../context/RoleContext.jsx";
 
 export default function SelectGuild() {
-
   const navigate = useNavigate();
+  const { setGuildId, refreshUser } = useRoles();
 
   const [
     guilds,
@@ -50,19 +51,12 @@ export default function SelectGuild() {
 
   }, []);
 
-  function selectGuild(guild) {
+  async function selectGuild(guild) {
+    localStorage.setItem("guildId", guild.id);
+    setGuildId(guild.id);
+    await refreshUser();
 
-    localStorage.setItem(
-      "guildId",
-      guild.id
-    );
-
-    navigate(
-      "/member",
-      {
-        replace: true,
-      }
-    );
+    navigate("/member", { replace: true });
   }
 
   if (loading) {

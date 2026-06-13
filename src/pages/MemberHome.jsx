@@ -77,9 +77,10 @@ export default function MemberHome() {
               {profile.username || user?.username || "Unknown"}
             </p>
 
-            <p className="muted">Faction: {profile.faction || "Unknown"}</p>
+            <p className="muted">Faction: {profile.faction || "—"}</p>
 
-            <p className="muted">Rank: {profile.rank || "Unknown"}</p>
+            <p className="muted">Rank: {profile.rank || "—"}</p>
+            <p className="muted">Warnings: {profile.warnings ?? "—"}</p>
           </div>
 
           <div className="card-grid card-grid-3">

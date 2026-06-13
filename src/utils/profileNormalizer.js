@@ -30,5 +30,6 @@ export function normalizeProfile(raw = {}) {
       ]) ?? null,
     power: get(["power", "stats.power"]) ?? null,
     influence: get(["influence", "stats.influence"]) ?? null,
+    warnings: get(["warnings", "stats.warnings"]) ?? null,
   };
 }
