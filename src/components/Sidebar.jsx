@@ -2,10 +2,12 @@ import { Link, useLocation } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
 
 export default function Sidebar() {
-  const { user } = useRoles();
+  const { hasAnyRole } = useRoles();
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
+  const isModerator = hasAnyRole(["Admin", "Mod", "Moderator"]);
+  const isAdmin = hasAnyRole(["Admin"]);
 
   return (
     <aside className="sidebar">
@@ -14,17 +16,14 @@ export default function Sidebar() {
       </div>
 
       <nav className="sidebar-nav">
+        <Link
+          to="/member"
+          className={`nav-item ${isActive("/member") ? "active" : ""}`}
+        >
+          Member Dashboard
+        </Link>
 
-        {/* MEMBER */}
-            <Link
-              to="/member"
-              className={`nav-item ${isActive("/member") ? "active" : ""}`}
-            >
-              Member Dashboard
-            </Link>
-
-        {/* MODERATOR */}
-        {(user?.role === "moderator" || user?.role === "admin") && (
+        {isModerator && (
           <>
             <Link
               to="/moderator"
@@ -53,8 +52,7 @@ export default function Sidebar() {
           </>
         )}
 
-        {/* ADMIN */}
-        {user?.role === "admin" && (
+        {isAdmin && (
           <Link
             to="/admin"
             className={`nav-item ${isActive("/admin") ? "active" : ""}`}
@@ -62,7 +60,6 @@ export default function Sidebar() {
             Admin Panel
           </Link>
         )}
-
       </nav>
     </aside>
   );

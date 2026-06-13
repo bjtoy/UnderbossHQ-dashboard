@@ -7,22 +7,31 @@ export default function WarningsList({ userId }) {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId) {
+      setWarnings([]);
+      setLoading(false);
+      setError("");
+      return;
+    }
 
     async function loadWarnings() {
       setLoading(true);
       setError("");
 
-      const res = await api.bot.mod.warnings(userId);
+      try {
+        const res = await api.bot.mod.warnings(userId);
 
-      if (!res || res.error) {
-        setError(res?.error || "Failed to load warnings");
+        if (!res || res.error) {
+          setError(res?.error || "Failed to load warnings");
+          return;
+        }
+
+        setWarnings(res.warnings || []);
+      } catch (err) {
+        setError(err.message || "Failed to load warnings");
+      } finally {
         setLoading(false);
-        return;
       }
-
-      setWarnings(res.warnings || res); // backend may return {warnings:[]} or []
-      setLoading(false);
     }
 
     loadWarnings();

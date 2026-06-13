@@ -4,14 +4,14 @@ import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState(null);
+  const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     api.bot.admin
       .status()
-      .then((data) => setStats(data))
+      .then((data) => setStatus(data?.status || null))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
@@ -26,18 +26,22 @@ export default function AdminDashboard() {
       {!loading && !error && (
         <div className="card-grid card-grid-3">
           <div className="card">
-            <h3>Total Members</h3>
-            <div className="value">{stats?.members ?? "—"}</div>
+            <h3>Bot Status</h3>
+            <div className="value">
+              {status?.online ? "Online" : "Offline"}
+            </div>
           </div>
 
           <div className="card">
-            <h3>Moderators</h3>
-            <div className="value">{stats?.moderators ?? "—"}</div>
+            <h3>Latency</h3>
+            <div className="value">
+              {status?.latency != null ? `${status.latency}ms` : "—"}
+            </div>
           </div>
 
           <div className="card">
-            <h3>Admins</h3>
-            <div className="value">{stats?.admins ?? "—"}</div>
+            <h3>Uptime</h3>
+            <div className="value">{status?.uptime ?? "—"}</div>
           </div>
         </div>
       )}

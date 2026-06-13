@@ -3,6 +3,7 @@ import { api } from "../api/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
 import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
+import { normalizeProfile } from "../utils/profileNormalizer.js";
 
 export default function MemberHome() {
   const { user } = useRoles();
@@ -27,17 +28,17 @@ export default function MemberHome() {
 
         if (!mounted) return;
 
-        setProfile(data || {});
+        setProfile(normalizeProfile(data));
       } catch (err) {
         console.error("Profile load failed:", err);
 
-        if (!mounted) return;
-
-        setError(err.message || "Failed to load profile");
+        if (mounted) {
+          setError(err.message || "Failed to load profile");
+        }
       } finally {
-        if (!mounted) return;
-
-        setLoading(false);
+        if (mounted) {
+          setLoading(false);
+        }
       }
     }
 

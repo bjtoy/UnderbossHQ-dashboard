@@ -11,16 +11,20 @@ export default function CaseHistory() {
       setLoading(true);
       setError("");
 
-      const res = await api.bot.logs.cases();
+      try {
+        const res = await api.bot.logs.cases();
 
-      if (!res || res.error) {
-        setError(res?.error || "Failed to load case history");
+        if (!res || res.error) {
+          setError(res?.error || "Failed to load case history");
+          return;
+        }
+
+        setCases(res.cases || []);
+      } catch (err) {
+        setError(err.message || "Failed to load case history");
+      } finally {
         setLoading(false);
-        return;
       }
-
-      setCases(res.cases || res); // backend may return {cases:[]} or []
-      setLoading(false);
     }
 
     loadCases();

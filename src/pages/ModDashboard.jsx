@@ -11,7 +11,7 @@ export default function ModDashboard() {
   useEffect(() => {
     api.bot.mod
       .activeCases()
-      .then((data) => setCases(data))
+      .then((data) => setCases(data?.cases || []))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);

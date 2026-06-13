@@ -11,16 +11,20 @@ export default function ActiveCases() {
       setLoading(true);
       setError("");
 
-      const res = await api.bot.mod.activeCases();
+      try {
+        const res = await api.bot.mod.activeCases();
 
-      if (!res || res.error) {
-        setError(res?.error || "Failed to load active cases");
+        if (!res || res.error) {
+          setError(res?.error || "Failed to load active cases");
+          return;
+        }
+
+        setCases(res.cases || []);
+      } catch (err) {
+        setError(err.message || "Failed to load active cases");
+      } finally {
         setLoading(false);
-        return;
       }
-
-      setCases(res.cases || res); // backend may return {cases:[]} or []
-      setLoading(false);
     }
 
     loadCases();

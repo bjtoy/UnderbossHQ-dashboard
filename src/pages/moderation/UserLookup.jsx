@@ -17,25 +17,29 @@ export default function UserLookup() {
     setLoadingAction(true);
     setActionMessage("");
 
-    let res;
+    try {
+      const payload = {
+        userId,
+        reason: reason || "No reason provided",
+      };
 
-    const payload = {
-      userId,
-      reason: reason || "No reason provided",
-    };
+      let res;
 
-    if (type === "warn") res = await api.bot.mod.warn(payload);
-    if (type === "promote") res = await api.bot.mod.promote(payload);
-    if (type === "demote") res = await api.bot.mod.demote(payload);
-    if (type === "kick") res = await api.bot.mod.kick(payload);
+      if (type === "warn") res = await api.bot.mod.warn(payload);
+      if (type === "promote") res = await api.bot.mod.promote(payload);
+      if (type === "demote") res = await api.bot.mod.demote(payload);
+      if (type === "kick") res = await api.bot.mod.kick(payload);
 
-    if (!res || res.error) {
-      setActionMessage(res?.error || "Action failed");
-    } else {
-      setActionMessage(`Successfully executed: ${type.toUpperCase()}`);
+      if (!res || res.error) {
+        setActionMessage(res?.error || "Action failed");
+      } else {
+        setActionMessage(`Successfully executed: ${type.toUpperCase()}`);
+      }
+    } catch (err) {
+      setActionMessage(err.message || "Action failed");
+    } finally {
+      setLoadingAction(false);
     }
-
-    setLoadingAction(false);
   }
 
   return (

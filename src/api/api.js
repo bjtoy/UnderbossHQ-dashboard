@@ -63,7 +63,7 @@ async function request(
       logoutFn();
     }
 
-    return;
+    throw new Error("Not authenticated");
   }
 
   if (res.status === 403) {
