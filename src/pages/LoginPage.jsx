@@ -1,4 +1,5 @@
 import React from "react";
+import BrandMark from "../components/BrandMark.jsx";
 
 export default function LoginPage() {
   function handleLogin() {
@@ -8,8 +9,7 @@ export default function LoginPage() {
   return (
     <div className="login-page">
       <div className="login-card">
-        <h1 className="login-title">UnderbossHQ</h1>
-        <h2 className="login-subtitle">TGM Bot Control Panel</h2>
+        <BrandMark size="lg" />
         <p className="login-copy">
           Sign in with Discord to access your server dashboard, guides, and
           moderation tools.

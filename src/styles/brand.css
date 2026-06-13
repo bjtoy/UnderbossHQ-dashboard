@@ -1,0 +1,77 @@
+.brand-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.brand-mark-sm {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.brand-mark-sm .brand-mark-image {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.brand-mark-md .brand-mark-image,
+.brand-mark-lg .brand-mark-image {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.brand-mark-lg .brand-mark-image {
+  max-height: 220px;
+}
+
+.brand-mark-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.brand-mark-sm .brand-mark-text {
+  align-items: flex-start;
+}
+
+.brand-mark-title {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  color: var(--text-bright);
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+}
+
+.brand-mark-sm .brand-mark-title {
+  font-size: 1rem;
+}
+
+.brand-mark-md .brand-mark-title {
+  font-size: 1.25rem;
+}
+
+.brand-mark-lg .brand-mark-title {
+  font-size: 2.5rem;
+}
+
+.brand-mark-tagline {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+.login-page .brand-mark-lg {
+  margin-bottom: 20px;
+}
+
+.login-page .login-copy {
+  margin-top: 8px;
+}

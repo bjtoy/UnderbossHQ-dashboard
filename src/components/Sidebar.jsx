@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
+import BrandMark from "./BrandMark.jsx";
 
 export default function Sidebar() {
   const { hasAnyRole, roles, user, logout } = useRoles();
@@ -13,7 +14,7 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <h2 className="sidebar-title">UnderbossHQ</h2>
+        <BrandMark size="sm" />
         {user?.username && (
           <p className="sidebar-user muted">{user.username}</p>
         )}
