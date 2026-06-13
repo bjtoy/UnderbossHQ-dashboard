@@ -21,21 +21,22 @@
     transform: translateY(-3px);
 }
 
-/* Card Title */
+/* Card Title — Goldrops */
 .card h3,
 .card-title {
-    font-family: var(--font-body);
+    font-family: var(--font-heading);
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 400;
     margin-bottom: 12px;
     color: var(--text-red);
     text-shadow: var(--text-glow-red);
 }
 
+/* Stat values — Caudex bold */
 .card .value {
-    font-family: var(--font-heading);
+    font-family: var(--font-body);
     font-size: 32px;
-    font-weight: 400;
+    font-weight: 700;
     color: var(--text-red);
     letter-spacing: 0.5px;
     text-shadow: var(--text-glow-red-strong);

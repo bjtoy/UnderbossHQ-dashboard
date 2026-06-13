@@ -68,6 +68,7 @@
     --text-red-muted: #e06a6a;
 
     /* Typography */
+    /* Goldrops = headings; Caudex = body/UI text */
     --font-heading: "Goldrops", Georgia, serif;
     --font-body: "Caudex", Georgia, serif;
 

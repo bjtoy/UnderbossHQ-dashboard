@@ -50,36 +50,36 @@ h2, .h2 {
 }
 
 h3, .h3 {
-    font-family: var(--font-body);
+    font-family: var(--font-heading);
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 400;
     color: var(--text-red);
     margin-bottom: 12px;
     text-shadow: var(--text-glow-red);
 }
 
 h4, .h4 {
-    font-family: var(--font-body);
+    font-family: var(--font-heading);
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 400;
     color: var(--text-red);
     margin-bottom: 10px;
     text-shadow: var(--text-glow-red-soft);
 }
 
 h5, .h5 {
-    font-family: var(--font-body);
+    font-family: var(--font-heading);
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 400;
     color: var(--text-red-muted);
     margin-bottom: 8px;
     text-shadow: var(--text-glow-red-muted);
 }
 
 h6, .h6 {
-    font-family: var(--font-body);
+    font-family: var(--font-heading);
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 400;
     color: var(--text-red-muted);
     margin-bottom: 6px;
     text-shadow: var(--text-glow-red-muted);
