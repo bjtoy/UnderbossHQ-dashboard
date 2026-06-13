@@ -36,9 +36,10 @@ export default function AdminDashboard() {
       }
 
       setActionMessage(
-        result?.result?.status
-          ? `${action} ${result.result.status}`
-          : `${action} completed`
+        result?.result?.message ||
+          (result?.result?.status === "not_implemented"
+            ? `${action} is not available yet`
+            : `${action} completed`)
       );
     } catch (err) {
       setError(err.message);

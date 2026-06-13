@@ -34,7 +34,22 @@ export default function UserLookup() {
       if (!res || res.error) {
         setActionMessage(res?.error || "Action failed");
       } else {
-        setActionMessage(`Successfully recorded: ${type.toUpperCase()}`);
+        const result = res.result || {};
+        const discord = result.discord;
+
+        if (discord?.ok) {
+          setActionMessage(`${type.toUpperCase()} executed on Discord`);
+        } else if (discord?.mode === "discord" && discord?.error) {
+          setActionMessage(
+            `${type.toUpperCase()} logged, but Discord failed: ${discord.error}`
+          );
+        } else if (discord?.mode === "log-only") {
+          setActionMessage(
+            `${type.toUpperCase()} recorded in dashboard (configure DISCORD_TOKEN for live Discord actions)`
+          );
+        } else {
+          setActionMessage(`${type.toUpperCase()} recorded successfully`);
+        }
       }
     } catch (err) {
       setActionMessage(err.message || "Action failed");
