@@ -85,7 +85,11 @@
 .card-grid {
     display: grid;
     gap: 22px;
-    margin-top: 20px;
+}
+
+.card-grid,
+.dashboard-grid {
+    margin-top: 0;
 }
 
 .card-grid-2 {

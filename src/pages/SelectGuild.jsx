@@ -3,28 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../api/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
 import { getDefaultRoute } from "../utils/getDefaultRoute.js";
+import BrandMark from "../components/BrandMark.jsx";
 
 export default function SelectGuild() {
   const navigate = useNavigate();
   const { setGuildId, refreshUser } = useRoles();
 
-  const [
-    guilds,
-    setGuilds,
-  ] = useState([]);
-
-  const [
-    loading,
-    setLoading,
-  ] = useState(true);
-
-  const [
-    error,
-    setError,
-  ] = useState(null);
+  const [guilds, setGuilds] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-
     api.guilds
       .list()
       .then((data) => {
@@ -32,79 +21,68 @@ export default function SelectGuild() {
           throw new Error(data?.message || "Failed to fetch guilds");
         }
 
-        const guildList =
-          data.guilds || [];
-
+        const guildList = data.guilds || [];
         setGuilds(guildList);
-        
-        // Auto-select if only one guild
+
         if (guildList.length === 1) {
           selectGuild(guildList[0]);
         }
       })
       .catch((err) => {
         console.error("Guild list error:", err);
-        setError(err.message || "Failed to load servers. Please ensure you have the 'Manage Server' permission on at least one Discord server.");
+        setError(
+          err.message ||
+            "Failed to load servers. Ensure you have Manage Server permission on at least one Discord server."
+        );
       })
-      .finally(() => {
-        setLoading(false);
-      });
-
+      .finally(() => setLoading(false));
   }, []);
 
   async function selectGuild(guild) {
     setGuildId(guild.id);
     const access = await refreshUser();
-
     navigate(getDefaultRoute(access?.roles || []), { replace: true });
   }
 
   if (loading) {
     return (
-      <div className="loading-screen">
-        Loading guilds...
-      </div>
+      <div className="loading-screen">Loading servers…</div>
     );
   }
 
   if (error) {
     return (
-      <div className="loading-screen">
-        {error}
+      <div className="standalone-page">
+        <div className="standalone-card">
+          <BrandMark size="md" />
+          <h1 className="page-title">Could not load servers</h1>
+          <p className="page-subtitle">{error}</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div
-      style={{
-        padding: "40px",
-        maxWidth: "900px",
-        margin: "0 auto",
-      }}
-    >
-      <h1>
-        Select Server
-      </h1>
+    <div className="standalone-page">
+      <div className="standalone-card standalone-card-wide">
+        <BrandMark size="md" />
+        <h1 className="page-title">Select Server</h1>
+        <p className="page-subtitle">
+          Choose which Discord server you want to manage.
+        </p>
 
-      <div
-        style={{
-          display: "grid",
-          gap: "16px",
-          marginTop: "24px",
-        }}
-      >
-        {guilds.map((guild) => (
-          <button
-            key={guild.id}
-            className="btn"
-            onClick={() =>
-              selectGuild(guild)
-            }
-          >
-            {guild.name}
-          </button>
-        ))}
+        <div className="standalone-list">
+          {guilds.map((guild) => (
+            <button
+              key={guild.id}
+              type="button"
+              className="btn btn-gold"
+              onClick={() => selectGuild(guild)}
+            >
+              {guild.name}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

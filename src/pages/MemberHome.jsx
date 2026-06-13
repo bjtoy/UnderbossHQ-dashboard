@@ -4,6 +4,7 @@ import { api } from "../api/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
 import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
+import PageHeader from "../components/PageHeader.jsx";
 import { normalizeProfile } from "../utils/profileNormalizer.js";
 
 export default function MemberHome() {
@@ -33,100 +34,77 @@ export default function MemberHome() {
 
         if (!mounted) return;
 
-        const normalized = normalizeProfile(profileData);
-        setProfile(normalized);
+        setProfile(normalizeProfile(profileData));
         setAnnouncements((announcementData?.data || []).slice(0, 3));
       } catch (err) {
         console.error("Profile load failed:", err);
-
         if (mounted) {
           setError(err.message || "Failed to load profile");
         }
       } finally {
-        if (mounted) {
-          setLoading(false);
-        }
+        if (mounted) setLoading(false);
       }
     }
 
     load();
-
     return () => {
       mounted = false;
     };
   }, []);
 
   return (
-    <div>
-      <h1 className="section-title">Member Dashboard</h1>
+    <div className="dashboard-page">
+      <PageHeader
+        title="Member Dashboard"
+        subtitle={`Welcome back, ${profile?.username || user?.username || "Member"}`}
+      />
 
       {loading && <Loader />}
-
       {error && <ErrorCard message={error} />}
 
       {!loading && !error && profile && (
-        <>
-          <div
-            className="card"
-            style={{
-              marginBottom: "30px",
-            }}
-          >
-            <h3>Welcome</h3>
-
-            <p
-              style={{
-                fontSize: "20px",
-                marginBottom: "6px",
-              }}
-            >
-              {profile.username || user?.username || "Unknown"}
-            </p>
-
+        <div className="page-body">
+          <div className="card">
+            <h3>Profile</h3>
             <p className="muted">Server: {profile.guildName || profile.faction || "—"}</p>
-
             <p className="muted">Rank: {profile.rank || "—"}</p>
             <p className="muted">Warnings: {profile.warnings ?? 0}</p>
           </div>
 
-          <div className="card-grid card-grid-3">
+          <div className="dashboard-grid dashboard-grid-3">
             <div className="card">
               <h3>Daily Tasks</h3>
-
               <div className="value">{profile.dailyTasks ?? "N/A"}</div>
-              <p className="muted card-note">Game stats not connected yet</p>
+              <p className="muted">Game stats not connected yet</p>
             </div>
-
             <div className="card">
               <h3>Power</h3>
-
               <div className="value">{profile.power ?? "N/A"}</div>
             </div>
-
             <div className="card">
               <h3>Influence</h3>
-
               <div className="value">{profile.influence ?? "N/A"}</div>
             </div>
           </div>
 
-          <div className="card mt-4">
-            <div
-              className="action-row"
-              style={{ justifyContent: "space-between", alignItems: "center" }}
-            >
-              <h3 style={{ marginBottom: 0 }}>Recent Announcements</h3>
-              <Link to="/announcements" className="btn btn-outline-gold btn-sm">
-                View all
-              </Link>
+          <section className="page-section">
+            <div className="page-header" style={{ borderBottom: "none", paddingBottom: 0 }}>
+              <div className="page-header-text">
+                <h2 className="page-section-title">Recent Announcements</h2>
+              </div>
+              <div className="page-header-actions">
+                <Link to="/announcements" className="btn btn-outline-gold btn-sm">
+                  View all
+                </Link>
+              </div>
             </div>
 
             {announcements.length === 0 ? (
-              <p className="empty-state">No announcements yet.</p>
+              <div className="card empty-state">No announcements yet.</div>
             ) : (
-              <div className="page-stack mt-3">
+              <div className="page-stack">
                 {announcements.map((item) => (
-                  <div key={item.id}>
+                  <div key={item.id} className="card">
                     <h4>{item.title}</h4>
                     <p className="muted">
                       {new Date(item.createdAt).toLocaleString()}
@@ -140,8 +118,8 @@ export default function MemberHome() {
                 ))}
               </div>
             )}
-          </div>
-        </>
+          </section>
+        </div>
       )}
     </div>
   );

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../api/api.js";
 import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
+import PageHeader from "../components/PageHeader.jsx";
 
 export default function AdminDashboard() {
   const [status, setStatus] = useState(null);
@@ -37,7 +38,8 @@ export default function AdminDashboard() {
 
       setActionMessage(
         result?.result?.message ||
-          (result?.result?.status === "completed" && result?.result?.memberCount != null
+          (result?.result?.status === "completed" &&
+          result?.result?.memberCount != null
             ? `Synced ${result.result.memberCount} members in ${result.result.guildName || "guild"}`
             : result?.result?.status === "failed"
               ? result.result.message || `${action} failed`
@@ -51,8 +53,11 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div>
-      <h1 className="section-title">Admin Dashboard</h1>
+    <div className="dashboard-page">
+      <PageHeader
+        title="Admin Panel"
+        subtitle="Bot status, guild info, and server sync tools."
+      />
 
       {loading && <Loader />}
       {error && <ErrorCard message={error} />}
@@ -61,34 +66,28 @@ export default function AdminDashboard() {
       )}
 
       {!loading && !error && (
-        <>
-          <div className="card-grid card-grid-3">
+        <div className="page-body">
+          <div className="dashboard-grid dashboard-grid-3">
             <div className="card">
               <h3>Bot Status</h3>
-              <div className="value">
-                {status?.online ? "Online" : "Offline"}
-              </div>
+              <div className="value">{status?.online ? "Online" : "Offline"}</div>
               {!status?.online && (
-                <p className="muted card-note">
-                  Set DISCORD_TOKEN on the backend for live bot status
-                </p>
+                <p className="muted">Set DISCORD_TOKEN on the backend for live bot status</p>
               )}
             </div>
-
             <div className="card">
               <h3>Latency</h3>
               <div className="value">
                 {status?.latency != null ? `${status.latency}ms` : "—"}
               </div>
             </div>
-
             <div className="card">
               <h3>Guild Members</h3>
               <div className="value">{guildInfo?.memberCount ?? "—"}</div>
             </div>
           </div>
 
-          <div className="card mt-4">
+          <div className="card">
             <h3>Guild Info</h3>
             <p className="muted">Name: {guildInfo?.name ?? "Unknown"}</p>
             <p className="muted">ID: {guildInfo?.id ?? "—"}</p>
@@ -112,7 +111,7 @@ export default function AdminDashboard() {
               Sync Roles
             </button>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

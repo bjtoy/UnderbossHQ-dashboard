@@ -7,6 +7,7 @@
 @import "./sidebar.css";
 @import "./forms.css";
 @import "./login.css";
+@import "./layout.css";
 
 /* ============================================
    UNDERBOSSHQ — GLOBAL ROOT + BASE STYLES
@@ -17,6 +18,10 @@
    =========================== */
 
 :root {
+    /* Layout */
+    --sidebar-width: 260px;
+    --content-max-width: 1200px;
+
     /* Backgrounds */
     --bg-darkest: #050505;
     --bg-darker: #0D0D0F;
@@ -103,23 +108,4 @@ body {
     padding: 30px;
 }
 
-.dashboard-layout {
-    min-height: 100vh;
-    display: flex;
-    background: var(--bg-darkest);
-    overflow: hidden;
-}
-
-.dashboard-content {
-    flex: 1;
-    min-width: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 32px;
-}
-
-.dashboard-inner {
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-}
+/* dashboard shell lives in layout.css */

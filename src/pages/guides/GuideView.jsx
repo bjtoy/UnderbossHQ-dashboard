@@ -4,6 +4,7 @@ import { api } from "../../api/api.js";
 import { useRoles } from "../../context/RoleContext.jsx";
 import Loader from "../../components/Loader.jsx";
 import ErrorCard from "../../components/ErrorCard.jsx";
+import PageHeader from "../../components/PageHeader.jsx";
 
 export default function GuideView() {
   const { id } = useParams();
@@ -25,32 +26,50 @@ export default function GuideView() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <Loader />;
-  if (error) return <ErrorCard message={error} />;
+  if (loading) {
+    return (
+      <div className="dashboard-page">
+        <PageHeader title="Guide" />
+        <Loader />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="dashboard-page">
+        <PageHeader title="Guide" />
+        <ErrorCard message={error} />
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <div className="action-row" style={{ justifyContent: "space-between", alignItems: "center" }}>
-        <h1 className="section-title" style={{ marginBottom: 0 }}>
-          {guide.title}
-        </h1>
-        <div className="action-row">
-          <Link to="/guides" className="btn btn-outline-gold btn-sm">
-            Back
-          </Link>
-          {canManage && (
-            <Link to={`/guides/${guide.id}/edit`} className="btn btn-gold btn-sm">
-              Edit
+    <div className="dashboard-page">
+      <PageHeader
+        title={guide.title}
+        subtitle={`Updated ${new Date(guide.updatedAt).toLocaleString()}`}
+        actions={
+          <>
+            <Link to="/guides" className="btn btn-outline-gold btn-sm">
+              Back
             </Link>
-          )}
-        </div>
-      </div>
+            {canManage && (
+              <Link
+                to={`/guides/${guide.id}/edit`}
+                className="btn btn-gold btn-sm"
+              >
+                Edit
+              </Link>
+            )}
+          </>
+        }
+      />
 
-      <div className="card">
-        <p className="muted mb-3">
-          Updated {new Date(guide.updatedAt).toLocaleString()}
-        </p>
-        <div className="guide-preview">{guide.content}</div>
+      <div className="page-body">
+        <div className="card">
+          <div className="guide-preview">{guide.content}</div>
+        </div>
       </div>
     </div>
   );

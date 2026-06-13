@@ -5,12 +5,12 @@ import BrandMark from "./BrandMark.jsx";
 export default function Sidebar() {
   const { hasAnyRole, roles, user, logout } = useRoles();
   const location = useLocation();
+  const path = location.pathname;
 
-  const isActive = (path) => location.pathname === path;
   const isModerator = hasAnyRole(["Admin", "Mod", "Moderator"]);
   const isAdmin = hasAnyRole(["Admin"]);
-  const canEditGuides = hasAnyRole(["Admin", "Mod", "Moderator", "Enforcer"]);
-  const canManageAnnouncements = hasAnyRole(["Admin", "Mod", "Moderator"]);
+
+  const navClass = (active) => `nav-item${active ? " active" : ""}`;
 
   return (
     <aside className="sidebar">
@@ -22,98 +22,80 @@ export default function Sidebar() {
       </div>
 
       <nav className="sidebar-nav">
-        <Link
-          to="/member"
-          className={`nav-item ${isActive("/member") ? "active" : ""}`}
-        >
-          Member Dashboard
-        </Link>
-
-        <Link
-          to="/guides"
-          className={`nav-item ${location.pathname.startsWith("/guides") && !isActive("/guides/new") ? "active" : ""}`}
-        >
-          Guides
-        </Link>
-
-        <Link
-          to="/announcements"
-          className={`nav-item ${location.pathname.startsWith("/announcements") && !isActive("/announcements/new") ? "active" : ""}`}
-        >
-          Announcements
-        </Link>
-
-        {canManageAnnouncements && (
-          <Link
-            to="/announcements/new"
-            className={`nav-item ${isActive("/announcements/new") ? "active" : ""}`}
-          >
-            New Announcement
+        <div className="sidebar-section">
+          <p className="sidebar-section-label">Member</p>
+          <Link to="/member" className={navClass(path === "/member")}>
+            Dashboard
           </Link>
-        )}
+        </div>
 
-        {canEditGuides && (
+        <div className="sidebar-section">
+          <p className="sidebar-section-label">Content</p>
           <Link
-            to="/guides/new"
-            className={`nav-item ${isActive("/guides/new") ? "active" : ""}`}
+            to="/guides"
+            className={navClass(
+              path.startsWith("/guides") && path !== "/guides/new"
+            )}
           >
-            Create Guide
+            Guides
           </Link>
-        )}
+          <Link
+            to="/announcements"
+            className={navClass(
+              path.startsWith("/announcements") &&
+                path !== "/announcements/new"
+            )}
+          >
+            Announcements
+          </Link>
+        </div>
 
         {isModerator && (
-          <>
-            <Link
-              to="/moderator"
-              className={`nav-item ${isActive("/moderator") ? "active" : ""}`}
-            >
-              Moderator Tools
+          <div className="sidebar-section">
+            <p className="sidebar-section-label">Moderation</p>
+            <Link to="/moderator" className={navClass(path === "/moderator")}>
+              Overview
             </Link>
-
             <Link
               to="/moderator/active-cases"
-              className={`nav-item ${isActive("/moderator/active-cases") ? "active" : ""}`}
+              className={navClass(path === "/moderator/active-cases")}
             >
               Active Cases
             </Link>
-
             <Link
               to="/moderator/case-history"
-              className={`nav-item ${isActive("/moderator/case-history") ? "active" : ""}`}
+              className={navClass(path === "/moderator/case-history")}
             >
               Case History
             </Link>
-
             <Link
               to="/moderator/user-lookup"
-              className={`nav-item ${isActive("/moderator/user-lookup") ? "active" : ""}`}
+              className={navClass(path === "/moderator/user-lookup")}
             >
               User Lookup
             </Link>
-          </>
+          </div>
         )}
 
         {isAdmin && (
-          <>
-            <Link
-              to="/admin"
-              className={`nav-item ${isActive("/admin") ? "active" : ""}`}
-            >
-              Admin Panel
+          <div className="sidebar-section">
+            <p className="sidebar-section-label">Admin</p>
+            <Link to="/admin" className={navClass(path === "/admin")}>
+              Bot Panel
             </Link>
             <Link
               to="/admin/logs"
-              className={`nav-item ${isActive("/admin/logs") ? "active" : ""}`}
+              className={navClass(path === "/admin/logs")}
             >
               Live Logs
             </Link>
             <Link
               to="/admin/settings"
-              className={`nav-item ${isActive("/admin/settings") ? "active" : ""}`}
+              className={navClass(path === "/admin/settings")}
             >
               Settings
             </Link>
-          </>
+          </div>
         )}
       </nav>
 
@@ -125,7 +107,11 @@ export default function Sidebar() {
       )}
 
       <div className="sidebar-footer">
-        <button type="button" className="btn btn-outline-gold btn-sm" onClick={logout}>
+        <button
+          type="button"
+          className="btn btn-outline-gold btn-sm btn-block"
+          onClick={logout}
+        >
           Log out
         </button>
       </div>

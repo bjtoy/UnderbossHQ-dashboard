@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { api } from "../../api/api.js";
 import Loader from "../../components/Loader.jsx";
 import ErrorCard from "../../components/ErrorCard.jsx";
+import PageHeader from "../../components/PageHeader.jsx";
 
 export default function AnnouncementEditor() {
   const { id } = useParams();
@@ -73,71 +74,77 @@ export default function AnnouncementEditor() {
     }
   }
 
-  if (loading) return <Loader />;
+  if (loading) {
+    return (
+      <div className="dashboard-page">
+        <PageHeader title={isNew ? "New Announcement" : "Edit Announcement"} />
+        <Loader />
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <div
-        className="action-row"
-        style={{ justifyContent: "space-between", alignItems: "center" }}
-      >
-        <h1 className="section-title" style={{ marginBottom: 0 }}>
-          {isNew ? "New Announcement" : "Edit Announcement"}
-        </h1>
-        <Link to="/announcements" className="btn btn-outline-gold btn-sm">
-          Back to Announcements
-        </Link>
-      </div>
+    <div className="dashboard-page">
+      <PageHeader
+        title={isNew ? "New Announcement" : "Edit Announcement"}
+        actions={
+          <Link to="/announcements" className="btn btn-outline-gold btn-sm">
+            Back to Announcements
+          </Link>
+        }
+      />
 
       {error && <ErrorCard message={error} />}
       {message && <div className="message-banner success">{message}</div>}
 
-      <div className="card page-stack">
-        <div className="field-group">
-          <label className="field-label" htmlFor="announcement-title">
-            Title
-          </label>
-          <input
-            id="announcement-title"
-            className="field-input"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Announcement title"
-          />
-        </div>
+      <div className="page-body">
+        <div className="card page-stack">
+          <div className="field-group">
+            <label className="field-label" htmlFor="announcement-title">
+              Title
+            </label>
+            <input
+              id="announcement-title"
+              className="field-input"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Announcement title"
+            />
+          </div>
 
-        <div className="field-group">
-          <label className="field-label" htmlFor="announcement-description">
-            Description
-          </label>
-          <textarea
-            id="announcement-description"
-            className="field-textarea"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Write the announcement..."
-          />
-        </div>
+          <div className="field-group">
+            <label className="field-label" htmlFor="announcement-description">
+              Description
+            </label>
+            <textarea
+              id="announcement-description"
+              className="field-textarea"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Write the announcement..."
+            />
+          </div>
 
-        <div className="action-row">
-          <button
-            type="button"
-            className="btn btn-gold"
-            onClick={handleSave}
-            disabled={saving}
-          >
-            {saving ? "Saving..." : "Save"}
-          </button>
-          {!isNew && (
+          <div className="action-row">
             <button
               type="button"
-              className="btn btn-danger"
-              onClick={handleDelete}
+              className="btn btn-gold"
+              onClick={handleSave}
               disabled={saving}
             >
-              Delete
+              {saving ? "Saving..." : "Save"}
             </button>
-          )}
+            {!isNew && (
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleDelete}
+                disabled={saving}
+              >
+                Delete
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

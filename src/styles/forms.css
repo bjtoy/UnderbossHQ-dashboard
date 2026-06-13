@@ -45,7 +45,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    margin: 20px 0;
+    align-items: center;
+    margin: 0;
 }
 
 .btn-sm {
