@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { api } from "../../api/api.js";
 import PageHeader from "../../components/PageHeader.jsx";
 import WarningsList from "./WarningsList.jsx";
@@ -142,6 +142,17 @@ export default function UserLookup() {
 
           {actionMessage && (
             <div className="message-banner success">{actionMessage}</div>
+          )}
+
+          {userId && (
+            <div className="action-row">
+              <Link
+                to={`/moderator/cases/${userId}`}
+                className="btn btn-outline-red btn-sm"
+              >
+                Open Case File
+              </Link>
+            </div>
           )}
         </div>
 

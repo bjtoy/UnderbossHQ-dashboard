@@ -55,6 +55,14 @@
   text-shadow: 0 0 8px rgba(212, 175, 55, 0.45);
 }
 
-.log-ended {
+.log-ended,
+.log-note {
   color: var(--text-red-muted);
+}
+
+.log-mute,
+.log-unmute,
+.log-unban {
+  color: var(--text-red-soft);
+  text-shadow: var(--text-glow-red-soft);
 }

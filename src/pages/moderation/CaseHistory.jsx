@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { api } from "../../api/api.js";
 import Loader from "../../components/Loader.jsx";
@@ -53,6 +54,14 @@ export default function CaseHistory() {
                 <div key={c.caseId} className="card">
                   <h3>Case #{c.caseId}</h3>
                   <p className="muted">User: {c.userId}</p>
+                  <div className="action-row">
+                    <Link
+                      to={`/moderator/cases/${c.userId}`}
+                      className="btn btn-outline-red btn-sm"
+                    >
+                      Open Case File
+                    </Link>
+                  </div>
                   <p className="muted">Moderator: {c.moderatorId}</p>
                   <p className="muted">
                     Opened: {new Date(c.openedAt).toLocaleString()}

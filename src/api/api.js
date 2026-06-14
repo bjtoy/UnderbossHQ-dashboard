@@ -236,6 +236,17 @@ export const api = {
           "/api/bot/mod/demote",
           body
         ),
+
+      caseFile: (userId) =>
+        request("GET", `/api/bot/mod/case/${userId}`),
+
+      mute: (body) => request("POST", "/api/bot/mod/mute", body),
+
+      unmute: (body) => request("POST", "/api/bot/mod/unmute", body),
+
+      unban: (body) => request("POST", "/api/bot/mod/unban", body),
+
+      note: (body) => request("POST", "/api/bot/mod/note", body),
     },
 
     logs: {

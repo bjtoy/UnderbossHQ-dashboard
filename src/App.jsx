@@ -14,6 +14,7 @@ import AdminDashboard from "./pages/AdminDashboard.jsx";
 import AdminLogs from "./pages/AdminLogs.jsx";
 import ActiveCases from "./pages/moderation/ActiveCases.jsx";
 import CaseHistory from "./pages/moderation/CaseHistory.jsx";
+import CaseDetail from "./pages/moderation/CaseDetail.jsx";
 import UserLookup from "./pages/moderation/UserLookup.jsx";
 import GuidesList from "./pages/guides/GuidesList.jsx";
 import GuideView from "./pages/guides/GuideView.jsx";
@@ -190,6 +191,17 @@ export default function App() {
             <ProtectedRoute roles={MOD_ROLES}>
               <DashboardLayout>
                 <ActiveCases />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/moderator/cases/:userId"
+          element={
+            <ProtectedRoute roles={MOD_ROLES}>
+              <DashboardLayout>
+                <CaseDetail />
               </DashboardLayout>
             </ProtectedRoute>
           }
