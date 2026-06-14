@@ -30,7 +30,7 @@ export default function GuidesList() {
         subtitle="Faction guides and reference material."
         actions={
           canManage ? (
-            <Link to="/guides/new" className="btn btn-red">
+            <Link to="/guides/new" className="btn btn-outline-red">
               Create Guide
             </Link>
           ) : null
@@ -58,14 +58,14 @@ export default function GuidesList() {
                   <div className="action-row">
                     <Link
                       to={`/guides/${guide.id}`}
-                      className="btn btn-outline-gold btn-sm"
+                      className="btn btn-outline-red btn-sm"
                     >
                       View
                     </Link>
                     {canManage && (
                       <Link
                         to={`/guides/${guide.id}/edit`}
-                        className="btn btn-red btn-sm"
+                        className="btn btn-outline-red btn-sm"
                       >
                         Edit
                       </Link>

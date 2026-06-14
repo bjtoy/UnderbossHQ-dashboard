@@ -76,7 +76,7 @@ export default function SelectGuild() {
             <button
               key={guild.id}
               type="button"
-              className="btn btn-gold"
+              className="btn btn-outline-red"
               onClick={() => selectGuild(guild)}
             >
               {guild.name}

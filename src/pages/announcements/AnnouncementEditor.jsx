@@ -88,7 +88,7 @@ export default function AnnouncementEditor() {
       <PageHeader
         title={isNew ? "New Announcement" : "Edit Announcement"}
         actions={
-          <Link to="/announcements" className="btn btn-outline-gold btn-sm">
+          <Link to="/announcements" className="btn btn-outline-red btn-sm">
             Back to Announcements
           </Link>
         }
@@ -128,7 +128,7 @@ export default function AnnouncementEditor() {
           <div className="action-row">
             <button
               type="button"
-              className="btn btn-gold"
+              className="btn btn-outline-red"
               onClick={handleSave}
               disabled={saving}
             >

@@ -102,7 +102,7 @@ export default function UserLookup() {
               type="button"
               onClick={() => handleAction("warn")}
               disabled={loadingAction}
-              className="btn btn-gold btn-sm"
+              className="btn btn-outline-red btn-sm"
             >
               Warn
             </button>
@@ -110,7 +110,7 @@ export default function UserLookup() {
               type="button"
               onClick={() => handleAction("promote")}
               disabled={loadingAction}
-              className="btn btn-outline-gold btn-sm"
+              className="btn btn-outline-red btn-sm"
             >
               Promote
             </button>
@@ -118,7 +118,7 @@ export default function UserLookup() {
               type="button"
               onClick={() => handleAction("demote")}
               disabled={loadingAction}
-              className="btn btn-outline-gold btn-sm"
+              className="btn btn-outline-red btn-sm"
             >
               Demote
             </button>
@@ -126,7 +126,7 @@ export default function UserLookup() {
               type="button"
               onClick={() => handleAction("kick")}
               disabled={loadingAction}
-              className="btn btn-red btn-sm"
+              className="btn btn-danger btn-sm"
             >
               Kick
             </button>

@@ -29,7 +29,7 @@ export default function AnnouncementsList() {
         subtitle="Server news and updates."
         actions={
           canManage ? (
-            <Link to="/announcements/new" className="btn btn-gold">
+            <Link to="/announcements/new" className="btn btn-outline-red">
               New Announcement
             </Link>
           ) : null
@@ -60,7 +60,7 @@ export default function AnnouncementsList() {
                     <div className="action-row">
                       <Link
                         to={`/announcements/${item.id}/edit`}
-                        className="btn btn-outline-gold btn-sm"
+                        className="btn btn-outline-red btn-sm"
                       >
                         Edit
                       </Link>

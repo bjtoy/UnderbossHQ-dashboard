@@ -133,7 +133,7 @@ export default function UserManagement() {
         actions={
           <button
             type="button"
-            className="btn btn-red btn-sm"
+            className="btn btn-outline-red btn-sm"
             onClick={() => setShowCreate((open) => !open)}
           >
             {showCreate ? "Cancel" : "Add Profile"}
@@ -182,7 +182,7 @@ export default function UserManagement() {
             </div>
             <button
               type="submit"
-              className="btn btn-red btn-sm"
+              className="btn btn-outline-red btn-sm"
               disabled={savingId === "new"}
             >
               {savingId === "new" ? "Creating..." : "Create"}
@@ -197,12 +197,12 @@ export default function UserManagement() {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by username or Discord ID"
           />
-          <button type="submit" className="btn btn-outline-gold btn-sm">
+          <button type="submit" className="btn btn-outline-red btn-sm">
             Search
           </button>
           <button
             type="button"
-            className="btn btn-outline-gold btn-sm"
+            className="btn btn-outline-red btn-sm"
             onClick={() => {
               setSearch("");
               loadUsers("");
@@ -266,7 +266,7 @@ export default function UserManagement() {
                             <>
                               <button
                                 type="button"
-                                className="btn btn-red btn-sm"
+                                className="btn btn-outline-red btn-sm"
                                 disabled={savingId === user.id}
                                 onClick={() => saveEdit(user.id)}
                               >
@@ -274,7 +274,7 @@ export default function UserManagement() {
                               </button>
                               <button
                                 type="button"
-                                className="btn btn-outline-gold btn-sm"
+                                className="btn btn-outline-red btn-sm"
                                 onClick={() =>
                                   setEditNames((prev) => {
                                     const next = { ...prev };
@@ -290,14 +290,14 @@ export default function UserManagement() {
                             <>
                               <button
                                 type="button"
-                                className="btn btn-outline-gold btn-sm"
+                                className="btn btn-outline-red btn-sm"
                                 onClick={() => startEdit(user)}
                               >
                                 Edit
                               </button>
                               <Link
                                 to={`/moderator/user-lookup?userId=${user.discordId}`}
-                                className="btn btn-outline-gold btn-sm"
+                                className="btn btn-outline-red btn-sm"
                               >
                                 Moderate
                               </Link>

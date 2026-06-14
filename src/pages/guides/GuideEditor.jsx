@@ -128,7 +128,7 @@ export default function GuideEditor() {
         title={isNew ? "Create Guide" : "Edit Guide"}
         subtitle="Use banners, colored text, and callouts to style your guide."
         actions={
-          <Link to="/guides" className="btn btn-outline-gold btn-sm">
+          <Link to="/guides" className="btn btn-outline-red btn-sm">
             Back to Guides
           </Link>
         }
@@ -183,7 +183,7 @@ export default function GuideEditor() {
           <div className="action-row">
             <button
               type="button"
-              className="btn btn-red btn-sm"
+              className="btn btn-outline-red btn-sm"
               onClick={handleSave}
               disabled={saving}
             >
@@ -193,7 +193,7 @@ export default function GuideEditor() {
               <>
                 <button
                   type="button"
-                  className="btn btn-outline-gold btn-sm"
+                  className="btn btn-outline-red btn-sm"
                   onClick={handlePublish}
                   disabled={saving}
                 >

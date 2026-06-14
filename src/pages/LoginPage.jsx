@@ -14,7 +14,7 @@ export default function LoginPage() {
           Sign in with Discord to access your server dashboard, guides, and
           moderation tools.
         </p>
-        <button type="button" className="btn btn-gold" onClick={handleLogin}>
+        <button type="button" className="btn btn-outline-red" onClick={handleLogin}>
           Login with Discord
         </button>
       </div>

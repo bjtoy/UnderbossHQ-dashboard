@@ -125,14 +125,14 @@ export default function Sidebar() {
       <div className="sidebar-footer">
         <button
           type="button"
-          className="btn btn-red btn-sm btn-block"
+          className="btn btn-outline-red btn-sm btn-block"
           onClick={changeServer}
         >
           Change Server
         </button>
         <button
           type="button"
-          className="btn btn-outline-gold btn-sm btn-block sidebar-logout"
+          className="btn btn-outline-red btn-sm btn-block sidebar-logout"
           onClick={logout}
         >
           Log out

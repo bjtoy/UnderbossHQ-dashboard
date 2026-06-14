@@ -96,7 +96,7 @@ export default function AdminDashboard() {
           <div className="action-row">
             <button
               type="button"
-              className="btn btn-red btn-sm"
+              className="btn btn-outline-red btn-sm"
               disabled={actionLoading}
               onClick={() => runAction("reload")}
             >
@@ -104,7 +104,7 @@ export default function AdminDashboard() {
             </button>
             <button
               type="button"
-              className="btn btn-outline-gold btn-sm"
+              className="btn btn-outline-red btn-sm"
               disabled={actionLoading}
               onClick={() => runAction("sync")}
             >

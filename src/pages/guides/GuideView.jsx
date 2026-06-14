@@ -52,13 +52,13 @@ export default function GuideView() {
         subtitle={`Updated ${new Date(guide.updatedAt).toLocaleString()}`}
         actions={
           <>
-            <Link to="/guides" className="btn btn-outline-gold btn-sm">
+            <Link to="/guides" className="btn btn-outline-red btn-sm">
               Back
             </Link>
             {canManage && (
               <Link
                 to={`/guides/${guide.id}/edit`}
-                className="btn btn-red btn-sm"
+                className="btn btn-outline-red btn-sm"
               >
                 Edit
               </Link>

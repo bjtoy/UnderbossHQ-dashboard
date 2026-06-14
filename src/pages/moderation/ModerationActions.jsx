@@ -63,7 +63,7 @@ export default function ModerationActions({ userId }) {
           type="button"
           onClick={() => runAction("warn")}
           disabled={loading}
-          className="btn btn-gold"
+          className="btn btn-outline-red"
         >
           Warn
         </button>
@@ -72,7 +72,7 @@ export default function ModerationActions({ userId }) {
           type="button"
           onClick={() => runAction("promote")}
           disabled={loading}
-          className="btn btn-outline-gold"
+          className="btn btn-outline-red"
         >
           Promote
         </button>
@@ -81,7 +81,7 @@ export default function ModerationActions({ userId }) {
           type="button"
           onClick={() => runAction("demote")}
           disabled={loading}
-          className="btn btn-outline-gold"
+          className="btn btn-outline-red"
         >
           Demote
         </button>
@@ -90,7 +90,7 @@ export default function ModerationActions({ userId }) {
           type="button"
           onClick={() => runAction("kick")}
           disabled={loading}
-          className="btn btn-red"
+          className="btn btn-danger"
         >
           Kick
         </button>

@@ -47,7 +47,7 @@ export default function GuideEditorToolbar({ content, onChange, textareaRef }) {
             <button
               key={style}
               type="button"
-              className="btn btn-outline-gold btn-sm"
+              className="btn btn-outline-red btn-sm"
               onClick={() => applySnippet(bannerSnippet(style))}
             >
               {style}
@@ -86,7 +86,7 @@ export default function GuideEditorToolbar({ content, onChange, textareaRef }) {
             <button
               key={type.id}
               type="button"
-              className="btn btn-outline-gold btn-sm"
+              className="btn btn-outline-red btn-sm"
               onClick={() => applySnippet(calloutSnippet(type.id))}
             >
               {type.label}
@@ -94,7 +94,7 @@ export default function GuideEditorToolbar({ content, onChange, textareaRef }) {
           ))}
           <button
             type="button"
-            className="btn btn-outline-gold btn-sm"
+            className="btn btn-outline-red btn-sm"
             onClick={() => applySnippet(sectionSnippet())}
           >
             Section

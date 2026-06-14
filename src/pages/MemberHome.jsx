@@ -90,7 +90,7 @@ export default function MemberHome() {
                 <h2 className="page-section-title">Recent Announcements</h2>
               </div>
               <div className="page-header-actions">
-                <Link to="/announcements" className="btn btn-outline-gold btn-sm">
+                <Link to="/announcements" className="btn btn-outline-red btn-sm">
                   View all
                 </Link>
               </div>
