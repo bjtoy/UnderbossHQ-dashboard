@@ -5,9 +5,12 @@ import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
 import PageHeader from "../components/PageHeader.jsx";
 import { normalizeProfile } from "../utils/profileNormalizer.js";
+import { formatEventRange } from "../utils/eventDates.js";
 
 export default function MemberHome() {
   const [profile, setProfile] = useState(null);
+  const [factionStats, setFactionStats] = useState(null);
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,15 +27,20 @@ export default function MemberHome() {
       }
 
       try {
-        const [profileData, announcementData] = await Promise.all([
+        const [profileData, announcementData, summaryData, eventsData] =
+          await Promise.all([
           api.member.profile(),
           api.announcements.list().catch(() => ({ data: [] })),
+          api.analytics.summary().catch(() => ({ data: null })),
+          api.events.list(true).catch(() => ({ data: [] })),
         ]);
 
         if (!mounted) return;
 
         setProfile(normalizeProfile(profileData));
         setAnnouncements((announcementData?.data || []).slice(0, 3));
+        setFactionStats(summaryData?.data || null);
+        setUpcomingEvents((eventsData?.data || []).slice(0, 3));
       } catch (err) {
         console.error("Profile load failed:", err);
         if (mounted) {
@@ -70,6 +78,23 @@ export default function MemberHome() {
 
           <div className="dashboard-grid dashboard-grid-3">
             <div className="card">
+              <h3>Members</h3>
+              <div className="value">{factionStats?.memberCount ?? "—"}</div>
+              <p className="muted">Discord server size</p>
+            </div>
+            <div className="card">
+              <h3>Guides</h3>
+              <div className="value">{factionStats?.guides ?? "—"}</div>
+            </div>
+            <div className="card">
+              <h3>New (30d)</h3>
+              <div className="value">{factionStats?.newMembers30d ?? "—"}</div>
+              <p className="muted">Tracked joins this month</p>
+            </div>
+          </div>
+
+          <div className="dashboard-grid dashboard-grid-3">
+            <div className="card">
               <h3>Daily Tasks</h3>
               <div className="value">{profile.dailyTasks ?? "N/A"}</div>
               <p className="muted">Game stats not connected yet</p>
@@ -83,6 +108,37 @@ export default function MemberHome() {
               <div className="value">{profile.influence ?? "N/A"}</div>
             </div>
           </div>
+
+          <section className="page-section">
+            <div className="page-header" style={{ borderBottom: "none", paddingBottom: 0 }}>
+              <div className="page-header-text">
+                <h2 className="page-section-title">Upcoming Events</h2>
+              </div>
+              <div className="page-header-actions">
+                <Link to="/events" className="btn btn-outline-red btn-sm">
+                  View all
+                </Link>
+              </div>
+            </div>
+
+            {upcomingEvents.length === 0 ? (
+              <div className="card empty-state">No upcoming events.</div>
+            ) : (
+              <div className="page-stack">
+                {upcomingEvents.map((item) => (
+                  <div key={item.id} className="card">
+                    <h4>{item.title}</h4>
+                    <p className="muted">
+                      {formatEventRange(item.startsAt, item.endsAt)}
+                    </p>
+                    {item.location ? (
+                      <p className="muted">{item.location}</p>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
 
           <section className="page-section">
             <div className="page-header" style={{ borderBottom: "none", paddingBottom: 0 }}>

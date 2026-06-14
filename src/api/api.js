@@ -318,4 +318,26 @@ export const api = {
     errors: (limit = 50) =>
       request("GET", `/api/health/errors?limit=${limit}`),
   },
+
+  analytics: {
+    overview: () => request("GET", "/api/analytics/overview"),
+
+    summary: () => request("GET", "/api/analytics/summary"),
+  },
+
+  events: {
+    list: (upcomingOnly = false) =>
+      request(
+        "GET",
+        upcomingOnly ? "/api/events?upcoming=true" : "/api/events"
+      ),
+
+    get: (id) => request("GET", `/api/events/${id}`),
+
+    create: (body) => request("POST", "/api/events", body),
+
+    update: (id, body) => request("PUT", `/api/events/${id}`, body),
+
+    remove: (id) => request("DELETE", `/api/events/${id}`),
+  },
 };

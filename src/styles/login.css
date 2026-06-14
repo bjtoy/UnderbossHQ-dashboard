@@ -44,7 +44,17 @@
 }
 
 .log-promote,
-.log-demote {
+.log-demote,
+.log-upcoming {
   color: var(--text-red);
   text-shadow: var(--text-glow-red-soft);
+}
+
+.log-live {
+  color: var(--accent-gold);
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.45);
+}
+
+.log-ended {
+  color: var(--text-red-muted);
 }

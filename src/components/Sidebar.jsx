@@ -52,13 +52,30 @@ export default function Sidebar() {
           >
             Announcements
           </Link>
+          <Link
+            to="/events"
+            className={navClass(
+              path.startsWith("/events") && path !== "/events/new"
+            )}
+          >
+            Events
+          </Link>
         </div>
 
         {isModerator && (
           <div className="sidebar-section">
             <p className="sidebar-section-label">Moderator</p>
-            <Link to="/moderator" className={navClass(path === "/moderator")}>
+            <Link
+              to="/moderator"
+              className={navClass(path === "/moderator")}
+            >
               Moderation Tools
+            </Link>
+            <Link
+              to="/admin/analytics"
+              className={navClass(path === "/admin/analytics")}
+            >
+              Analytics
             </Link>
             <Link
               to="/moderator/active-cases"

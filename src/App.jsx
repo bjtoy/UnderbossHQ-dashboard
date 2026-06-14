@@ -23,6 +23,9 @@ import AnnouncementEditor from "./pages/announcements/AnnouncementEditor.jsx";
 import AdminSettings from "./pages/AdminSettings.jsx";
 import UserManagement from "./pages/UserManagement.jsx";
 import InviteTracking from "./pages/InviteTracking.jsx";
+import FactionAnalytics from "./pages/FactionAnalytics.jsx";
+import EventsList from "./pages/events/EventsList.jsx";
+import EventEditor from "./pages/events/EventEditor.jsx";
 import NotAuthorized from "./pages/NotAuthorized.jsx";
 import DashboardLayout from "./layouts/DashboardLayout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -31,6 +34,7 @@ import FallbackRoute from "./components/FallbackRoute.jsx";
 const MOD_ROLES = ["Admin", "Mod", "Moderator"];
 const GUIDE_EDITOR_ROLES = ["Admin", "Mod", "Moderator", "Enforcer"];
 const ANNOUNCEMENT_EDITOR_ROLES = ["Admin", "Mod", "Moderator"];
+const EVENT_EDITOR_ROLES = ["Admin", "Mod", "Moderator"];
 
 export default function App() {
   return (
@@ -137,6 +141,39 @@ export default function App() {
         />
 
         <Route
+          path="/events"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <EventsList />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/events/new"
+          element={
+            <ProtectedRoute roles={EVENT_EDITOR_ROLES}>
+              <DashboardLayout>
+                <EventEditor />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/events/:id/edit"
+          element={
+            <ProtectedRoute roles={EVENT_EDITOR_ROLES}>
+              <DashboardLayout>
+                <EventEditor />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/moderator"
           element={
             <ProtectedRoute roles={MOD_ROLES}>
@@ -186,6 +223,17 @@ export default function App() {
             <ProtectedRoute roles={["Admin"]}>
               <DashboardLayout>
                 <AdminLogs />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/analytics"
+          element={
+            <ProtectedRoute roles={["Admin", "Mod", "Moderator"]}>
+              <DashboardLayout>
+                <FactionAnalytics />
               </DashboardLayout>
             </ProtectedRoute>
           }
