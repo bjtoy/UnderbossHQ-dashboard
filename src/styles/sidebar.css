@@ -42,6 +42,15 @@
 
 }
 
+.sidebar-header .brand-mark-sidebar {
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.sidebar-header .sidebar-user {
+    margin-top: 0;
+}
+
 
 
 .sidebar-user {

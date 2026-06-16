@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar.jsx";
+import BrandMark from "../components/BrandMark.jsx";
 import { useRoles } from "../context/RoleContext.jsx";
-import mascot from "../assets/brandMascot.js";
 
 function getPageLabel(path) {
   if (path === "/member") return "Member Dashboard";
@@ -41,10 +41,10 @@ export default function DashboardLayout({ children }) {
       <div className="dashboard-main">
         <header className="dashboard-topbar">
           <div className="dashboard-topbar-brand">
-            <img
-              src={mascot}
-              alt="UnderbossHQ mascot"
-              className="dashboard-topbar-mascot"
+            <BrandMark
+              size="header"
+              showName={false}
+              className="dashboard-topbar-brandmark"
             />
             <h1 className="dashboard-topbar-title">UnderbossHQ</h1>
           </div>

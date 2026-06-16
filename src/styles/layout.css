@@ -112,12 +112,19 @@ body {
     color: var(--text-red-soft);
 }
 
-.dashboard-topbar-mascot {
-    height: 84px;
-    width: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 0 8px rgba(201, 72, 72, 0.35));
-    flex-shrink: 0;
+.dashboard-topbar-brandmark {
+  margin-bottom: 0;
+}
+
+.dashboard-topbar-brandmark .brand-mark-image {
+  width: 84px;
+  height: 84px;
+}
+
+.dashboard-topbar-mascot,
+.dashboard-topbar-brandmark .brand-mark-image {
+  filter: drop-shadow(0 0 8px rgba(201, 72, 72, 0.35));
+  flex-shrink: 0;
 }
 
 .dashboard-content {

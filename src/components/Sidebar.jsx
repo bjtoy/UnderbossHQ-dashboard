@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
+import BrandMark from "./BrandMark.jsx";
 
 export default function Sidebar() {
   const { hasAnyRole, roles, user, logout, setGuildId, isPlatformOwner } = useRoles();
@@ -19,11 +20,12 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar">
-      {user?.username && (
-        <div className="sidebar-header">
+      <div className="sidebar-header">
+        <BrandMark size="sidebar" />
+        {user?.username && (
           <p className="sidebar-user">{user.username}</p>
-        </div>
-      )}
+        )}
+      </div>
 
       <nav className="sidebar-nav">
         <div className="sidebar-section">

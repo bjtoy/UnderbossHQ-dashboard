@@ -80,15 +80,21 @@
   object-fit: contain;
 }
 
-.brand-mark-sidebar .brand-mark-text {
-  align-items: flex-start;
-}
-
 .brand-mark-md .brand-mark-image,
 .brand-mark-lg .brand-mark-image {
   width: auto;
   height: auto;
   max-width: 100%;
+}
+
+.brand-mark-sidebar .brand-mark-text {
+  align-items: flex-start;
+}
+
+.brand-mark-image,
+.dashboard-topbar-mascot {
+  /* redthornelogo1 ships on white — blend onto dark surfaces */
+  mix-blend-mode: multiply;
   object-fit: contain;
 }
 
