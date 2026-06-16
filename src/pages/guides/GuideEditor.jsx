@@ -6,6 +6,7 @@ import ErrorCard from "../../components/ErrorCard.jsx";
 import PageHeader from "../../components/PageHeader.jsx";
 import GuideEditorToolbar from "../../components/GuideEditorToolbar.jsx";
 import GuideContent from "../../components/GuideContent.jsx";
+import DiscordChannelSelect from "../../components/DiscordChannelSelect.jsx";
 import { bannerSnippet } from "../../utils/guideMarkup.js";
 
 const STARTER_TEMPLATE = `${bannerSnippet("fancy", "Guide Title")}
@@ -38,6 +39,18 @@ export default function GuideEditor() {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
   const [aiTopic, setAiTopic] = useState("");
+  const [discordChannelId, setDiscordChannelId] = useState("");
+  const [defaultGuidesChannelId, setDefaultGuidesChannelId] = useState("");
+  const [defaultRulesChannelId, setDefaultRulesChannelId] = useState("");
+
+  function applyChannelDefaults(defaults = {}) {
+    if (defaults.guidesChannelId) {
+      setDefaultGuidesChannelId(defaults.guidesChannelId);
+    }
+    if (defaults.rulesChannelId) {
+      setDefaultRulesChannelId(defaults.rulesChannelId);
+    }
+  }
 
   useEffect(() => {
     if (isNew) return;
@@ -90,8 +103,37 @@ export default function GuideEditor() {
     setError(null);
 
     try {
-      await api.guides.publish(id);
-      setMessage("Guide published.");
+      const body = discordChannelId ? { channelId: discordChannelId } : {};
+      await api.guides.publish(id, body);
+      setMessage(
+        discordChannelId
+          ? "Guide published and posted to Discord."
+          : "Guide published on dashboard."
+      );
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handlePostToDiscord() {
+    if (isNew) {
+      setMessage("Save the guide before posting to Discord.");
+      return;
+    }
+
+    if (!discordChannelId) {
+      setMessage("Select a Discord channel first.");
+      return;
+    }
+
+    setSaving(true);
+    setError(null);
+
+    try {
+      await api.guides.post(id, { channelId: discordChannelId });
+      setMessage("Guide posted to Discord.");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -226,6 +268,22 @@ export default function GuideEditor() {
             </div>
           </div>
 
+          {!isNew && (
+            <DiscordChannelSelect
+              id="guide-discord-channel"
+              label="Post to Discord channel"
+              value={discordChannelId}
+              onChange={setDiscordChannelId}
+              defaultChannelId={
+                /rule/i.test(title)
+                  ? defaultRulesChannelId
+                  : defaultGuidesChannelId
+              }
+              disabled={saving}
+              onDefaultsLoaded={applyChannelDefaults}
+            />
+          )}
+
           <div className="action-row">
             <button
               type="button"
@@ -240,10 +298,18 @@ export default function GuideEditor() {
                 <button
                   type="button"
                   className="btn btn-outline-red btn-sm"
+                  onClick={handlePostToDiscord}
+                  disabled={saving || !discordChannelId}
+                >
+                  Post to Discord
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-outline-red btn-sm"
                   onClick={handlePublish}
                   disabled={saving}
                 >
-                  Publish
+                  {discordChannelId ? "Publish & post" : "Publish"}
                 </button>
                 <button
                   type="button"

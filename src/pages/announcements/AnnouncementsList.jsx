@@ -5,6 +5,7 @@ import { useRoles } from "../../context/RoleContext.jsx";
 import Loader from "../../components/Loader.jsx";
 import ErrorCard from "../../components/ErrorCard.jsx";
 import PageHeader from "../../components/PageHeader.jsx";
+import DiscordChannelSelect from "../../components/DiscordChannelSelect.jsx";
 
 export default function AnnouncementsList() {
   const { hasAnyRole } = useRoles();
@@ -13,6 +14,9 @@ export default function AnnouncementsList() {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState("");
+  const [discordChannelId, setDiscordChannelId] = useState("");
+  const [postingId, setPostingId] = useState(null);
 
   useEffect(() => {
     api.announcements
@@ -22,11 +26,31 @@ export default function AnnouncementsList() {
       .finally(() => setLoading(false));
   }, []);
 
+  async function handleQuickPost(id) {
+    if (!discordChannelId) {
+      setMessage("Select a Discord channel first.");
+      return;
+    }
+
+    setPostingId(id);
+    setMessage("");
+    setError(null);
+
+    try {
+      await api.announcements.post(id, { channelId: discordChannelId });
+      setMessage("Announcement posted to Discord.");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setPostingId(null);
+    }
+  }
+
   return (
     <div className="dashboard-page">
       <PageHeader
         title="Announcements"
-        subtitle="Server news and updates."
+        subtitle="Server news and updates — save in the dashboard, post to Discord."
         actions={
           canManage ? (
             <Link to="/announcements/new" className="btn btn-outline-red">
@@ -38,9 +62,22 @@ export default function AnnouncementsList() {
 
       {loading && <Loader />}
       {error && <ErrorCard message={error} />}
+      {message && <div className="message-banner success">{message}</div>}
 
       {!loading && !error && (
         <div className="page-body">
+          {canManage && announcements.length > 0 && (
+            <div className="card page-stack">
+              <DiscordChannelSelect
+                id="announcements-list-channel"
+                label="Discord channel for quick post"
+                value={discordChannelId}
+                onChange={setDiscordChannelId}
+                disabled={postingId !== null}
+              />
+            </div>
+          )}
+
           {announcements.length === 0 ? (
             <div className="card empty-state">No announcements yet.</div>
           ) : (
@@ -49,7 +86,7 @@ export default function AnnouncementsList() {
                 <div key={item.id} className="card">
                   <h3>{item.title}</h3>
                   <p className="muted">
-                    Posted {new Date(item.createdAt).toLocaleString()}
+                    Saved {new Date(item.createdAt).toLocaleString()}
                   </p>
                   <p className="guide-preview">
                     {item.description.length > 220
@@ -64,6 +101,16 @@ export default function AnnouncementsList() {
                       >
                         Edit
                       </Link>
+                      <button
+                        type="button"
+                        className="btn btn-outline-red btn-sm"
+                        disabled={!discordChannelId || postingId === item.id}
+                        onClick={() => handleQuickPost(item.id)}
+                      >
+                        {postingId === item.id
+                          ? "Posting..."
+                          : "Post to Discord"}
+                      </button>
                     </div>
                   )}
                 </div>

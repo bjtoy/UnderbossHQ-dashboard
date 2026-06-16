@@ -93,8 +93,6 @@
 
 .brand-mark-image,
 .dashboard-topbar-mascot {
-  /* redthornelogo1 ships on white — blend onto dark surfaces */
-  mix-blend-mode: multiply;
   object-fit: contain;
 }
 

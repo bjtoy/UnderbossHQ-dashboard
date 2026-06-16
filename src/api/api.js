@@ -266,7 +266,10 @@ export const api = {
 
     remove: (id) => request("DELETE", `/api/guides/${id}`),
 
-    publish: (id) => request("POST", `/api/guides/${id}/publish`),
+    publish: (id, body = {}) =>
+      request("POST", `/api/guides/${id}/publish`, body),
+
+    post: (id, body) => request("POST", `/api/guides/${id}/post`, body),
   },
 
   announcements: {
@@ -280,6 +283,12 @@ export const api = {
       request("PUT", `/api/announcements/${id}`, body),
 
     remove: (id) => request("DELETE", `/api/announcements/${id}`),
+
+    post: (id, body) => request("POST", `/api/announcements/${id}/post`, body),
+  },
+
+  discord: {
+    channels: () => request("GET", "/api/discord/channels"),
   },
 
   settings: {

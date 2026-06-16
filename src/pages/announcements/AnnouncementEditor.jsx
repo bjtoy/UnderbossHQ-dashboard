@@ -4,6 +4,7 @@ import { api } from "../../api/api.js";
 import Loader from "../../components/Loader.jsx";
 import ErrorCard from "../../components/ErrorCard.jsx";
 import PageHeader from "../../components/PageHeader.jsx";
+import DiscordChannelSelect from "../../components/DiscordChannelSelect.jsx";
 
 export default function AnnouncementEditor() {
   const { id } = useParams();
@@ -18,6 +19,15 @@ export default function AnnouncementEditor() {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
   const [aiTopic, setAiTopic] = useState("");
+  const [discordChannelId, setDiscordChannelId] = useState("");
+  const [defaultAnnouncementsChannelId, setDefaultAnnouncementsChannelId] =
+    useState("");
+
+  function applyChannelDefaults(defaults = {}) {
+    if (defaults.announcementsChannelId) {
+      setDefaultAnnouncementsChannelId(defaults.announcementsChannelId);
+    }
+  }
 
   useEffect(() => {
     if (isNew) return;
@@ -37,7 +47,7 @@ export default function AnnouncementEditor() {
   async function handleSave() {
     if (!title.trim() || !description.trim()) {
       setMessage("Title and description are required.");
-      return;
+      return null;
     }
 
     setSaving(true);
@@ -49,10 +59,78 @@ export default function AnnouncementEditor() {
         const result = await api.announcements.create({ title, description });
         navigate(`/announcements/${result.id}/edit`, { replace: true });
         setMessage("Announcement created.");
+        return result.id;
+      }
+
+      await api.announcements.update(id, { title, description });
+      setMessage("Announcement saved.");
+      return id;
+    } catch (err) {
+      setError(err.message);
+      return null;
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handlePostToDiscord(postId = id) {
+    const targetId = postId || id;
+
+    if (!targetId || targetId === "new") {
+      setMessage("Save the announcement before posting to Discord.");
+      return;
+    }
+
+    if (!discordChannelId) {
+      setMessage("Select a Discord channel first.");
+      return;
+    }
+
+    setSaving(true);
+    setError(null);
+
+    try {
+      await api.announcements.post(targetId, { channelId: discordChannelId });
+      setMessage("Announcement posted to Discord.");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleSaveAndPost() {
+    if (!discordChannelId) {
+      setMessage("Select a Discord channel first.");
+      return;
+    }
+
+    if (!title.trim() || !description.trim()) {
+      setMessage("Title and description are required.");
+      return;
+    }
+
+    setSaving(true);
+    setMessage("");
+    setError(null);
+
+    try {
+      let targetId = isNew ? null : id;
+
+      if (isNew) {
+        const result = await api.announcements.create({ title, description });
+        targetId = result.id;
       } else {
         await api.announcements.update(id, { title, description });
-        setMessage("Announcement saved.");
       }
+
+      await api.announcements.post(targetId, { channelId: discordChannelId });
+
+      if (isNew) {
+        navigate(`/announcements/${targetId}/edit`, { replace: true });
+      }
+
+      setMessage("Announcement saved and posted to Discord.");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -168,24 +246,54 @@ export default function AnnouncementEditor() {
             </button>
           </div>
 
+          <DiscordChannelSelect
+            id="announcement-discord-channel"
+            label="Post to Discord channel"
+            value={discordChannelId}
+            onChange={setDiscordChannelId}
+            defaultChannelId={defaultAnnouncementsChannelId}
+            disabled={saving}
+            onDefaultsLoaded={applyChannelDefaults}
+          />
+
           <div className="action-row">
             <button
               type="button"
               className="btn btn-outline-red"
-              onClick={handleSave}
+              onClick={() => handleSave()}
               disabled={saving}
             >
               {saving ? "Saving..." : "Save"}
             </button>
-            {!isNew && (
+            {discordChannelId && (
               <button
                 type="button"
-                className="btn btn-danger"
-                onClick={handleDelete}
+                className="btn btn-outline-red"
+                onClick={handleSaveAndPost}
                 disabled={saving}
               >
-                Delete
+                Save & post to Discord
               </button>
+            )}
+            {!isNew && (
+              <>
+                <button
+                  type="button"
+                  className="btn btn-outline-red"
+                  onClick={() => handlePostToDiscord()}
+                  disabled={saving || !discordChannelId}
+                >
+                  Post to Discord
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={handleDelete}
+                  disabled={saving}
+                >
+                  Delete
+                </button>
+              </>
             )}
           </div>
         </div>

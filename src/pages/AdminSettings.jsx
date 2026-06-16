@@ -9,6 +9,9 @@ const EMPTY = {
   welcomeChannelId: "",
   logChannelId: "",
   autoRoleId: "",
+  guidesChannelId: "",
+  rulesChannelId: "",
+  announcementsChannelId: "",
 };
 
 export default function AdminSettings() {
@@ -29,6 +32,9 @@ export default function AdminSettings() {
             welcomeChannelId: row.welcomeChannelId ?? "",
             logChannelId: row.logChannelId ?? "",
             autoRoleId: row.autoRoleId ?? "",
+            guidesChannelId: row.guidesChannelId ?? "",
+            rulesChannelId: row.rulesChannelId ?? "",
+            announcementsChannelId: row.announcementsChannelId ?? "",
           });
         }
       })
@@ -55,6 +61,9 @@ export default function AdminSettings() {
           welcomeChannelId: row.welcomeChannelId ?? "",
           logChannelId: row.logChannelId ?? "",
           autoRoleId: row.autoRoleId ?? "",
+          guidesChannelId: row.guidesChannelId ?? "",
+          rulesChannelId: row.rulesChannelId ?? "",
+          announcementsChannelId: row.announcementsChannelId ?? "",
         });
       }
       setMessage("Settings saved.");
@@ -128,6 +137,53 @@ export default function AdminSettings() {
                 value={settings.autoRoleId}
                 onChange={(e) => updateField("autoRoleId", e.target.value)}
                 placeholder="Discord role ID"
+              />
+            </div>
+
+            <p className="field-label">Default Discord post channels</p>
+            <p className="field-hint">
+              Used as the pre-selected channel when posting guides and
+              announcements from the dashboard.
+            </p>
+
+            <div className="field-group">
+              <label className="field-label" htmlFor="settings-guides">
+                Guides channel ID
+              </label>
+              <input
+                id="settings-guides"
+                className="field-input"
+                value={settings.guidesChannelId}
+                onChange={(e) => updateField("guidesChannelId", e.target.value)}
+                placeholder="#guides or welcome section channel ID"
+              />
+            </div>
+
+            <div className="field-group">
+              <label className="field-label" htmlFor="settings-rules">
+                Rules channel ID
+              </label>
+              <input
+                id="settings-rules"
+                className="field-input"
+                value={settings.rulesChannelId}
+                onChange={(e) => updateField("rulesChannelId", e.target.value)}
+                placeholder="#rules channel ID"
+              />
+            </div>
+
+            <div className="field-group">
+              <label className="field-label" htmlFor="settings-announcements">
+                Announcements channel ID
+              </label>
+              <input
+                id="settings-announcements"
+                className="field-input"
+                value={settings.announcementsChannelId}
+                onChange={(e) =>
+                  updateField("announcementsChannelId", e.target.value)
+                }
+                placeholder="#announcements channel ID"
               />
             </div>
 
