@@ -1,5 +1,8 @@
+import { useState } from "react";
 import {
   BANNER_STYLES,
+  BANNER_FONTS,
+  BANNER_BACKGROUNDS,
   TEXT_COLORS,
   CALLOUT_TYPES,
   insertSnippet,
@@ -11,6 +14,9 @@ import {
 } from "../utils/guideMarkup.js";
 
 export default function GuideEditorToolbar({ content, onChange, textareaRef }) {
+  const [bannerFont, setBannerFont] = useState("goldrops");
+  const [bannerBackground, setBannerBackground] = useState("default");
+
   function applySnippet(snippet) {
     onChange(insertSnippet(content, snippet));
   }
@@ -38,21 +44,68 @@ export default function GuideEditorToolbar({ content, onChange, textareaRef }) {
     });
   }
 
+  function insertBanner(style) {
+    applySnippet(
+      bannerSnippet(style, "Guide Title", {
+        font: bannerFont,
+        background: bannerBackground,
+      })
+    );
+  }
+
   return (
     <div className="guide-editor-toolbar page-stack">
       <div className="guide-toolbar-group">
-        <span className="guide-toolbar-label">Banners</span>
+        <span className="guide-toolbar-label">Banner style</span>
         <div className="action-row">
           {BANNER_STYLES.map((style) => (
             <button
               key={style}
               type="button"
               className="btn btn-outline-red btn-sm"
-              onClick={() => applySnippet(bannerSnippet(style))}
+              onClick={() => insertBanner(style)}
             >
               {style}
             </button>
           ))}
+        </div>
+      </div>
+
+      <div className="dashboard-grid dashboard-grid-2">
+        <div className="guide-toolbar-group">
+          <label className="guide-toolbar-label" htmlFor="banner-font-select">
+            Banner font
+          </label>
+          <select
+            id="banner-font-select"
+            className="field-input"
+            value={bannerFont}
+            onChange={(e) => setBannerFont(e.target.value)}
+          >
+            {BANNER_FONTS.map((font) => (
+              <option key={font.id} value={font.id}>
+                {font.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="guide-toolbar-group">
+          <label className="guide-toolbar-label" htmlFor="banner-bg-select">
+            Banner background
+          </label>
+          <select
+            id="banner-bg-select"
+            className="field-input"
+            value={bannerBackground}
+            onChange={(e) => setBannerBackground(e.target.value)}
+          >
+            {BANNER_BACKGROUNDS.map((bg) => (
+              <option key={bg.id} value={bg.id}>
+                {bg.label}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -103,10 +156,10 @@ export default function GuideEditorToolbar({ content, onChange, textareaRef }) {
       </div>
 
       <p className="muted guide-toolbar-help">
-        Select text in the editor and use colored text buttons, or insert blocks with
-        the toolbar. Syntax:{" "}
-        <code>:::banner-fancy{"\n"}Title{"\n"}:::</code> and{" "}
-        <code>:::color-red{"\n"}Text{"\n"}:::</code>
+        Banners support custom fonts and backgrounds. Example:{" "}
+        <code>
+          {`:::banner-fancy\nfont=cinzel bg=gold\nTitle\nSubtitle\n:::`}
+        </code>
       </p>
     </div>
   );

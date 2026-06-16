@@ -47,9 +47,6 @@
 .guide-banner-fancy {
   border-color: var(--brand-red-glow);
   box-shadow: var(--glow-red);
-  background:
-    linear-gradient(180deg, rgba(255, 58, 58, 0.08), rgba(0, 0, 0, 0.2)),
-    var(--surface-1);
 }
 
 .guide-banner-fancy .guide-banner-title::before,
@@ -63,8 +60,11 @@
   border-top: 2px solid var(--brand-red-glow);
   border-bottom: 2px solid var(--brand-red-glow);
   border-radius: 0;
-  background: transparent;
   padding: 14px 0;
+}
+
+.guide-banner-minimal.guide-banner-bg-default {
+  background: transparent;
 }
 
 .guide-banner-gaming .guide-banner-title::before {
@@ -93,6 +93,153 @@
 
 .guide-banner-standard .guide-banner-title {
   font-size: 2rem;
+}
+
+/* ===========================
+   BANNER FONTS
+   =========================== */
+
+.guide-banner-font-goldrops .guide-banner-title {
+  font-family: "Goldrops", Georgia, serif;
+}
+
+.guide-banner-font-caudex .guide-banner-title {
+  font-family: "Caudex", Georgia, serif;
+  letter-spacing: 0.04em;
+}
+
+.guide-banner-font-cinzel .guide-banner-title {
+  font-family: "Cinzel", "Caudex", Georgia, serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.guide-banner-font-oswald .guide-banner-title {
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.guide-banner-font-bebas .guide-banner-title {
+  font-family: "Bebas Neue", "Oswald", sans-serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 2rem;
+}
+
+.guide-banner-font-serif .guide-banner-title {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 0.03em;
+}
+
+.guide-banner-font-mono .guide-banner-title {
+  font-family: "Consolas", "Courier New", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 1.35rem;
+}
+
+.guide-banner-font-mono .guide-banner-subtitle {
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.85rem;
+}
+
+/* ===========================
+   BANNER BACKGROUNDS
+   =========================== */
+
+.guide-banner-bg-default.guide-banner-fancy {
+  background:
+    linear-gradient(180deg, rgba(255, 58, 58, 0.08), rgba(0, 0, 0, 0.2)),
+    var(--surface-1);
+}
+
+.guide-banner-bg-default.guide-banner-standard,
+.guide-banner-bg-default.guide-banner-gaming,
+.guide-banner-bg-default.guide-banner-tactical {
+  background: var(--surface-1);
+}
+
+.guide-banner-bg-crimson {
+  background:
+    linear-gradient(135deg, rgba(120, 8, 8, 0.95), rgba(40, 0, 0, 0.98)),
+    radial-gradient(circle at 20% 20%, rgba(255, 58, 58, 0.25), transparent 55%);
+  border-color: rgba(255, 80, 80, 0.45);
+}
+
+.guide-banner-bg-gold {
+  background:
+    linear-gradient(135deg, rgba(60, 45, 10, 0.98), rgba(20, 15, 5, 0.98)),
+    radial-gradient(circle at 80% 0%, rgba(212, 175, 55, 0.35), transparent 50%);
+  border-color: rgba(212, 175, 55, 0.5);
+}
+
+.guide-banner-bg-gold .guide-banner-title {
+  color: var(--accent-gold);
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+}
+
+.guide-banner-bg-gold .guide-banner-subtitle {
+  color: rgba(232, 210, 150, 0.9);
+}
+
+.guide-banner-bg-noir {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.04), transparent 45%),
+    linear-gradient(180deg, #0a0a0a, #050505);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.guide-banner-bg-velvet {
+  background:
+    linear-gradient(135deg, rgba(55, 10, 35, 0.98), rgba(20, 5, 25, 0.98)),
+    radial-gradient(circle at 70% 80%, rgba(180, 40, 90, 0.2), transparent 55%);
+  border-color: rgba(180, 60, 120, 0.4);
+}
+
+.guide-banner-bg-smoke {
+  background:
+    linear-gradient(180deg, rgba(45, 45, 48, 0.98), rgba(18, 18, 20, 0.98));
+  border-color: rgba(160, 160, 170, 0.25);
+}
+
+.guide-banner-bg-smoke .guide-banner-title {
+  color: #e8e8ec;
+  text-shadow: 0 0 10px rgba(200, 200, 210, 0.25);
+}
+
+.guide-banner-bg-ledger {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.02) 0,
+      rgba(255, 255, 255, 0.02) 1px,
+      transparent 1px,
+      transparent 28px
+    ),
+    linear-gradient(180deg, rgba(30, 22, 18, 0.98), rgba(12, 10, 8, 0.98));
+  border-color: rgba(180, 150, 110, 0.35);
+}
+
+.guide-banner-bg-neon {
+  background:
+    linear-gradient(180deg, rgba(8, 8, 12, 0.98), rgba(0, 0, 0, 0.98));
+  border-color: var(--brand-red-glow);
+  box-shadow:
+    0 0 20px rgba(255, 58, 58, 0.35),
+    inset 0 0 30px rgba(255, 58, 58, 0.06);
+}
+
+.guide-banner-bg-ember {
+  background:
+    linear-gradient(135deg, rgba(90, 25, 0, 0.98), rgba(35, 8, 0, 0.98)),
+    radial-gradient(circle at 50% 100%, rgba(255, 120, 40, 0.35), transparent 60%);
+  border-color: rgba(255, 140, 60, 0.45);
+}
+
+.guide-banner-bg-ember .guide-banner-title {
+  color: #ffb347;
+  text-shadow: 0 0 14px rgba(255, 140, 60, 0.45);
 }
 
 /* ===========================

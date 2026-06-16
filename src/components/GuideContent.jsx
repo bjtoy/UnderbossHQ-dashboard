@@ -15,9 +15,14 @@ function renderParagraphs(text) {
   ));
 }
 
-function GuideBanner({ style, title, subtitle }) {
+function GuideBanner({ style, font, background, title, subtitle }) {
+  const fontClass = font ? `guide-banner-font-${font}` : "";
+  const bgClass = background ? `guide-banner-bg-${background}` : "guide-banner-bg-default";
+
   return (
-    <div className={`guide-banner guide-banner-${style}`}>
+    <div
+      className={`guide-banner guide-banner-${style} ${fontClass} ${bgClass}`.trim()}
+    >
       <div className="guide-banner-title">{title}</div>
       {subtitle ? <div className="guide-banner-subtitle">{subtitle}</div> : null}
     </div>
@@ -39,6 +44,8 @@ export default function GuideContent({ content, className = "" }) {
             <GuideBanner
               key={index}
               style={block.style}
+              font={block.font}
+              background={block.background}
               title={block.title}
               subtitle={block.subtitle}
             />

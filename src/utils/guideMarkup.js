@@ -1,5 +1,30 @@
 const BANNER_STYLES = ["standard", "fancy", "minimal", "gaming", "tactical"];
 
+const BANNER_FONTS = [
+  { id: "goldrops", label: "Goldrops" },
+  { id: "caudex", label: "Caudex" },
+  { id: "cinzel", label: "Cinzel" },
+  { id: "oswald", label: "Oswald" },
+  { id: "bebas", label: "Bebas Neue" },
+  { id: "serif", label: "Classic serif" },
+  { id: "mono", label: "Terminal" },
+];
+
+const BANNER_BACKGROUNDS = [
+  { id: "default", label: "Style default" },
+  { id: "crimson", label: "Crimson" },
+  { id: "gold", label: "Gold" },
+  { id: "noir", label: "Noir" },
+  { id: "velvet", label: "Velvet" },
+  { id: "smoke", label: "Smoke" },
+  { id: "ledger", label: "Ledger" },
+  { id: "neon", label: "Neon" },
+  { id: "ember", label: "Ember" },
+];
+
+const BANNER_FONT_IDS = new Set(BANNER_FONTS.map((f) => f.id));
+const BANNER_BG_IDS = new Set(BANNER_BACKGROUNDS.map((b) => b.id));
+
 const TEXT_COLORS = [
   { id: "red", label: "Red", className: "guide-color-red" },
   { id: "soft", label: "Soft red", className: "guide-color-soft" },
@@ -33,6 +58,67 @@ function normalizeContent(content = "") {
   return content;
 }
 
+function isBannerMetaLine(line = "") {
+  return /\b(?:font|bg|background)=/i.test(line.trim());
+}
+
+function parseBannerMetaLine(line = "") {
+  const fontMatch = line.match(/\bfont=([\w-]+)/i);
+  const bgMatch = line.match(/\b(?:bg|background)=([\w-]+)/i);
+
+  return {
+    font: fontMatch?.[1]?.toLowerCase() || null,
+    background: bgMatch?.[1]?.toLowerCase() || null,
+  };
+}
+
+function parseBannerDirective(directive = "") {
+  const parts = directive.split("-").slice(1);
+  let style = "standard";
+  let font = "goldrops";
+  let background = "default";
+
+  for (const part of parts) {
+    if (BANNER_STYLES.includes(part)) {
+      style = part;
+    } else if (BANNER_FONT_IDS.has(part)) {
+      font = part;
+    } else if (BANNER_BG_IDS.has(part)) {
+      background = part;
+    }
+  }
+
+  return { style, font, background };
+}
+
+function parseBannerBlock(directive, inner) {
+  const fromDirective = parseBannerDirective(directive);
+  let lines = inner.split("\n");
+  let font = fromDirective.font;
+  let background = fromDirective.background;
+
+  if (lines.length > 0 && isBannerMetaLine(lines[0])) {
+    const meta = parseBannerMetaLine(lines[0]);
+    if (meta.font && BANNER_FONT_IDS.has(meta.font)) font = meta.font;
+    if (meta.background && BANNER_BG_IDS.has(meta.background)) {
+      background = meta.background;
+    }
+    lines = lines.slice(1);
+  }
+
+  const title = (lines[0] || "").trim();
+  const subtitle = lines.slice(1).join("\n").trim();
+
+  return {
+    type: "banner",
+    style: fromDirective.style,
+    font,
+    background,
+    title,
+    subtitle,
+  };
+}
+
 function parseBlocks(content = "") {
   const body = normalizeContent(content);
   const blocks = [];
@@ -50,14 +136,7 @@ function parseBlocks(content = "") {
     const inner = match[2].trim();
 
     if (directive.startsWith("banner")) {
-      const style = directive.split("-")[1] || "standard";
-      const lines = inner.split("\n");
-      blocks.push({
-        type: "banner",
-        style: BANNER_STYLES.includes(style) ? style : "standard",
-        title: lines[0] || "",
-        subtitle: lines.slice(1).join("\n").trim(),
-      });
+      blocks.push(parseBannerBlock(directive, inner));
     } else if (directive.startsWith("color")) {
       const color = directive.split("-")[1] || "red";
       blocks.push({ type: "color", color, text: inner });
@@ -99,8 +178,22 @@ function wrapSelection(content, selectionStart, selectionEnd, before, after) {
   };
 }
 
-function bannerSnippet(style = "fancy", title = "Guide Title") {
-  return `:::banner-${style}\n${title}\n:::`;
+function bannerSnippet(
+  style = "fancy",
+  title = "Guide Title",
+  { font = "goldrops", background = "default" } = {}
+) {
+  const metaParts = [];
+  if (font && font !== "goldrops") metaParts.push(`font=${font}`);
+  if (background && background !== "default") {
+    metaParts.push(`bg=${background}`);
+  }
+
+  if (metaParts.length === 0) {
+    return `:::banner-${style}\n${title}\n:::`;
+  }
+
+  return `:::banner-${style}\n${metaParts.join(" ")}\n${title}\n:::`;
 }
 
 function colorSnippet(color = "red", text = "Colored text") {
@@ -129,9 +222,12 @@ function stripMarkup(content = "") {
 
 export {
   BANNER_STYLES,
+  BANNER_FONTS,
+  BANNER_BACKGROUNDS,
   TEXT_COLORS,
   CALLOUT_TYPES,
   parseBlocks,
+  parseBannerBlock,
   insertSnippet,
   wrapSelection,
   bannerSnippet,
