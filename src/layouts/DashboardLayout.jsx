@@ -40,22 +40,22 @@ export default function DashboardLayout({ children }) {
 
       <div className="dashboard-main">
         <header className="dashboard-topbar">
-          <div className="dashboard-topbar-text">
+          <div className="dashboard-topbar-brand">
+            <img
+              src={mascot}
+              alt="UnderbossHQ mascot"
+              className="dashboard-topbar-mascot"
+            />
             <h1 className="dashboard-topbar-title">UnderbossHQ</h1>
+          </div>
+
+          <div className="dashboard-topbar-meta">
             <p className="dashboard-topbar-page">{pageLabel}</p>
             <p className="dashboard-topbar-welcome">
               Welcome back, <strong>{user?.username || "Member"}</strong>
               <span className="dashboard-topbar-sep"> · </span>
               <span className="dashboard-topbar-guild">{guildName}</span>
             </p>
-          </div>
-
-          <div className="dashboard-topbar-art">
-            <img
-              src={mascot}
-              alt="UnderbossHQ mascot"
-              className="dashboard-topbar-mascot"
-            />
           </div>
         </header>
 
