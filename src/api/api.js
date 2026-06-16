@@ -351,4 +351,16 @@ export const api = {
 
     remove: (id) => request("DELETE", `/api/events/${id}`),
   },
+
+  webhooks: {
+    list: () => request("GET", "/api/webhooks"),
+
+    create: (body) => request("POST", "/api/webhooks", body),
+
+    update: (id, body) => request("PUT", `/api/webhooks/${id}`, body),
+
+    remove: (id) => request("DELETE", `/api/webhooks/${id}`),
+
+    test: (id) => request("POST", `/api/webhooks/${id}/test`),
+  },
 };

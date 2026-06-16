@@ -25,6 +25,7 @@ import AdminSettings from "./pages/AdminSettings.jsx";
 import UserManagement from "./pages/UserManagement.jsx";
 import InviteTracking from "./pages/InviteTracking.jsx";
 import FactionAnalytics from "./pages/FactionAnalytics.jsx";
+import AdminWebhooks from "./pages/AdminWebhooks.jsx";
 import EventsList from "./pages/events/EventsList.jsx";
 import EventEditor from "./pages/events/EventEditor.jsx";
 import NotAuthorized from "./pages/NotAuthorized.jsx";
@@ -235,6 +236,17 @@ export default function App() {
             <ProtectedRoute roles={["Admin"]}>
               <DashboardLayout>
                 <AdminLogs />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/webhooks"
+          element={
+            <ProtectedRoute roles={["Admin"]}>
+              <DashboardLayout>
+                <AdminWebhooks />
               </DashboardLayout>
             </ProtectedRoute>
           }
