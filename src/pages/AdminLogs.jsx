@@ -56,6 +56,8 @@ export default function AdminLogs() {
                 Database: {health.database}
                 {" · "}
                 Bot: {health.bot?.enabled ? "enabled" : "disabled"}
+                <br />
+                AI: {health.ai?.configured ? `enabled (${health.ai.model})` : "disabled"}
               </p>
               {health.env?.missing?.length > 0 && (
                 <p className="muted">

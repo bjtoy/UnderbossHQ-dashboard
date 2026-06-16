@@ -34,8 +34,10 @@ export default function GuideEditor() {
   const [content, setContent] = useState(isNew ? STARTER_TEMPLATE : "");
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
+  const [generating, setGenerating] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
+  const [aiTopic, setAiTopic] = useState("");
 
   useEffect(() => {
     if (isNew) return;
@@ -113,6 +115,30 @@ export default function GuideEditor() {
     }
   }
 
+  async function handleAiDraft() {
+    const topic = aiTopic.trim() || title.trim();
+    if (!topic) {
+      setMessage("Enter a title or AI topic first.");
+      return;
+    }
+
+    setGenerating(true);
+    setMessage("");
+    setError(null);
+
+    try {
+      const res = await api.ai.guideDraft({ topic });
+      const draft = res?.data;
+      if (draft?.title) setTitle(draft.title);
+      if (draft?.content) setContent(draft.content);
+      setMessage("AI draft applied — review before saving.");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setGenerating(false);
+    }
+  }
+
   if (loading) {
     return (
       <div className="dashboard-page">
@@ -157,6 +183,26 @@ export default function GuideEditor() {
             onChange={setContent}
             textareaRef={textareaRef}
           />
+
+          <div className="card page-stack ai-inline-panel">
+            <p className="field-label">AI draft (optional topic override)</p>
+            <div className="dashboard-grid dashboard-grid-3">
+              <input
+                className="field-input"
+                value={aiTopic}
+                onChange={(e) => setAiTopic(e.target.value)}
+                placeholder={title || "Guide topic for AI..."}
+              />
+              <button
+                type="button"
+                className="btn btn-outline-red btn-sm"
+                disabled={generating}
+                onClick={handleAiDraft}
+              >
+                {generating ? "Generating..." : "Generate with AI"}
+              </button>
+            </div>
+          </div>
 
           <div className="guide-editor-layout">
             <div className="field-group">

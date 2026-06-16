@@ -26,6 +26,7 @@ import UserManagement from "./pages/UserManagement.jsx";
 import InviteTracking from "./pages/InviteTracking.jsx";
 import FactionAnalytics from "./pages/FactionAnalytics.jsx";
 import AdminWebhooks from "./pages/AdminWebhooks.jsx";
+import AdminAITools from "./pages/AdminAITools.jsx";
 import EventsList from "./pages/events/EventsList.jsx";
 import EventEditor from "./pages/events/EventEditor.jsx";
 import NotAuthorized from "./pages/NotAuthorized.jsx";
@@ -247,6 +248,17 @@ export default function App() {
             <ProtectedRoute roles={["Admin"]}>
               <DashboardLayout>
                 <AdminWebhooks />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/ai"
+          element={
+            <ProtectedRoute roles={[...MOD_ROLES, "Enforcer"]}>
+              <DashboardLayout>
+                <AdminAITools />
               </DashboardLayout>
             </ProtectedRoute>
           }

@@ -95,6 +95,12 @@ export default function Sidebar() {
             >
               User Lookup
             </Link>
+            <Link
+              to="/admin/ai"
+              className={navClass(path === "/admin/ai")}
+            >
+              AI Tools
+            </Link>
           </div>
         )}
 

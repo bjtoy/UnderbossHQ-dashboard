@@ -14,8 +14,10 @@ export default function AnnouncementEditor() {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
+  const [generating, setGenerating] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
+  const [aiTopic, setAiTopic] = useState("");
 
   useEffect(() => {
     if (isNew) return;
@@ -74,6 +76,30 @@ export default function AnnouncementEditor() {
     }
   }
 
+  async function handleAiDraft() {
+    const topic = aiTopic.trim() || title.trim();
+    if (!topic) {
+      setMessage("Enter a title or AI topic first.");
+      return;
+    }
+
+    setGenerating(true);
+    setMessage("");
+    setError(null);
+
+    try {
+      const res = await api.ai.announcementDraft({ topic });
+      const draft = res?.data;
+      if (draft?.title) setTitle(draft.title);
+      if (draft?.description) setDescription(draft.description);
+      setMessage("AI draft applied — review before saving.");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setGenerating(false);
+    }
+  }
+
   if (loading) {
     return (
       <div className="dashboard-page">
@@ -123,6 +149,23 @@ export default function AnnouncementEditor() {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Write the announcement..."
             />
+          </div>
+
+          <div className="dashboard-grid dashboard-grid-3">
+            <input
+              className="field-input"
+              value={aiTopic}
+              onChange={(e) => setAiTopic(e.target.value)}
+              placeholder={title || "Topic for AI draft..."}
+            />
+            <button
+              type="button"
+              className="btn btn-outline-red btn-sm"
+              disabled={generating}
+              onClick={handleAiDraft}
+            >
+              {generating ? "Generating..." : "Generate with AI"}
+            </button>
           </div>
 
           <div className="action-row">

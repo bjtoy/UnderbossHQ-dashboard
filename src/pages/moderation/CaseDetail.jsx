@@ -13,6 +13,8 @@ export default function CaseDetail() {
   const [muteReason, setMuteReason] = useState("");
   const [loading, setLoading] = useState(true);
   const [acting, setActing] = useState(false);
+  const [summarizing, setSummarizing] = useState(false);
+  const [aiSummary, setAiSummary] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
@@ -77,6 +79,23 @@ export default function CaseDetail() {
     }
   }
 
+  async function handleAiSummary() {
+    setSummarizing(true);
+    setMessage("");
+    setError("");
+    setAiSummary("");
+
+    try {
+      const res = await api.ai.moderationSummary({ userId });
+      setAiSummary(res?.data?.summary || "");
+      setMessage("AI case summary ready.");
+    } catch (err) {
+      setError(err.message || "AI summary failed");
+    } finally {
+      setSummarizing(false);
+    }
+  }
+
   return (
     <div className="dashboard-page">
       <PageHeader
@@ -109,6 +128,22 @@ export default function CaseDetail() {
                 Active timeout until{" "}
                 {new Date(caseFile.activeTimeouts[0].expiresAt).toLocaleString()}
               </p>
+            )}
+            <button
+              type="button"
+              className="btn btn-outline-red btn-sm"
+              disabled={summarizing}
+              onClick={handleAiSummary}
+            >
+              {summarizing ? "Analyzing..." : "AI case summary"}
+            </button>
+            {aiSummary && (
+              <textarea
+                className="field-textarea"
+                readOnly
+                rows={8}
+                value={aiSummary}
+              />
             )}
           </div>
 
