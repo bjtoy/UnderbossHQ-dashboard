@@ -7,10 +7,10 @@
 p {
     font-size: 16px;
     margin-bottom: 14px;
-    color: var(--text-red);
+    color: var(--text-bright);
     line-height: 1.6;
     font-family: var(--font-body);
-    text-shadow: var(--text-glow-red-soft);
+    text-shadow: none;
 }
 
 small, .small {
@@ -31,36 +31,36 @@ small, .small {
 
 h1, .h1 {
     font-family: var(--font-heading);
-    font-size: 42px;
+    font-size: 52px;
     font-weight: 400;
     color: var(--text-red);
     margin-bottom: 18px;
     letter-spacing: 1.2px;
-    text-shadow: var(--text-glow-red-strong);
+    text-shadow: var(--text-glow-red);
 }
 
 h2, .h2 {
     font-family: var(--font-heading);
-    font-size: 32px;
+    font-size: 40px;
     font-weight: 400;
     color: var(--text-red);
     margin-bottom: 16px;
     letter-spacing: 1px;
-    text-shadow: var(--text-glow-red-strong);
+    text-shadow: var(--text-glow-red);
 }
 
 h3, .h3 {
     font-family: var(--font-heading);
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 400;
     color: var(--text-red);
     margin-bottom: 12px;
-    text-shadow: var(--text-glow-red);
+    text-shadow: var(--text-glow-red-soft);
 }
 
 h4, .h4 {
     font-family: var(--font-heading);
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 400;
     color: var(--text-red);
     margin-bottom: 10px;
@@ -91,12 +91,12 @@ h6, .h6 {
 
 .section-title {
     font-family: var(--font-heading);
-    font-size: 32px;
+    font-size: 40px;
     font-weight: 400;
     margin-bottom: 25px;
     color: var(--text-red);
     letter-spacing: 1.2px;
-    text-shadow: var(--text-glow-red-strong);
+    text-shadow: var(--text-glow-red);
 }
 
 /* ============================================
@@ -151,11 +151,11 @@ h6, .h6 {
 
 .header-title {
     font-family: var(--font-heading);
-    font-size: 48px;
+    font-size: 56px;
     font-weight: 400;
     color: var(--text-red);
     letter-spacing: 2px;
-    text-shadow: var(--text-glow-red-strong);
+    text-shadow: var(--text-glow-red);
 }
 
 .header-subtitle {

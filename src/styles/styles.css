@@ -31,9 +31,9 @@
     --text-bright: #F5E9C9;
     --text-muted: #8A8A8A;
 
-    /* Brand Red */
-    --brand-red: #B3001B;
-    --brand-red-glow: #FF3A3A;
+    /* Brand Red — softened for less neon fatigue */
+    --brand-red: #9E0020;
+    --brand-red-glow: #C94848;
 
     /* Gold Accent */
     --accent-gold: #D4AF37;
@@ -52,26 +52,24 @@
     --border-strong: rgba(179, 0, 27, 0.35);
 
     /* Glows */
-    --glow-red: 0 0 12px rgba(255, 58, 58, 0.55);
+    --glow-red: 0 0 10px rgba(201, 72, 72, 0.35);
     --glow-gold: 0 0 10px rgba(212, 175, 55, 0.45);
 
-    /* Red neon typography glow */
+    /* Red typography glow — toned down */
     --text-glow-red-strong:
-        0 0 10px rgba(255, 58, 58, 1),
-        0 0 22px rgba(255, 58, 58, 0.75),
-        0 0 36px rgba(255, 46, 46, 0.45);
+        0 0 8px rgba(201, 72, 72, 0.55),
+        0 0 16px rgba(201, 72, 72, 0.28);
     --text-glow-red:
-        0 0 8px rgba(255, 58, 58, 0.95),
-        0 0 18px rgba(255, 58, 58, 0.55);
+        0 0 6px rgba(201, 72, 72, 0.45),
+        0 0 12px rgba(201, 72, 72, 0.2);
     --text-glow-red-soft:
-        0 0 6px rgba(255, 58, 58, 0.75),
-        0 0 14px rgba(255, 58, 58, 0.35);
+        0 0 4px rgba(201, 72, 72, 0.3);
     --text-glow-red-muted:
-        0 0 4px rgba(255, 58, 58, 0.5);
+        0 0 3px rgba(201, 72, 72, 0.2);
 
-    --text-red: var(--brand-red-glow);
-    --text-red-soft: #ff7a7a;
-    --text-red-muted: #e06a6a;
+    --text-red: #D07070;
+    --text-red-soft: #B88888;
+    --text-red-muted: #9A7575;
 
     /* Typography */
     /* Goldrops = headings; Caudex = body/UI text */
@@ -94,11 +92,11 @@
 
 body {
     background: var(--bg-darkest);
-    color: var(--text-red);
+    color: var(--text-bright);
     font-family: var(--font-body);
     font-size: 16px;
     line-height: 1.6;
-    text-shadow: var(--text-glow-red-soft);
+    text-shadow: none;
 }
 
 /* ===========================

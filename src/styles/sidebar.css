@@ -122,15 +122,15 @@
 
     color: var(--text-red);
 
-    background: rgba(255, 58, 58, 0.1);
+    background: rgba(201, 72, 72, 0.1);
 
     border-left-color: var(--brand-red-glow);
 
     font-weight: 700;
 
-    text-shadow: var(--text-glow-red);
+    text-shadow: var(--text-glow-red-soft);
 
-    box-shadow: inset 0 0 12px rgba(255, 58, 58, 0.15);
+    box-shadow: inset 0 0 12px rgba(201, 72, 72, 0.12);
 
 }
 
@@ -140,9 +140,9 @@
 
     color: var(--text-red);
 
-    background: rgba(255, 58, 58, 0.08);
+    background: rgba(201, 72, 72, 0.06);
 
-    text-shadow: var(--text-glow-red-soft);
+    text-shadow: var(--text-glow-red-muted);
 
 }
 
