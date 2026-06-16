@@ -1,9 +1,33 @@
 .legal-page {
   min-height: 100vh;
   padding: 40px 24px 56px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   background:
     radial-gradient(circle at top, rgba(179, 0, 27, 0.14), transparent 45%),
     var(--bg-darkest);
+}
+
+/* Public legal pages must scroll — dashboard shell sets body overflow: hidden */
+body:has(.legal-page),
+body:has(.login-page) {
+  overflow: auto;
+}
+
+#root:has(.legal-page),
+#root:has(.login-page) {
+  height: auto;
+  min-height: 100%;
+}
+
+.legal-brand-link .brand-mark-md .brand-mark-image {
+  width: 140px;
+  height: 140px;
+}
+
+.legal-brand-link .brand-mark-title {
+  font-size: 1.75rem;
 }
 
 .legal-shell {

@@ -7,7 +7,7 @@ export default function LegalPageLayout({ title, children }) {
       <div className="legal-shell">
         <header className="legal-header">
           <Link to="/login" className="legal-brand-link">
-            <BrandMark size="sm" />
+            <BrandMark size="md" />
           </Link>
           <h1>{title}</h1>
           <p className="legal-meta muted">
