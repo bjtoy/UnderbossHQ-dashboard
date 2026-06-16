@@ -42,6 +42,9 @@ export function RoleProvider({
     setPermissions] =
     useState([]);
 
+  const [isPlatformOwner, setIsPlatformOwner] =
+    useState(false);
+
   const [loading,
     setLoading] =
     useState(true);
@@ -100,8 +103,9 @@ export function RoleProvider({
         setUser(null);
         setRoles([]);
         setPermissions([]);
+        setIsPlatformOwner(false);
 
-        return { user: null, roles: [], permissions: [] };
+        return { user: null, roles: [], permissions: [], isPlatformOwner: false };
       }
 
       if (!response.ok) {
@@ -119,15 +123,18 @@ export function RoleProvider({
       const nextPermissions = Array.isArray(data.permissions)
         ? data.permissions
         : [];
+      const nextIsPlatformOwner = Boolean(data.isPlatformOwner);
 
       setUser(nextUser);
       setRoles(nextRoles);
       setPermissions(nextPermissions);
+      setIsPlatformOwner(nextIsPlatformOwner);
 
       return {
         user: nextUser,
         roles: nextRoles,
         permissions: nextPermissions,
+        isPlatformOwner: nextIsPlatformOwner,
       };
     } catch (error) {
       console.error("Failed loading auth state:", error);
@@ -139,8 +146,9 @@ export function RoleProvider({
       setUser(null);
       setRoles([]);
       setPermissions([]);
+      setIsPlatformOwner(false);
 
-      return { user: null, roles: [], permissions: [] };
+      return { user: null, roles: [], permissions: [], isPlatformOwner: false };
     } finally {
       if (!mountedRef.current) {
         return;
@@ -233,6 +241,8 @@ export function RoleProvider({
 
     setPermissions([]);
 
+    setIsPlatformOwner(false);
+
     localStorage.removeItem(
       "guildId"
     );
@@ -268,6 +278,7 @@ export function RoleProvider({
         hasRole,
         hasAnyRole,
         hasPermission,
+        isPlatformOwner,
         refreshUser:
           loadUser,
         logout,

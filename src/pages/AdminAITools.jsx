@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api/api.js";
+import { useRoles } from "../context/RoleContext.jsx";
 import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
 import PageHeader from "../components/PageHeader.jsx";
@@ -12,6 +13,7 @@ const TABS = [
 ];
 
 export default function AdminAITools() {
+  const { isPlatformOwner } = useRoles();
   const [tab, setTab] = useState("guide");
   const [status, setStatus] = useState(null);
   const [loadingStatus, setLoadingStatus] = useState(true);
@@ -128,8 +130,15 @@ export default function AdminAITools() {
             {status.premium && !status.premium.active && (
               <p className="muted">
                 This server needs an active premium membership to generate
-                content.{" "}
-                <Link to="/admin/premium">Manage premium</Link>
+                content.
+                {isPlatformOwner ? (
+                  <>
+                    {" "}
+                    <Link to="/admin/premium">Manage premium</Link>
+                  </>
+                ) : (
+                  " Contact your UnderbossHQ platform operator to enable it."
+                )}
               </p>
             )}
             {status.premium?.active && (

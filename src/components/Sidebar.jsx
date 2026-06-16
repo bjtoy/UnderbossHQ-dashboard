@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
 
 export default function Sidebar() {
-  const { hasAnyRole, roles, user, logout, setGuildId } = useRoles();
+  const { hasAnyRole, roles, user, logout, setGuildId, isPlatformOwner } = useRoles();
   const location = useLocation();
   const navigate = useNavigate();
   const path = location.pathname;
@@ -117,12 +117,6 @@ export default function Sidebar() {
               System Logs
             </Link>
             <Link
-              to="/admin/premium"
-              className={navClass(path === "/admin/premium")}
-            >
-              Premium
-            </Link>
-            <Link
               to="/admin/webhooks"
               className={navClass(path === "/admin/webhooks")}
             >
@@ -145,6 +139,18 @@ export default function Sidebar() {
               className={navClass(path === "/admin/settings")}
             >
               Settings
+            </Link>
+          </div>
+        )}
+
+        {isPlatformOwner && (
+          <div className="sidebar-section">
+            <p className="sidebar-section-label">Platform</p>
+            <Link
+              to="/admin/premium"
+              className={navClass(path === "/admin/premium")}
+            >
+              Premium & Billing
             </Link>
           </div>
         )}

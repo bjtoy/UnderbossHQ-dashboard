@@ -69,7 +69,7 @@ export default function AdminPremium() {
     <div className="dashboard-page">
       <PageHeader
         title="Premium"
-        subtitle="Guild membership tier — unlocks AI tools and future premium features."
+        subtitle="Platform billing — grant or revoke premium for a server (operator only)."
       />
 
       {loading && <Loader />}

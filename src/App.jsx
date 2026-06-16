@@ -35,6 +35,7 @@ import TermsOfService from "./pages/TermsOfService.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 import DashboardLayout from "./layouts/DashboardLayout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import PlatformOwnerRoute from "./components/PlatformOwnerRoute.jsx";
 import FallbackRoute from "./components/FallbackRoute.jsx";
 
 const MOD_ROLES = ["Admin", "Mod", "Moderator"];
@@ -261,11 +262,11 @@ export default function App() {
         <Route
           path="/admin/premium"
           element={
-            <ProtectedRoute roles={["Admin"]}>
+            <PlatformOwnerRoute>
               <DashboardLayout>
                 <AdminPremium />
               </DashboardLayout>
-            </ProtectedRoute>
+            </PlatformOwnerRoute>
           }
         />
 
