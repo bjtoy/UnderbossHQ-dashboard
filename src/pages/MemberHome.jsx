@@ -100,12 +100,14 @@ export default function MemberHome() {
               <p className="muted">Game stats not connected yet</p>
             </div>
             <div className="card">
-              <h3>Power</h3>
-              <div className="value">{profile.power ?? "N/A"}</div>
+              <h3>Level</h3>
+              <div className="value">{profile.level ?? "N/A"}</div>
+              <p className="muted">HQ / character level</p>
             </div>
             <div className="card">
               <h3>Influence</h3>
               <div className="value">{profile.influence ?? "N/A"}</div>
+              <p className="muted">Game stats not connected yet</p>
             </div>
           </div>
 

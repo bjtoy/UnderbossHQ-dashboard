@@ -29,7 +29,7 @@ export function normalizeProfile(raw = {}) {
         "stats.dailyTasks",
         "stats.daily_tasks",
       ]) ?? null,
-    power: get(["power", "stats.power"]) ?? null,
+    level: get(["level", "stats.level", "power", "stats.power"]) ?? null,
     influence: get(["influence", "stats.influence"]) ?? null,
     warnings: get(["warnings", "stats.warnings"]) ?? null,
   };
