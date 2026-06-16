@@ -7,7 +7,7 @@ import ErrorCard from "../components/ErrorCard.jsx";
 import PageHeader from "../components/PageHeader.jsx";
 
 export default function AdminDashboard() {
-  const { isPlatformOwner } = useRoles();
+  const { isPlatformOwner, loading: authLoading } = useRoles();
   const [status, setStatus] = useState(null);
   const [guildInfo, setGuildInfo] = useState(null);
   const [premium, setPremium] = useState(null);
@@ -17,22 +17,55 @@ export default function AdminDashboard() {
   const [actionLoading, setActionLoading] = useState(false);
 
   useEffect(() => {
-    const requests = [api.bot.admin.status(), api.bot.admin.guildInfo()];
+    if (authLoading) return;
 
-    if (isPlatformOwner) {
-      requests.push(api.premium.status().catch(() => null));
+    let cancelled = false;
+
+    async function loadDashboard() {
+      setLoading(true);
+      setError(null);
+
+      const errors = [];
+
+      try {
+        const statusRes = await api.bot.admin.status();
+        if (!cancelled) setStatus(statusRes?.status || null);
+      } catch (err) {
+        errors.push(err.message || "Failed to load bot status");
+      }
+
+      try {
+        const guildRes = await api.bot.admin.guildInfo();
+        if (!cancelled) setGuildInfo(guildRes?.info || null);
+      } catch (err) {
+        errors.push(err.message || "Failed to load guild info");
+      }
+
+      if (isPlatformOwner) {
+        try {
+          const premiumRes = await api.premium.status();
+          if (!cancelled) setPremium(premiumRes?.data || null);
+        } catch {
+          if (!cancelled) setPremium(null);
+        }
+      }
+
+      if (!cancelled) {
+        if (errors.length === 2) {
+          setError(errors.join(" · "));
+        } else if (errors.length === 1) {
+          setError(errors[0]);
+        }
+        setLoading(false);
+      }
     }
 
-    Promise.all(requests)
-      .then((results) => {
-        const [statusRes, guildRes, premiumRes] = results;
-        setStatus(statusRes?.status || null);
-        setGuildInfo(guildRes?.info || null);
-        setPremium(premiumRes?.data || null);
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [isPlatformOwner]);
+    loadDashboard();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isPlatformOwner, authLoading]);
 
   async function runAction(action) {
     setActionLoading(true);
@@ -64,6 +97,8 @@ export default function AdminDashboard() {
     }
   }
 
+  const hasData = status || guildInfo;
+
   return (
     <div className="dashboard-page">
       <PageHeader
@@ -71,13 +106,13 @@ export default function AdminDashboard() {
         subtitle="Bot status, guild info, and server sync tools."
       />
 
-      {loading && <Loader />}
+      {(authLoading || loading) && <Loader />}
       {error && <ErrorCard message={error} />}
       {actionMessage && (
         <div className="message-banner success">{actionMessage}</div>
       )}
 
-      {!loading && !error && (
+      {!authLoading && !loading && (hasData || !error) && (
         <div className="page-body">
           <div
             className={`dashboard-grid ${
