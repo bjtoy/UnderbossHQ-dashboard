@@ -21,16 +21,6 @@ export function normalizeProfile(raw = {}) {
     faction:
       get(["faction", "guildName", "stats.faction"]) || null,
     rank: get(["rank", "stats.rank"]) || null,
-    dailyTasks:
-      get([
-        "dailyTasks",
-        "daily_tasks",
-        "tasks.daily",
-        "stats.dailyTasks",
-        "stats.daily_tasks",
-      ]) ?? null,
-    level: get(["level", "stats.level", "power", "stats.power"]) ?? null,
-    influence: get(["influence", "stats.influence"]) ?? null,
     warnings: get(["warnings", "stats.warnings"]) ?? null,
   };
 }

@@ -93,24 +93,6 @@ export default function MemberHome() {
             </div>
           </div>
 
-          <div className="dashboard-grid dashboard-grid-3">
-            <div className="card">
-              <h3>Daily Tasks</h3>
-              <div className="value">{profile.dailyTasks ?? "N/A"}</div>
-              <p className="muted">Game stats not connected yet</p>
-            </div>
-            <div className="card">
-              <h3>Level</h3>
-              <div className="value">{profile.level ?? "N/A"}</div>
-              <p className="muted">HQ / character level</p>
-            </div>
-            <div className="card">
-              <h3>Influence</h3>
-              <div className="value">{profile.influence ?? "N/A"}</div>
-              <p className="muted">Game stats not connected yet</p>
-            </div>
-          </div>
-
           <section className="page-section">
             <div className="page-header" style={{ borderBottom: "none", paddingBottom: 0 }}>
               <div className="page-header-text">
