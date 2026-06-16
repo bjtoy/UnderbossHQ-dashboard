@@ -117,6 +117,12 @@ export default function Sidebar() {
               System Logs
             </Link>
             <Link
+              to="/admin/premium"
+              className={navClass(path === "/admin/premium")}
+            >
+              Premium
+            </Link>
+            <Link
               to="/admin/webhooks"
               className={navClass(path === "/admin/webhooks")}
             >

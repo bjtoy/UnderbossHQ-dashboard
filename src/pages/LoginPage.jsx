@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import BrandMark from "../components/BrandMark.jsx";
 
 export default function LoginPage() {
@@ -17,6 +18,11 @@ export default function LoginPage() {
         <button type="button" className="btn btn-outline-red" onClick={handleLogin}>
           Login with Discord
         </button>
+        <p className="login-legal-links">
+          <Link to="/terms">Terms of Service</Link>
+          {" · "}
+          <Link to="/privacy">Privacy Policy</Link>
+        </p>
       </div>
     </div>
   );

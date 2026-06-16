@@ -27,9 +27,12 @@ import InviteTracking from "./pages/InviteTracking.jsx";
 import FactionAnalytics from "./pages/FactionAnalytics.jsx";
 import AdminWebhooks from "./pages/AdminWebhooks.jsx";
 import AdminAITools from "./pages/AdminAITools.jsx";
+import AdminPremium from "./pages/AdminPremium.jsx";
 import EventsList from "./pages/events/EventsList.jsx";
 import EventEditor from "./pages/events/EventEditor.jsx";
 import NotAuthorized from "./pages/NotAuthorized.jsx";
+import TermsOfService from "./pages/TermsOfService.jsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 import DashboardLayout from "./layouts/DashboardLayout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import FallbackRoute from "./components/FallbackRoute.jsx";
@@ -45,6 +48,8 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
 
         <Route
           path="/select-guild"
@@ -248,6 +253,17 @@ export default function App() {
             <ProtectedRoute roles={["Admin"]}>
               <DashboardLayout>
                 <AdminWebhooks />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/premium"
+          element={
+            <ProtectedRoute roles={["Admin"]}>
+              <DashboardLayout>
+                <AdminPremium />
               </DashboardLayout>
             </ProtectedRoute>
           }

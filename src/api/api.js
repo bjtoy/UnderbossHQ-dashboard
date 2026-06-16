@@ -366,4 +366,12 @@ export const api = {
     moderationSummary: (body) =>
       request("POST", "/api/ai/moderation-summary", body),
   },
+
+  premium: {
+    status: () => request("GET", "/api/premium/status"),
+
+    grant: (body) => request("POST", "/api/premium/grant", body),
+
+    revoke: () => request("POST", "/api/premium/revoke"),
+  },
 };

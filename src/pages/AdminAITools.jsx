@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { api } from "../api/api.js";
 import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
@@ -36,6 +37,9 @@ export default function AdminAITools() {
       .catch((err) => setError(err.message))
       .finally(() => setLoadingStatus(false));
   }, []);
+
+  const aiReady =
+    status?.configured && (status?.premium?.active ?? false);
 
   async function runGuideDraft() {
     setGenerating(true);
@@ -121,6 +125,19 @@ export default function AdminAITools() {
                 to enable these tools.
               </p>
             )}
+            {status.premium && !status.premium.active && (
+              <p className="muted">
+                This server needs an active premium membership to generate
+                content.{" "}
+                <Link to="/admin/premium">Manage premium</Link>
+              </p>
+            )}
+            {status.premium?.active && (
+              <p className="muted">
+                Premium active — {status.premium.daysRemaining} day(s)
+                remaining.
+              </p>
+            )}
           </div>
 
           <div className="action-row">
@@ -172,7 +189,7 @@ export default function AdminAITools() {
               <button
                 type="button"
                 className="btn btn-outline-red btn-sm"
-                disabled={generating || !guideTopic.trim() || !status.configured}
+                disabled={generating || !guideTopic.trim() || !aiReady}
                 onClick={runGuideDraft}
               >
                 {generating ? "Generating..." : "Generate guide"}
@@ -233,7 +250,7 @@ export default function AdminAITools() {
                 type="button"
                 className="btn btn-outline-red btn-sm"
                 disabled={
-                  generating || !announceTopic.trim() || !status.configured
+                  generating || !announceTopic.trim() || !aiReady
                 }
                 onClick={runAnnouncementDraft}
               >
@@ -285,7 +302,7 @@ export default function AdminAITools() {
               <button
                 type="button"
                 className="btn btn-outline-red btn-sm"
-                disabled={generating || !modUserId.trim() || !status.configured}
+                disabled={generating || !modUserId.trim() || !aiReady}
                 onClick={runModerationSummary}
               >
                 {generating ? "Analyzing..." : "Summarize case"}
