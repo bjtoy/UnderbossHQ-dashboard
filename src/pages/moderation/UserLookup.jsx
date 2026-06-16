@@ -32,7 +32,6 @@ export default function UserLookup() {
       if (type === "promote") res = await api.bot.mod.promote(payload);
       if (type === "demote") res = await api.bot.mod.demote(payload);
       if (type === "kick") res = await api.bot.mod.kick(payload);
-      if (type === "ban") res = await api.bot.mod.ban(payload);
 
       if (!res || res.error) {
         setActionMessage(res?.error || "Action failed");
@@ -129,14 +128,6 @@ export default function UserLookup() {
               className="btn btn-danger btn-sm"
             >
               Kick
-            </button>
-            <button
-              type="button"
-              onClick={() => handleAction("ban")}
-              disabled={loadingAction}
-              className="btn btn-danger btn-sm"
-            >
-              Ban
             </button>
           </div>
 

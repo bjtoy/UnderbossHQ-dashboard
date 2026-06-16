@@ -216,13 +216,6 @@ export const api = {
           body
         ),
 
-      ban: (body) =>
-        request(
-          "POST",
-          "/api/bot/mod/ban",
-          body
-        ),
-
       promote: (body) =>
         request(
           "POST",
@@ -243,8 +236,6 @@ export const api = {
       mute: (body) => request("POST", "/api/bot/mod/mute", body),
 
       unmute: (body) => request("POST", "/api/bot/mod/unmute", body),
-
-      unban: (body) => request("POST", "/api/bot/mod/unban", body),
 
       note: (body) => request("POST", "/api/bot/mod/note", body),
     },

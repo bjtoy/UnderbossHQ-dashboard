@@ -9,8 +9,7 @@ export default function CaseDetail() {
   const { userId } = useParams();
   const [caseFile, setCaseFile] = useState(null);
   const [note, setNote] = useState("");
-  const [muteMinutes, setMuteMinutes] = useState("10");
-  const [muteReason, setMuteReason] = useState("");
+  const [kickReason, setKickReason] = useState("");
   const [loading, setLoading] = useState(true);
   const [acting, setActing] = useState(false);
   const [summarizing, setSummarizing] = useState(false);
@@ -44,21 +43,20 @@ export default function CaseDetail() {
     try {
       let res;
 
-      if (action === "mute") {
-        res = await api.bot.mod.mute({
+      if (action === "kick") {
+        res = await api.bot.mod.kick({
           userId,
-          reason: muteReason || "Muted from case file",
-          durationMinutes: Number(muteMinutes) || 10,
+          reason: kickReason || "Kicked from case file",
         });
-      } else if (action === "unmute") {
-        res = await api.bot.mod.unmute({
+      } else if (action === "promote") {
+        res = await api.bot.mod.promote({
           userId,
-          reason: "Timeout cleared from case file",
+          reason: "Promoted from case file",
         });
-      } else if (action === "unban") {
-        res = await api.bot.mod.unban({
+      } else if (action === "demote") {
+        res = await api.bot.mod.demote({
           userId,
-          reason: "Ban lifted from case file",
+          reason: "Demoted from case file",
         });
       } else if (action === "note") {
         res = await api.bot.mod.note({ userId, note });
@@ -149,55 +147,42 @@ export default function CaseDetail() {
 
           <div className="card page-stack">
             <h3>Quick Actions</h3>
-            <div className="dashboard-grid dashboard-grid-3">
-              <div className="field-group">
-                <label className="field-label" htmlFor="mute-minutes">
-                  Mute duration (minutes)
-                </label>
-                <input
-                  id="mute-minutes"
-                  className="field-input"
-                  value={muteMinutes}
-                  onChange={(e) => setMuteMinutes(e.target.value)}
-                />
-              </div>
-              <div className="field-group">
-                <label className="field-label" htmlFor="mute-reason">
-                  Mute reason
-                </label>
-                <input
-                  id="mute-reason"
-                  className="field-input"
-                  value={muteReason}
-                  onChange={(e) => setMuteReason(e.target.value)}
-                  placeholder="Reason for mute"
-                />
-              </div>
+            <div className="field-group">
+              <label className="field-label" htmlFor="kick-reason">
+                Kick reason (optional)
+              </label>
+              <input
+                id="kick-reason"
+                className="field-input"
+                value={kickReason}
+                onChange={(e) => setKickReason(e.target.value)}
+                placeholder="Reason for kick"
+              />
             </div>
             <div className="action-row">
               <button
                 type="button"
-                className="btn btn-outline-red btn-sm"
+                className="btn btn-danger btn-sm"
                 disabled={acting}
-                onClick={() => runAction("mute")}
+                onClick={() => runAction("kick")}
               >
-                Mute
+                Kick
               </button>
               <button
                 type="button"
                 className="btn btn-outline-red btn-sm"
                 disabled={acting}
-                onClick={() => runAction("unmute")}
+                onClick={() => runAction("promote")}
               >
-                Unmute
+                Promote
               </button>
               <button
                 type="button"
                 className="btn btn-outline-red btn-sm"
                 disabled={acting}
-                onClick={() => runAction("unban")}
+                onClick={() => runAction("demote")}
               >
-                Unban
+                Demote
               </button>
             </div>
           </div>
