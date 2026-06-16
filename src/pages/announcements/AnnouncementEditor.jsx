@@ -1,0 +1,195 @@
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { api } from "../../api/api.js";
+import Loader from "../../components/Loader.jsx";
+import ErrorCard from "../../components/ErrorCard.jsx";
+import PageHeader from "../../components/PageHeader.jsx";
+
+export default function AnnouncementEditor() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isNew = !id || id === "new";
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(!isNew);
+  const [saving, setSaving] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState("");
+  const [aiTopic, setAiTopic] = useState("");
+
+  useEffect(() => {
+    if (isNew) return;
+
+    api.announcements
+      .get(id)
+      .then((data) => {
+        const announcement = data?.data;
+        if (!announcement) throw new Error("Announcement not found");
+        setTitle(announcement.title);
+        setDescription(announcement.description);
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [id, isNew]);
+
+  async function handleSave() {
+    if (!title.trim() || !description.trim()) {
+      setMessage("Title and description are required.");
+      return;
+    }
+
+    setSaving(true);
+    setMessage("");
+    setError(null);
+
+    try {
+      if (isNew) {
+        const result = await api.announcements.create({ title, description });
+        navigate(`/announcements/${result.id}/edit`, { replace: true });
+        setMessage("Announcement created.");
+      } else {
+        await api.announcements.update(id, { title, description });
+        setMessage("Announcement saved.");
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleDelete() {
+    if (isNew || !window.confirm("Delete this announcement?")) return;
+
+    setSaving(true);
+    setError(null);
+
+    try {
+      await api.announcements.remove(id);
+      navigate("/announcements", { replace: true });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleAiDraft() {
+    const topic = aiTopic.trim() || title.trim();
+    if (!topic) {
+      setMessage("Enter a title or AI topic first.");
+      return;
+    }
+
+    setGenerating(true);
+    setMessage("");
+    setError(null);
+
+    try {
+      const res = await api.ai.announcementDraft({ topic });
+      const draft = res?.data;
+      if (draft?.title) setTitle(draft.title);
+      if (draft?.description) setDescription(draft.description);
+      setMessage("AI draft applied — review before saving.");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setGenerating(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="dashboard-page">
+        <PageHeader title={isNew ? "New Announcement" : "Edit Announcement"} />
+        <Loader />
+      </div>
+    );
+  }
+
+  return (
+    <div className="dashboard-page">
+      <PageHeader
+        title={isNew ? "New Announcement" : "Edit Announcement"}
+        actions={
+          <Link to="/announcements" className="btn btn-outline-red btn-sm">
+            Back to Announcements
+          </Link>
+        }
+      />
+
+      {error && <ErrorCard message={error} />}
+      {message && <div className="message-banner success">{message}</div>}
+
+      <div className="page-body">
+        <div className="card page-stack">
+          <div className="field-group">
+            <label className="field-label" htmlFor="announcement-title">
+              Title
+            </label>
+            <input
+              id="announcement-title"
+              className="field-input"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Announcement title"
+            />
+          </div>
+
+          <div className="field-group">
+            <label className="field-label" htmlFor="announcement-description">
+              Description
+            </label>
+            <textarea
+              id="announcement-description"
+              className="field-textarea"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Write the announcement..."
+            />
+          </div>
+
+          <div className="dashboard-grid dashboard-grid-3">
+            <input
+              className="field-input"
+              value={aiTopic}
+              onChange={(e) => setAiTopic(e.target.value)}
+              placeholder={title || "Topic for AI draft..."}
+            />
+            <button
+              type="button"
+              className="btn btn-outline-red btn-sm"
+              disabled={generating}
+              onClick={handleAiDraft}
+            >
+              {generating ? "Generating..." : "Generate with AI"}
+            </button>
+          </div>
+
+          <div className="action-row">
+            <button
+              type="button"
+              className="btn btn-outline-red"
+              onClick={handleSave}
+              disabled={saving}
+            >
+              {saving ? "Saving..." : "Save"}
+            </button>
+            {!isNew && (
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleDelete}
+                disabled={saving}
+              >
+                Delete
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

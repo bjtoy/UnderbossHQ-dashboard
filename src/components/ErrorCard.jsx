@@ -23,7 +23,8 @@ export default function ErrorCard({ message = "Something went wrong." }) {
 
       <p
         style={{
-          color: "var(--text-muted)",
+          color: "var(--text-red-soft)",
+          textShadow: "var(--text-glow-red-muted)",
           fontSize: "15px",
           lineHeight: "1.5",
         }}

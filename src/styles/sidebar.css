@@ -1,44 +1,207 @@
 /* ===========================
+
    UNDERBOSSHQ SIDEBAR STYLING
+
    =========================== */
 
+
+
 .sidebar {
+
     background: var(--bg-darker);
+
     border-right: 1px solid var(--border-soft);
+
+    width: var(--sidebar-width);
+
+    height: 100%;
+
+    padding: 20px 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
 }
+
+
+
+.sidebar-header {
+
+    padding: 0 20px 16px;
+
+    border-bottom: 1px solid var(--border-soft);
+
+    margin-bottom: 4px;
+
+    flex-shrink: 0;
+
+}
+
+
+
+.sidebar-user {
+    margin: 0 0 2px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-red);
+    text-shadow: var(--text-glow-red-soft);
+}
+
+
+
+.sidebar-nav {
+
+    flex: 1;
+
+    padding: 8px 0 16px;
+
+    overflow-y: auto;
+
+}
+
+
+
+.sidebar-section {
+
+    margin-bottom: 4px;
+
+}
+
+
+
+.sidebar-footer {
+    padding: 16px 20px 0;
+    margin-top: auto;
+    flex-shrink: 0;
+    border-top: 1px solid var(--border-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-logout {
+    margin-top: 0;
+}
+
+
+
+/* NAV ITEM */
 
 .nav-item {
+
     display: block;
-    padding: 12px 24px;
-    font-size: 16px;
-    color: var(--text-bright);
+
+    padding: 12px 20px 12px 24px;
+
+    font-size: 15px;
+
+    font-weight: 400;
+
+    font-family: var(--font-body);
+
+    color: var(--text-red-soft);
+
+    text-shadow: var(--text-glow-red-soft);
+
     text-decoration: none;
-    transition: 0.25s ease;
+
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+
+    border-left: 3px solid transparent;
+
 }
 
-/* ACTIVE ITEM — Gold text + soft gold background */
+
+
 .nav-item.active {
-    color: var(--accent-gold);
-    background: rgba(212, 175, 55, 0.08);
-    font-weight: 600;
+
+    color: var(--text-red);
+
+    background: rgba(201, 72, 72, 0.1);
+
+    border-left-color: var(--brand-red-glow);
+
+    font-weight: 700;
+
+    text-shadow: var(--text-glow-red-soft);
+
+    box-shadow: inset 0 0 12px rgba(201, 72, 72, 0.12);
+
 }
 
-/* HOVER — Gold text + Red Glow */
+
+
 .nav-item:hover {
-    color: var(--accent-gold-hover);
-    background: rgba(255, 58, 58, 0.12); /* red glow tint */
-    box-shadow: 0 0 12px rgba(255, 58, 58, 0.35); /* red glow */
-    transform: translateX(4px); /* subtle mafia slide */
+
+    color: var(--text-red);
+
+    background: rgba(201, 72, 72, 0.06);
+
+    text-shadow: var(--text-glow-red-muted);
+
 }
 
-/* Sidebar section labels */
+
+
 .sidebar-section-label {
-    margin-top: 20px;
-    margin-bottom: 8px;
-    padding-left: 24px;
-    font-size: 14px;
-    color: var(--brand-red);
+
+    margin: 16px 0 6px;
+
+    padding: 0 24px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    font-family: var(--font-body);
+
+    color: var(--text-red-muted);
+
     text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.9;
+
+    letter-spacing: 1.4px;
+
+    text-shadow: var(--text-glow-red-muted);
+
 }
+
+
+
+.sidebar-section:first-child .sidebar-section-label {
+
+    margin-top: 8px;
+
+}
+
+
+
+.sidebar-divider {
+
+    height: 1px;
+
+    background: var(--border-soft);
+
+    margin: 18px 20px;
+
+}
+
+
+
+.sidebar-note {
+
+    margin: 12px 20px 0;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+    flex-shrink: 0;
+
+}
+
+

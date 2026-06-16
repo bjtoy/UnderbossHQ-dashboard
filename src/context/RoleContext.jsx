@@ -6,159 +6,214 @@ import {
   useRef,
 } from "react";
 
-import { registerAuthHandlers } from "../api/api.js";
+import {
+  registerAuthHandlers,
+} from "../api/api.js";
 
-const RoleContext = createContext();
+const RoleContext =
+  createContext();
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL =
+  import.meta.env.VITE_API_URL;
 
-export function RoleProvider({ children }) {
-
-  // =========================
-  // AUTH STATE
-  // =========================
-  const [user, setUser] = useState(null);
-
-  const [roles, setRoles] = useState([]);
-  const [permissions, setPermissions] = useState([]);
-
-  const [loading, setLoading] = useState(true);
+export function RoleProvider({
+  children,
+}) {
 
   /**
-   * Prevent duplicate auth hydration
+   * =========================
+   * AUTH STATE
+   * =========================
    */
-  const loadedRef = useRef(false);
 
   /**
-   * Prevent state updates after unmount
+   * IMPORTANT:
+   * undefined = hydrating
+   * null = not logged in
+   * object = authenticated
    */
-  const mountedRef = useRef(true);
+  const [user, setUser] =
+    useState(undefined);
 
-  // =========================
-  // GUILD STATE
-  // =========================
-  const [guildId, setGuildId] = useState(() => {
+  const [roles, setRoles] =
+    useState([]);
+
+  const [permissions,
+    setPermissions] =
+    useState([]);
+
+  const [isPlatformOwner, setIsPlatformOwner] =
+    useState(false);
+
+  const [loading,
+    setLoading] =
+    useState(true);
+
+  /**
+   * Prevent duplicate loads
+   */
+  const loadedRef =
+    useRef(false);
+
+  /**
+   * Prevent updates after unmount
+   */
+  const mountedRef =
+    useRef(true);
+
+  /**
+   * =========================
+   * GUILD STATE
+   * =========================
+   */
+  const [guildId, setGuildIdState] = useState(() => {
     return localStorage.getItem("guildId") || null;
   });
 
-  // =========================
-  // LOAD USER
-  // =========================
+  function setGuildId(id) {
+    if (id) {
+      localStorage.setItem("guildId", id);
+    } else {
+      localStorage.removeItem("guildId");
+    }
+    setGuildIdState(id);
+  }
+
+  /**
+   * =========================
+   * LOAD USER
+   * =========================
+   */
   async function loadUser() {
-
     try {
-
       setLoading(true);
 
-      const response = await fetch(
-        `${API_URL}/api/auth/me`,
-        {
-          credentials: "include",
-        }
-      );
+      const storedGuildId = localStorage.getItem("guildId");
 
-      // UNAUTHORISED
+      const response = await fetch(`${API_URL}/api/auth/me`, {
+        credentials: "include",
+        headers: storedGuildId ? { "x-guild-id": storedGuildId } : {},
+      });
+
       if (response.status === 401) {
-
-        if (!mountedRef.current) return;
+        if (!mountedRef.current) {
+          return { user: null, roles: [], permissions: [] };
+        }
 
         setUser(null);
         setRoles([]);
         setPermissions([]);
+        setIsPlatformOwner(false);
 
-        return;
+        return { user: null, roles: [], permissions: [], isPlatformOwner: false };
       }
 
-      // INVALID RESPONSE
       if (!response.ok) {
-
-        throw new Error(
-          `Auth request failed: ${response.status}`
-        );
+        throw new Error(`Auth request failed: ${response.status}`);
       }
 
       const data = await response.json();
 
-      if (!mountedRef.current) return;
+      if (!mountedRef.current) {
+        return null;
+      }
 
-      // SUCCESS
-      setUser(data.user || null);
+      const nextUser = data.user || null;
+      const nextRoles = Array.isArray(data.roles) ? data.roles : [];
+      const nextPermissions = Array.isArray(data.permissions)
+        ? data.permissions
+        : [];
+      const nextIsPlatformOwner = Boolean(data.isPlatformOwner);
 
-      setRoles(
-        Array.isArray(data.roles)
-          ? data.roles
-          : []
-      );
+      setUser(nextUser);
+      setRoles(nextRoles);
+      setPermissions(nextPermissions);
+      setIsPlatformOwner(nextIsPlatformOwner);
 
-      setPermissions(
-        Array.isArray(data.permissions)
-          ? data.permissions
-          : []
-      );
-
+      return {
+        user: nextUser,
+        roles: nextRoles,
+        permissions: nextPermissions,
+        isPlatformOwner: nextIsPlatformOwner,
+      };
     } catch (error) {
+      console.error("Failed loading auth state:", error);
 
-      console.error(
-        "Failed loading auth state:",
-        error
-      );
-
-      if (!mountedRef.current) return;
+      if (!mountedRef.current) {
+        return { user: null, roles: [], permissions: [] };
+      }
 
       setUser(null);
       setRoles([]);
       setPermissions([]);
+      setIsPlatformOwner(false);
 
+      return { user: null, roles: [], permissions: [], isPlatformOwner: false };
     } finally {
-
-      if (!mountedRef.current) return;
+      if (!mountedRef.current) {
+        return;
+      }
 
       setLoading(false);
-
       loadedRef.current = true;
     }
   }
 
-  // =========================
-  // INITIAL LOAD
-  // =========================
+  /**
+   * =========================
+   * INITIAL LOAD
+   * =========================
+   */
   useEffect(() => {
 
-    mountedRef.current = true;
+    mountedRef.current =
+      true;
 
-    if (!loadedRef.current) {
-      loadUser();
-    }
+    loadUser();
 
     return () => {
-      mountedRef.current = false;
+
+      mountedRef.current =
+        false;
     };
 
-  }, []);
+  }, [guildId]);
 
-  // =========================
-  // HELPERS
-  // =========================
-  function hasRole(roleName) {
+  /**
+   * =========================
+   * HELPERS
+   * =========================
+   */
+  function hasRole(
+    roleName
+  ) {
 
-    return roles.includes(roleName);
+    return roles.includes(
+      roleName
+    );
   }
 
-  function hasAnyRole(roleList) {
+  function hasAnyRole(
+    roleList
+  ) {
 
     return roleList.some(
-      (role) => roles.includes(role)
+      (role) =>
+        roles.includes(role)
     );
   }
 
   function hasPermission(permission) {
-
-    return permissions.includes(permission);
+    return (
+      permissions.includes("*") || permissions.includes(permission)
+    );
   }
 
-  // =========================
-  // LOGOUT
-  // =========================
+  /**
+   * =========================
+   * LOGOUT
+   * =========================
+   */
   async function logout() {
 
     try {
@@ -167,7 +222,8 @@ export function RoleProvider({ children }) {
         `${API_URL}/api/auth/logout`,
         {
           method: "POST",
-          credentials: "include",
+          credentials:
+            "include",
         }
       );
 
@@ -180,22 +236,32 @@ export function RoleProvider({ children }) {
     }
 
     setUser(null);
+
     setRoles([]);
+
     setPermissions([]);
 
-    localStorage.removeItem("guildId");
+    setIsPlatformOwner(false);
 
-    window.location.href = "/login";
+    localStorage.removeItem(
+      "guildId"
+    );
+
+    window.location.href =
+      "/login";
   }
 
-  // =========================
-  // API REGISTRATION
-  // =========================
+  /**
+   * =========================
+   * REGISTER API HANDLERS
+   * =========================
+   */
   useEffect(() => {
 
     registerAuthHandlers({
       logout,
-      refreshUser: loadUser,
+      refreshUser:
+        loadUser,
     });
 
   }, []);
@@ -212,7 +278,9 @@ export function RoleProvider({ children }) {
         hasRole,
         hasAnyRole,
         hasPermission,
-        refreshUser: loadUser,
+        isPlatformOwner,
+        refreshUser:
+          loadUser,
         logout,
       }}
     >
@@ -223,5 +291,7 @@ export function RoleProvider({ children }) {
 
 export function useRoles() {
 
-  return useContext(RoleContext);
+  return useContext(
+    RoleContext
+  );
 }

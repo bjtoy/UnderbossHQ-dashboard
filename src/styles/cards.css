@@ -7,88 +7,97 @@
     background: var(--surface-2);
     border: 1px solid var(--border-soft);
     border-radius: 10px;
-    padding: 20px;
+    padding: 22px;
     color: var(--text-bright);
+    text-shadow: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
     transition: 0.25s ease;
 }
 
-/* Hover — Gold border + Red glow */
+/* Hover — Gold border + soft glow */
 .card:hover {
     border-color: var(--accent-gold);
-    box-shadow: 0 0 14px rgba(255, 58, 58, 0.45);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
     transform: translateY(-3px);
 }
 
-/* Card Title */
+/* Card Title — Goldrops */
 .card h3,
 .card-title {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    color: var(--brand-red);
-    text-shadow: 0 0 10px rgba(255, 58, 58, 0.45);
-}
-
-/* Stat Value */
-.card .value {
-    font-size: 32px;
-    font-weight: 800;
-    color: var(--accent-gold);
-    text-shadow: 0 0 8px rgba(212, 175, 55, 0.35);
-}
-
-/* Section Title (Used in MemberHome) */
-.section-title {
+    font-family: var(--font-heading);
     font-size: 26px;
-    font-weight: 800;
-    margin-bottom: 20px;
-    color: var(--brand-red);
-    text-shadow: 0 0 12px rgba(255, 58, 58, 0.55);
+    font-weight: 400;
+    margin-bottom: 12px;
+    color: var(--text-red);
+    text-shadow: var(--text-glow-red-soft);
 }
 
-/* Error Card */
+/* Stat values — Caudex bold */
+.card .value {
+    font-family: var(--font-body);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-red);
+    letter-spacing: 0.5px;
+    text-shadow: var(--text-glow-red-strong);
+}
+
+/* section-title lives in typography.css */
+
+/* ============================================
+   SPECIAL CARDS
+   ============================================ */
+
 .error-card {
     background: rgba(138, 0, 21, 0.15);
     border: 1px solid var(--danger);
     border-radius: 10px;
     padding: 20px;
-    color: var(--text-bright);
+    color: var(--text-red);
+    text-shadow: var(--text-glow-red-soft);
     box-shadow: 0 0 12px rgba(255, 58, 58, 0.35);
 }
 
 .error-card h3 {
-    color: var(--danger);
-    text-shadow: 0 0 10px rgba(255, 58, 58, 0.45);
+    color: var(--text-red);
+    text-shadow: var(--text-glow-red-strong);
 }
 
-/* Info Card */
 .info-card {
     background: var(--surface-1);
-    border: 1px solid var(--accent-gold);
+    border: 1px solid var(--brand-red-glow);
     border-radius: 10px;
     padding: 20px;
-    color: var(--text-bright);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+    color: var(--text-red-soft);
+    text-shadow: var(--text-glow-red-soft);
+    box-shadow: 0 0 10px rgba(255, 58, 58, 0.25);
 }
 
 .info-card h3 {
-    color: var(--accent-gold);
-    text-shadow: 0 0 10px rgba(212, 175, 55, 0.35);
+    color: var(--text-red);
+    text-shadow: var(--text-glow-red);
 }
 
-/* Card Grid Layouts */
+/* ============================================
+   CARD GRID SYSTEM (Unified — no duplicates)
+   ============================================ */
+
 .card-grid {
     display: grid;
-    gap: 20px;
+    gap: 22px;
 }
 
-.card-grid-3 {
-    grid-template-columns: repeat(3, 1fr);
+.card-grid,
+.dashboard-grid {
+    margin-top: 0;
 }
 
 .card-grid-2 {
     grid-template-columns: repeat(2, 1fr);
+}
+
+.card-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .card-grid-4 {
@@ -104,8 +113,8 @@
 }
 
 @media (max-width: 600px) {
-    .card-grid-3,
     .card-grid-4,
+    .card-grid-3,
     .card-grid-2 {
         grid-template-columns: 1fr;
     }

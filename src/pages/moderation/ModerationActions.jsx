@@ -8,7 +8,7 @@ export default function ModerationActions({ userId }) {
 
   if (!userId) {
     return (
-      <div className="p-4 text-gray-400">
+      <div className="card empty-state">
         Enter a user ID to perform moderation actions.
       </div>
     );
@@ -40,57 +40,72 @@ export default function ModerationActions({ userId }) {
   }
 
   return (
-    <div className="p-4 bg-gray-900 border border-gray-700 rounded">
-      <h2 className="text-lg font-bold mb-3 text-white">
+    <div className="card page-stack">
+      <h2 className="section-title">
         Moderation Actions for {userId}
       </h2>
 
-      {/* REASON INPUT */}
-      <textarea
-        value={reason}
-        onChange={(e) => setReason(e.target.value)}
-        placeholder="Reason (optional)"
-        className="w-full p-2 mb-3 bg-gray-800 border border-gray-700 text-gray-200"
-      />
+      <div className="field-group">
+        <label className="field-label" htmlFor="mod-reason">
+          Reason
+        </label>
+        <textarea
+          id="mod-reason"
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
+          placeholder="Reason (optional)"
+          className="field-textarea"
+        />
+      </div>
 
-      {/* ACTION BUTTONS */}
-      <div className="flex flex-wrap gap-3 mb-3">
+      <div className="action-row">
         <button
+          type="button"
           onClick={() => runAction("warn")}
           disabled={loading}
-          className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white"
+          className="btn btn-outline-red"
         >
           Warn
         </button>
 
         <button
+          type="button"
           onClick={() => runAction("promote")}
           disabled={loading}
-          className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white"
+          className="btn btn-outline-red"
         >
           Promote
         </button>
 
         <button
+          type="button"
           onClick={() => runAction("demote")}
           disabled={loading}
-          className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white"
+          className="btn btn-outline-red"
         >
           Demote
         </button>
 
         <button
+          type="button"
           onClick={() => runAction("kick")}
           disabled={loading}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white"
+          className="btn btn-danger"
         >
           Kick
         </button>
       </div>
 
-      {/* RESULT MESSAGE */}
       {message && (
-        <div className="text-gray-300 text-sm">{message}</div>
+        <div
+          className={`message-banner ${
+            message.includes("failed") || message.includes("Failed")
+              ? "error"
+              : "success"
+          }`}
+        >
+          {message}
+        </div>
       )}
     </div>
   );

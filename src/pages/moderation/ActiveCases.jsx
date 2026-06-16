@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { api } from "../../api/api";
+import { api } from "../../api/api.js";
+import Loader from "../../components/Loader.jsx";
+import ErrorCard from "../../components/ErrorCard.jsx";
+import PageHeader from "../../components/PageHeader.jsx";
 
 export default function ActiveCases() {
   const [cases, setCases] = useState([]);
@@ -11,65 +14,66 @@ export default function ActiveCases() {
       setLoading(true);
       setError("");
 
-      const res = await api.bot.mod.activeCases();
+      try {
+        const res = await api.bot.mod.activeCases();
 
-      if (!res || res.error) {
-        setError(res?.error || "Failed to load active cases");
+        if (!res || res.error) {
+          setError(res?.error || "Failed to load active cases");
+          return;
+        }
+
+        setCases(res.cases || []);
+      } catch (err) {
+        setError(err.message || "Failed to load active cases");
+      } finally {
         setLoading(false);
-        return;
       }
-
-      setCases(res.cases || res); // backend may return {cases:[]} or []
-      setLoading(false);
     }
 
     loadCases();
   }, []);
 
-  if (loading) {
-    return <div className="p-4 text-gray-300">Loading active cases…</div>;
-  }
-
-  if (error) {
-    return (
-      <div className="p-4 text-red-400">
-        Error loading cases: {error}
-      </div>
-    );
-  }
-
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-bold mb-4 text-white">Active Moderation Cases</h1>
+    <div className="dashboard-page">
+      <PageHeader
+        title="Active Cases"
+        subtitle="Open moderation cases for this server."
+      />
 
-      {cases.length === 0 ? (
-        <div className="text-gray-400">No active cases.</div>
-      ) : (
-        <table className="w-full border border-gray-700 text-gray-200">
-          <thead className="bg-gray-800">
-            <tr>
-              <th className="p-2 border border-gray-700">Case ID</th>
-              <th className="p-2 border border-gray-700">User</th>
-              <th className="p-2 border border-gray-700">Moderator</th>
-              <th className="p-2 border border-gray-700">Status</th>
-              <th className="p-2 border border-gray-700">Opened</th>
-            </tr>
-          </thead>
+      {loading && <Loader />}
+      {error && <ErrorCard message={error} />}
 
-          <tbody>
-            {cases.map((c) => (
-              <tr key={c.caseId} className="bg-gray-900">
-                <td className="p-2 border border-gray-700">{c.caseId}</td>
-                <td className="p-2 border border-gray-700">{c.userId}</td>
-                <td className="p-2 border border-gray-700">{c.moderatorId}</td>
-                <td className="p-2 border border-gray-700">{c.status || "open"}</td>
-                <td className="p-2 border border-gray-700">
-                  {new Date(c.openedAt).toLocaleString()}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      {!loading && !error && (
+        <div className="page-body">
+          {cases.length === 0 ? (
+            <div className="card empty-state">No active cases.</div>
+          ) : (
+            <div className="card">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Case ID</th>
+                    <th>User</th>
+                    <th>Moderator</th>
+                    <th>Status</th>
+                    <th>Opened</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cases.map((c) => (
+                    <tr key={c.caseId}>
+                      <td>{c.caseId}</td>
+                      <td>{c.userId}</td>
+                      <td>{c.moderatorId}</td>
+                      <td>{c.status || "open"}</td>
+                      <td>{new Date(c.openedAt).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

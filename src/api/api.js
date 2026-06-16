@@ -3,44 +3,44 @@ import { toastError } from "../utils/toastHelper.js";
 let logoutFn = null;
 let refreshUserFn = null;
 
-// Allow AuthContext to inject logout + refreshUser
-export function registerAuthHandlers({ logout, refreshUser }) {
+export function registerAuthHandlers({
+  logout,
+  refreshUser,
+}) {
   logoutFn = logout;
   refreshUserFn = refreshUser;
 }
 
-// =======================================
-// API BASE
-// =======================================
 const API_BASE = import.meta.env.VITE_API_URL;
 
-// =======================================
-// UNIVERSAL REQUEST WRAPPER
-// =======================================
-async function request(method, endpoint, body = null) {
-  // ===================================
-  // GET CURRENT GUILD ID
-  // ===================================
-  const guildId = localStorage.getItem("guildId");
+async function request(
+  method,
+  endpoint,
+  body = null
+) {
+  const guildId =
+    localStorage.getItem("guildId");
 
   const options = {
     method,
     credentials: "include",
 
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type":
+        "application/json",
 
-      // ===================================
-      // SEND GUILD ID TO BACKEND
-      // ===================================
       ...(guildId
-        ? { "x-guild-id": guildId }
+        ? {
+            "x-guild-id":
+              guildId,
+          }
         : {}),
     },
   };
 
   if (body) {
-    options.body = JSON.stringify(body);
+    options.body =
+      JSON.stringify(body);
   }
 
   let res;
@@ -58,24 +58,19 @@ async function request(method, endpoint, body = null) {
     throw err;
   }
 
-  // ===================================
-  // AUTH
-  // ===================================
   if (res.status === 401) {
-    if (logoutFn) logoutFn();
-    return;
+    if (logoutFn) {
+      logoutFn();
+    }
+
+    throw new Error("Not authenticated");
   }
 
   if (res.status === 403) {
-    window.location.href =
-      "/not-authorized";
-
-    return;
+    window.location.href = "/not-authorized";
+    throw new Error("Forbidden");
   }
 
-  // ===================================
-  // PARSE RESPONSE
-  // ===================================
   let data = null;
 
   try {
@@ -84,9 +79,6 @@ async function request(method, endpoint, body = null) {
     data = null;
   }
 
-  // ===================================
-  // ERROR HANDLING
-  // ===================================
   if (!res.ok) {
     const msg =
       data?.error ||
@@ -98,11 +90,10 @@ async function request(method, endpoint, body = null) {
     throw new Error(msg);
   }
 
-  // ===================================
-  // REFRESH USER
-  // ===================================
   if (
-    ["POST", "PUT", "DELETE"].includes(method) &&
+    ["POST", "PUT", "DELETE"].includes(
+      method
+    ) &&
     refreshUserFn
   ) {
     refreshUserFn();
@@ -111,115 +102,276 @@ async function request(method, endpoint, body = null) {
   return data;
 }
 
-// =======================================
-// API METHODS
-// =======================================
 export const api = {
   get: (endpoint) =>
     request("GET", endpoint),
 
   post: (endpoint, body) =>
-    request("POST", endpoint, body),
+    request(
+      "POST",
+      endpoint,
+      body
+    ),
 
   put: (endpoint, body) =>
-    request("PUT", endpoint, body),
+    request(
+      "PUT",
+      endpoint,
+      body
+    ),
 
   delete: (endpoint) =>
-    request("DELETE", endpoint),
+    request(
+      "DELETE",
+      endpoint
+    ),
 
   auth: {
     me: () =>
-      request("GET", "/api/auth/me"),
+      request(
+        "GET",
+        "/api/auth/me"
+      ),
 
     logout: () =>
-      request("POST", "/api/auth/logout"),
+      request(
+        "POST",
+        "/api/auth/logout"
+      ),
   },
 
   guilds: {
     list: () =>
-      request("GET", "/api/guilds"),
+      request(
+        "GET",
+        "/api/guilds"
+      ),
+  },
+
+  member: {
+    profile: () =>
+      request(
+        "GET",
+        "/api/member/profile"
+      ),
   },
 
   bot: {
-    mod: {
-      overview: () =>
-        request(
-          "GET",
-          "/bot/mod/overview"
-        ),
-
-      activeCases: () =>
-        request(
-          "GET",
-          "/bot/mod/active-cases"
-        ),
-
-      warnings: (userId) =>
-        request(
-          "GET",
-          `/bot/mod/warnings/${userId}`
-        ),
-
-      warn: (data) =>
-        request(
-          "POST",
-          "/bot/mod/warn",
-          data
-        ),
-
-      kick: (data) =>
-        request(
-          "POST",
-          "/bot/mod/kick",
-          data
-        ),
-
-      ban: (data) =>
-        request(
-          "POST",
-          "/bot/mod/ban",
-          data
-        ),
-    },
-
     admin: {
       status: () =>
         request(
           "GET",
-          "/bot/admin/status"
+          "/api/bot/admin/status"
         ),
 
       guildInfo: () =>
         request(
           "GET",
-          "/bot/admin/guild-info"
+          "/api/bot/admin/guild-info"
         ),
 
       reloadConfig: () =>
         request(
           "POST",
-          "/bot/admin/reload-config"
+          "/api/bot/admin/reload-config"
         ),
 
       syncRoles: () =>
         request(
           "POST",
-          "/bot/admin/sync-roles"
+          "/api/bot/admin/sync-roles"
         ),
+    },
+
+    mod: {
+      overview: () =>
+        request(
+          "GET",
+          "/api/bot/mod/overview"
+        ),
+
+      activeCases: () =>
+        request(
+          "GET",
+          "/api/bot/mod/active-cases"
+        ),
+
+      warnings: (userId) =>
+        request(
+          "GET",
+          `/api/bot/mod/warnings/${userId}`
+        ),
+
+      warn: (body) =>
+        request(
+          "POST",
+          "/api/bot/mod/warn",
+          body
+        ),
+
+      kick: (body) =>
+        request(
+          "POST",
+          "/api/bot/mod/kick",
+          body
+        ),
+
+      promote: (body) =>
+        request(
+          "POST",
+          "/api/bot/mod/promote",
+          body
+        ),
+
+      demote: (body) =>
+        request(
+          "POST",
+          "/api/bot/mod/demote",
+          body
+        ),
+
+      caseFile: (userId) =>
+        request("GET", `/api/bot/mod/case/${userId}`),
+
+      mute: (body) => request("POST", "/api/bot/mod/mute", body),
+
+      unmute: (body) => request("POST", "/api/bot/mod/unmute", body),
+
+      note: (body) => request("POST", "/api/bot/mod/note", body),
     },
 
     logs: {
       recent: () =>
         request(
           "GET",
-          "/bot/logs/recent"
+          "/api/bot/logs/recent"
         ),
 
       cases: () =>
         request(
           "GET",
-          "/bot/logs/cases"
+          "/api/bot/logs/cases"
         ),
     },
+  },
+
+  guides: {
+    list: () => request("GET", "/api/guides"),
+
+    get: (id) => request("GET", `/api/guides/${id}`),
+
+    create: (body) => request("POST", "/api/guides", body),
+
+    update: (id, body) => request("PUT", `/api/guides/${id}`, body),
+
+    remove: (id) => request("DELETE", `/api/guides/${id}`),
+
+    publish: (id) => request("POST", `/api/guides/${id}/publish`),
+  },
+
+  announcements: {
+    list: () => request("GET", "/api/announcements"),
+
+    get: (id) => request("GET", `/api/announcements/${id}`),
+
+    create: (body) => request("POST", "/api/announcements", body),
+
+    update: (id, body) =>
+      request("PUT", `/api/announcements/${id}`, body),
+
+    remove: (id) => request("DELETE", `/api/announcements/${id}`),
+  },
+
+  settings: {
+    get: () => request("GET", "/api/settings"),
+
+    update: (body) => request("PUT", "/api/settings", body),
+  },
+
+  users: {
+    list: (search = "") =>
+      request(
+        "GET",
+        search
+          ? `/api/users?search=${encodeURIComponent(search)}`
+          : "/api/users"
+      ),
+
+    get: (id) => request("GET", `/api/users/${id}`),
+
+    create: (body) => request("POST", "/api/users", body),
+
+    update: (id, body) => request("PUT", `/api/users/${id}`, body),
+
+    remove: (id) => request("DELETE", `/api/users/${id}`),
+  },
+
+  invites: {
+    stats: (limit = 20) =>
+      request("GET", `/api/invites/stats?limit=${limit}`),
+
+    recent: (limit = 50) =>
+      request("GET", `/api/invites/recent?limit=${limit}`),
+  },
+
+  health: {
+    status: () => request("GET", "/api/health"),
+
+    errors: (limit = 50) =>
+      request("GET", `/api/health/errors?limit=${limit}`),
+  },
+
+  analytics: {
+    overview: () => request("GET", "/api/analytics/overview"),
+
+    summary: () => request("GET", "/api/analytics/summary"),
+  },
+
+  events: {
+    list: (upcomingOnly = false) =>
+      request(
+        "GET",
+        upcomingOnly ? "/api/events?upcoming=true" : "/api/events"
+      ),
+
+    get: (id) => request("GET", `/api/events/${id}`),
+
+    create: (body) => request("POST", "/api/events", body),
+
+    update: (id, body) => request("PUT", `/api/events/${id}`, body),
+
+    remove: (id) => request("DELETE", `/api/events/${id}`),
+  },
+
+  webhooks: {
+    list: () => request("GET", "/api/webhooks"),
+
+    create: (body) => request("POST", "/api/webhooks", body),
+
+    update: (id, body) => request("PUT", `/api/webhooks/${id}`, body),
+
+    remove: (id) => request("DELETE", `/api/webhooks/${id}`),
+
+    test: (id) => request("POST", `/api/webhooks/${id}/test`),
+  },
+
+  ai: {
+    status: () => request("GET", "/api/ai/status"),
+
+    guideDraft: (body) => request("POST", "/api/ai/guide-draft", body),
+
+    announcementDraft: (body) =>
+      request("POST", "/api/ai/announcement-draft", body),
+
+    moderationSummary: (body) =>
+      request("POST", "/api/ai/moderation-summary", body),
+  },
+
+  premium: {
+    status: () => request("GET", "/api/premium/status"),
+
+    grant: (body) => request("POST", "/api/premium/grant", body),
+
+    revoke: () => request("POST", "/api/premium/revoke"),
   },
 };

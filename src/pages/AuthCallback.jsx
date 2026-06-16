@@ -1,62 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
+import { getDefaultRoute } from "../utils/getDefaultRoute.js";
 
 export default function AuthCallback() {
   const navigate = useNavigate();
-  const { refreshUser } = useRoles();
-
-  const [loading, setLoading] = useState(true);
+  const { user, roles, loading } = useRoles();
 
   useEffect(() => {
-    let mounted = true;
+    if (loading) return;
 
-    async function finishLogin() {
-      try {
-        // Give Safari time to persist cookies
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        await refreshUser();
-
-        if (!mounted) return;
-
-        setLoading(false);
-
-        // Redirect AFTER state hydration
-        navigate("/select-guild", {
-          replace: true,
-        });
-
-      } catch (error) {
-        console.error("OAuth callback failed:", error);
-
-        if (!mounted) return;
-
-        navigate("/login", {
-          replace: true,
-        });
-      }
+    if (!user) {
+      navigate("/login", { replace: true });
+      return;
     }
 
-    finishLogin();
+    const guildId = localStorage.getItem("guildId");
 
-    return () => {
-      mounted = false;
-    };
-  }, [navigate, refreshUser]);
+    if (!guildId) {
+      navigate("/select-guild", { replace: true });
+      return;
+    }
+
+    navigate(getDefaultRoute(roles), { replace: true });
+  }, [user, roles, loading, navigate]);
 
   return (
-    <div
-      className="loading-screen"
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: "22px",
-      }}
-    >
-      Finalising Discord login...
+    <div className="loading-screen">
+      Authenticating...
     </div>
   );
 }

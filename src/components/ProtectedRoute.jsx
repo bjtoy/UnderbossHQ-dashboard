@@ -1,38 +1,10 @@
-import { Navigate, useLocation } from "react-router-dom";
-
+import { Navigate } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
 
-export default function ProtectedRoute({
-  roles = null,
-  permissions = null,
-  children,
-}) {
+export default function ProtectedRoute({ children, roles = null }) {
+  const { user, loading, hasAnyRole } = useRoles();
 
-  const location = useLocation();
-
-  const {
-    user,
-    loading,
-    guildId,
-    hasAnyRole,
-    hasPermission,
-  } = useRoles();
-
-  /**
-   * ROUTES THAT DO NOT REQUIRE
-   * GUILD SELECTION
-   */
-  const guildOptionalRoutes = [
-    "/select-guild",
-    "/login",
-    "/not-authorized",
-  ];
-
-  // =========================
-  // WAIT FOR AUTH HYDRATION
-  // =========================
-  if (loading) {
-
+  if (loading || user === undefined) {
     return (
       <div className="loading-screen">
         Loading...
@@ -40,67 +12,19 @@ export default function ProtectedRoute({
     );
   }
 
-  // =========================
-  // NOT LOGGED IN
-  // =========================
-  if (!user) {
-
-    return (
-      <Navigate
-        to="/login"
-        replace
-      />
-    );
+  if (user === null) {
+    return <Navigate to="/login" replace />;
   }
 
-  // =========================
-  // REQUIRE GUILD
-  // =========================
-  const requiresGuild =
-    !guildOptionalRoutes.includes(
-      location.pathname
-    );
+  const guildId = localStorage.getItem("guildId");
+  const isSelectingGuild = window.location.pathname === "/select-guild";
 
-  if (requiresGuild && !guildId) {
-
-    return (
-      <Navigate
-        to="/select-guild"
-        replace
-      />
-    );
+  if (!guildId && !isSelectingGuild) {
+    return <Navigate to="/select-guild" replace />;
   }
 
-  // =========================
-  // ROLE CHECK
-  // =========================
-  if (
-    roles &&
-    !hasAnyRole(roles)
-  ) {
-
-    return (
-      <Navigate
-        to="/not-authorized"
-        replace
-      />
-    );
-  }
-
-  // =========================
-  // PERMISSION CHECK
-  // =========================
-  if (
-    permissions &&
-    !hasPermission(permissions)
-  ) {
-
-    return (
-      <Navigate
-        to="/not-authorized"
-        replace
-      />
-    );
+  if (roles?.length && !hasAnyRole(roles)) {
+    return <Navigate to="/not-authorized" replace />;
   }
 
   return children;
