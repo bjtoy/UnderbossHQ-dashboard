@@ -32,8 +32,8 @@
 .field-textarea:focus,
 .field-select:focus {
     outline: none;
-    border-color: var(--purple-accent);
-    box-shadow: 0 0 0 2px rgba(92, 53, 112, 0.35);
+    border-color: var(--brand-red-bright);
+    box-shadow: 0 0 0 2px var(--red-tint-mid);
 }
 
 .field-textarea {

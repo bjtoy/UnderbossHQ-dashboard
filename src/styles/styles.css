@@ -6,6 +6,7 @@
 @import "./typography.css";
 @import "./sidebar.css";
 @import "./forms.css";
+@import "./login.css";
 @import "./legal.css";
 @import "./layout.css";
 @import "./guides.css";
@@ -20,42 +21,42 @@
     --sidebar-width: 260px;
     --content-max-width: 1200px;
 
-    /* Backgrounds — black with purple undertone */
-    --bg-darkest: #060508;
-    --bg-darker: #0C0A10;
+    /* Backgrounds — black with crimson undertone */
+    --bg-darkest: #070304;
+    --bg-darker: #11060A;
 
-    /* Deep purple surfaces */
-    --purple-deep: #1A1024;
-    --purple-mid: #261833;
-    --purple-soft: #342244;
-    --purple-accent: #5C3570;
-    --purple-glow: rgba(92, 53, 112, 0.45);
+    /* Wine-plum — saturated burgundy, not flat gray-purple */
+    --purple-deep: #1A0810;
+    --purple-mid: #2A0E1A;
+    --purple-soft: #421525;
+    --purple-accent: #7A2448;
+    --purple-glow: rgba(138, 36, 72, 0.48);
 
     /* Blood red brand */
-    --brand-red: #7A0018;
-    --brand-red-bright: #A81830;
-    --brand-red-glow: #C42848;
+    --brand-red: #8B0018;
+    --brand-red-bright: #BE1838;
+    --brand-red-glow: #E03858;
 
     /* Gold accent */
-    --accent-gold: #C9A030;
-    --accent-gold-hover: #E0B840;
-    --accent-gold-dim: #8A6820;
+    --accent-gold: #D4A830;
+    --accent-gold-hover: #E8C048;
+    --accent-gold-dim: #9A7420;
 
     /* Danger */
-    --danger: #8B1428;
+    --danger: #A01830;
 
-    /* Surfaces */
-    --surface-1: #100C14;
-    --surface-2: #16121C;
-    --surface-3: #1E1826;
+    /* Surfaces — dark wine panels */
+    --surface-1: #150810;
+    --surface-2: #1C0C14;
+    --surface-3: #281018;
 
-    /* Readable text — cream on dark, not red-tinted body copy */
-    --text-primary: #EAE4D8;
-    --text-secondary: #BFB6A8;
-    --text-muted: #8E8494;
-    --text-heading: #F5EFE6;
+    /* Readable text */
+    --text-primary: #F0E8DC;
+    --text-secondary: #C8B8AC;
+    --text-muted: #9A8894;
+    --text-heading: #FAF4EA;
     --text-accent: var(--accent-gold);
-    --text-brand: #D07080;
+    --text-brand: #F08898;
 
     /* Legacy aliases */
     --text-bright: var(--text-primary);
@@ -63,16 +64,22 @@
     --text-red-soft: var(--text-secondary);
     --text-red-muted: var(--text-muted);
 
-    /* Borders */
-    --border-soft: rgba(92, 53, 112, 0.28);
-    --border-strong: rgba(164, 40, 72, 0.42);
-    --border-accent: rgba(201, 160, 48, 0.32);
-    --border-purple: rgba(92, 53, 112, 0.55);
+    /* Red / wine tints for UI chrome */
+    --red-tint-soft: rgba(168, 40, 68, 0.14);
+    --red-tint-mid: rgba(168, 40, 68, 0.24);
+    --wine-tint-soft: rgba(110, 24, 58, 0.18);
+    --wine-tint-mid: rgba(110, 24, 58, 0.32);
 
-    /* Decorative glows — UI chrome only */
-    --glow-red: 0 0 14px rgba(164, 40, 72, 0.22);
-    --glow-gold: 0 0 14px rgba(201, 160, 48, 0.24);
-    --glow-purple: 0 0 18px rgba(92, 53, 112, 0.3);
+    /* Borders — red-forward */
+    --border-soft: rgba(168, 40, 68, 0.32);
+    --border-strong: rgba(212, 56, 88, 0.52);
+    --border-accent: rgba(212, 168, 48, 0.38);
+    --border-purple: rgba(138, 36, 80, 0.55);
+
+    /* Decorative glows */
+    --glow-red: 0 0 18px rgba(196, 48, 72, 0.38);
+    --glow-gold: 0 0 16px rgba(212, 168, 48, 0.28);
+    --glow-purple: 0 0 22px rgba(138, 36, 72, 0.32);
 
     /* No text glow — readability first */
     --text-glow-red-strong: none;
@@ -100,8 +107,9 @@
 
 body {
     background:
-        radial-gradient(ellipse 120% 80% at 50% -20%, rgba(92, 53, 112, 0.22), transparent 55%),
-        radial-gradient(ellipse 80% 50% at 100% 100%, rgba(122, 0, 24, 0.12), transparent 50%),
+        radial-gradient(ellipse 110% 70% at 50% -15%, rgba(110, 24, 58, 0.38), transparent 52%),
+        radial-gradient(ellipse 70% 55% at 100% 85%, rgba(139, 0, 26, 0.32), transparent 48%),
+        radial-gradient(ellipse 60% 45% at 0% 60%, rgba(168, 40, 68, 0.18), transparent 45%),
         var(--bg-darkest);
     color: var(--text-primary);
     font-family: var(--font-body);

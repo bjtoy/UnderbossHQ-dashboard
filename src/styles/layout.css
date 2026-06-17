@@ -12,6 +12,19 @@ body {
     overflow: hidden;
 }
 
+body:has(.standalone-page),
+body:has(.loading-screen),
+body:has(.login-page) {
+    overflow: auto;
+}
+
+#root:has(.standalone-page),
+#root:has(.loading-screen),
+#root:has(.login-page) {
+    height: auto;
+    min-height: 100%;
+}
+
 /* ===========================
    APP SHELL
    =========================== */
@@ -46,9 +59,9 @@ body {
     align-items: center;
     gap: 28px;
     padding: 18px 32px;
-    background: var(--surface-1);
-    border-bottom: 1px solid var(--border-soft);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    background: linear-gradient(180deg, var(--surface-1), var(--purple-deep));
+    border-bottom: 1px solid var(--border-strong);
+    box-shadow: 0 4px 24px rgba(139, 0, 26, 0.2);
     position: sticky;
     top: 0;
     z-index: 5;
@@ -159,7 +172,7 @@ body {
     justify-content: space-between;
     gap: 16px 24px;
     padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-soft);
+    border-bottom: 1px solid var(--border-strong);
 }
 
 .page-header-text {
@@ -172,7 +185,7 @@ body {
     font-size: 48px;
     font-weight: 400;
     line-height: 1.12;
-    color: var(--text-heading);
+    color: var(--accent-gold);
     letter-spacing: 1px;
     text-shadow: none;
     margin: 0;
@@ -211,7 +224,7 @@ body {
     font-family: var(--font-heading);
     font-size: 28px;
     font-weight: 400;
-    color: var(--text-heading);
+    color: var(--brand-red-glow);
     text-shadow: none;
     margin: 0;
 }
@@ -248,8 +261,10 @@ body {
     align-items: center;
     justify-content: center;
     padding: 40px 24px;
+    overflow-y: auto;
     background:
-        radial-gradient(circle at top, rgba(179, 0, 27, 0.18), transparent 45%),
+        radial-gradient(circle at top, rgba(168, 40, 68, 0.35), transparent 45%),
+        radial-gradient(circle at bottom right, rgba(110, 24, 58, 0.28), transparent 40%),
         var(--bg-darkest);
 }
 
@@ -257,10 +272,16 @@ body {
     width: 100%;
     max-width: 520px;
     padding: 36px 32px 40px;
-    border: 1px solid var(--border-soft);
+    border: 1px solid var(--border-strong);
     border-radius: 12px;
-    background: var(--surface-2);
+    background: linear-gradient(180deg, var(--surface-2), var(--purple-deep));
     box-shadow: var(--glow-red);
+    text-align: center;
+}
+
+.standalone-card .page-subtitle {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .standalone-card-wide {

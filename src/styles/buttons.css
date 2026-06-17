@@ -35,11 +35,10 @@
     transform: scale(0.98);
 }
 
-/* Legacy class names — same gold-accent look */
+/* Legacy class names */
 .btn-gold,
 .btn-red,
-.btn-outline-gold,
-.btn-outline-red {
+.btn-outline-gold {
     background: var(--surface-2);
     border: 1px solid var(--border-soft);
     color: var(--text-bright);
@@ -47,14 +46,29 @@
     box-shadow: none;
 }
 
+.btn-outline-red {
+    background: var(--red-tint-soft);
+    border: 1px solid var(--border-strong);
+    color: var(--text-brand);
+    text-shadow: none;
+    box-shadow: none;
+}
+
 .btn-gold:hover,
 .btn-red:hover,
-.btn-outline-gold:hover,
-.btn-outline-red:hover {
+.btn-outline-gold:hover {
     background: var(--surface-3);
     border-color: var(--border-accent);
     color: var(--accent-gold-hover);
     box-shadow: var(--glow-gold);
+    transform: translateY(-1px);
+}
+
+.btn-outline-red:hover {
+    background: var(--red-tint-mid);
+    border-color: var(--brand-red-glow);
+    color: var(--accent-gold-hover);
+    box-shadow: var(--glow-red);
     transform: translateY(-1px);
 }
 

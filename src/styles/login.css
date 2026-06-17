@@ -4,28 +4,70 @@
   align-items: center;
   justify-content: center;
   padding: 40px 24px;
+  text-align: center;
   background:
-    radial-gradient(circle at top, rgba(92, 53, 112, 0.35), transparent 48%),
-    radial-gradient(circle at bottom, rgba(122, 0, 24, 0.2), transparent 45%),
+    radial-gradient(circle at top, rgba(168, 40, 68, 0.42), transparent 46%),
+    radial-gradient(circle at bottom, rgba(110, 24, 58, 0.32), transparent 44%),
     var(--bg-darkest);
 }
 
 .login-card {
   width: 100%;
   max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   padding: 40px 40px 48px;
-  border: 1px solid var(--border-purple);
+  border: 1px solid var(--border-strong);
   border-radius: 12px;
-  background: var(--surface-2);
-  box-shadow: var(--glow-purple);
+  background: linear-gradient(180deg, var(--surface-2), var(--purple-deep));
+  box-shadow: var(--glow-red);
+}
+
+.login-card .brand-mark {
+  width: 100%;
+  align-items: center;
+  text-align: center;
+}
+
+.login-card .brand-mark-text {
+  align-items: center;
+  text-align: center;
+}
+
+.login-card .brand-mark-title,
+.login-card .brand-mark-tagline {
+  text-align: center;
 }
 
 .login-copy {
   color: var(--text-secondary);
   line-height: 1.65;
   margin-bottom: 32px;
+  text-align: center;
   text-shadow: none;
+  max-width: 420px;
+}
+
+.login-card .btn {
+  min-width: 220px;
+}
+
+.login-legal-links {
+  margin-top: 24px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.login-legal-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.login-legal-links a:hover {
+  color: var(--accent-gold);
 }
 
 .page-intro {

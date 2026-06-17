@@ -14,10 +14,10 @@
     transition: 0.25s ease;
 }
 
-/* Hover — Gold border + soft glow */
+/* Hover — crimson border + warm glow */
 .card:hover {
-    border-color: var(--border-accent);
-    box-shadow: var(--glow-purple);
+    border-color: var(--border-strong);
+    box-shadow: var(--glow-red);
     transform: translateY(-3px);
 }
 
@@ -62,13 +62,13 @@
 }
 
 .info-card {
-    background: var(--purple-deep);
-    border: 1px solid var(--border-purple);
+    background: var(--purple-mid);
+    border: 1px solid var(--border-strong);
     border-radius: 10px;
     padding: 20px;
     color: var(--text-secondary);
     text-shadow: none;
-    box-shadow: var(--glow-purple);
+    box-shadow: var(--glow-red);
 }
 
 .info-card h3 {

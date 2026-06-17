@@ -72,16 +72,23 @@ export default function SelectGuild() {
         </p>
 
         <div className="standalone-list">
-          {guilds.map((guild) => (
-            <button
-              key={guild.id}
-              type="button"
-              className="btn btn-outline-red"
-              onClick={() => selectGuild(guild)}
-            >
-              {guild.name}
-            </button>
-          ))}
+          {guilds.length === 0 ? (
+            <p className="page-subtitle">
+              No manageable servers found. You need Manage Server permission on a
+              Discord server where UnderbossHQ is installed.
+            </p>
+          ) : (
+            guilds.map((guild) => (
+              <button
+                key={guild.id}
+                type="button"
+                className="btn btn-outline-red"
+                onClick={() => selectGuild(guild)}
+              >
+                {guild.name}
+              </button>
+            ))
+          )}
         </div>
       </div>
     </div>

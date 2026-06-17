@@ -43,7 +43,7 @@ h2,
     font-family: var(--font-heading);
     font-size: 40px;
     font-weight: 600;
-    color: var(--text-heading);
+    color: var(--brand-red-glow);
     margin-bottom: 16px;
     letter-spacing: 0.05em;
     text-shadow: none;
