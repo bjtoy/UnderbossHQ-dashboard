@@ -161,16 +161,20 @@
 }
 
 .guide-banner-bg-crimson {
-  background:
-    linear-gradient(135deg, rgba(120, 8, 8, 0.95), rgba(40, 0, 0, 0.98)),
-    radial-gradient(circle at 20% 20%, rgba(255, 58, 58, 0.25), transparent 55%);
+  background-image:
+    linear-gradient(135deg, rgba(120, 8, 8, 0.82), rgba(40, 0, 0, 0.88)),
+    url("/banners/crimson.png");
+  background-size: cover;
+  background-position: center;
   border-color: rgba(255, 80, 80, 0.45);
 }
 
 .guide-banner-bg-gold {
-  background:
-    linear-gradient(135deg, rgba(60, 45, 10, 0.98), rgba(20, 15, 5, 0.98)),
-    radial-gradient(circle at 80% 0%, rgba(212, 175, 55, 0.35), transparent 50%);
+  background-image:
+    linear-gradient(135deg, rgba(60, 45, 10, 0.84), rgba(20, 15, 5, 0.9)),
+    url("/banners/gold.png");
+  background-size: cover;
+  background-position: center;
   border-color: rgba(212, 175, 55, 0.5);
 }
 
@@ -184,22 +188,29 @@
 }
 
 .guide-banner-bg-noir {
-  background:
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.04), transparent 45%),
-    linear-gradient(180deg, #0a0a0a, #050505);
+  background-image:
+    linear-gradient(180deg, rgba(10, 10, 10, 0.78), rgba(5, 5, 5, 0.92)),
+    url("/banners/noir.png");
+  background-size: cover;
+  background-position: center;
   border-color: rgba(255, 255, 255, 0.08);
 }
 
 .guide-banner-bg-velvet {
-  background:
-    linear-gradient(135deg, rgba(55, 10, 35, 0.98), rgba(20, 5, 25, 0.98)),
-    radial-gradient(circle at 70% 80%, rgba(180, 40, 90, 0.2), transparent 55%);
+  background-image:
+    linear-gradient(135deg, rgba(55, 10, 35, 0.84), rgba(20, 5, 25, 0.9)),
+    url("/banners/velvet.png");
+  background-size: cover;
+  background-position: center;
   border-color: rgba(180, 60, 120, 0.4);
 }
 
 .guide-banner-bg-smoke {
-  background:
-    linear-gradient(180deg, rgba(45, 45, 48, 0.98), rgba(18, 18, 20, 0.98));
+  background-image:
+    linear-gradient(180deg, rgba(45, 45, 48, 0.84), rgba(18, 18, 20, 0.92)),
+    url("/banners/smoke.png");
+  background-size: cover;
+  background-position: center;
   border-color: rgba(160, 160, 170, 0.25);
 }
 
@@ -209,21 +220,20 @@
 }
 
 .guide-banner-bg-ledger {
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.02) 0,
-      rgba(255, 255, 255, 0.02) 1px,
-      transparent 1px,
-      transparent 28px
-    ),
-    linear-gradient(180deg, rgba(30, 22, 18, 0.98), rgba(12, 10, 8, 0.98));
+  background-image:
+    linear-gradient(180deg, rgba(30, 22, 18, 0.86), rgba(12, 10, 8, 0.92)),
+    url("/banners/ledger.png");
+  background-size: cover;
+  background-position: center;
   border-color: rgba(180, 150, 110, 0.35);
 }
 
 .guide-banner-bg-neon {
-  background:
-    linear-gradient(180deg, rgba(8, 8, 12, 0.98), rgba(0, 0, 0, 0.98));
+  background-image:
+    linear-gradient(180deg, rgba(8, 8, 12, 0.72), rgba(0, 0, 0, 0.88)),
+    url("/banners/neon.png");
+  background-size: cover;
+  background-position: center;
   border-color: var(--brand-red-glow);
   box-shadow:
     0 0 20px rgba(255, 58, 58, 0.35),
@@ -231,9 +241,11 @@
 }
 
 .guide-banner-bg-ember {
-  background:
-    linear-gradient(135deg, rgba(90, 25, 0, 0.98), rgba(35, 8, 0, 0.98)),
-    radial-gradient(circle at 50% 100%, rgba(255, 120, 40, 0.35), transparent 60%);
+  background-image:
+    linear-gradient(135deg, rgba(90, 25, 0, 0.82), rgba(35, 8, 0, 0.9)),
+    url("/banners/ember.png");
+  background-size: cover;
+  background-position: center;
   border-color: rgba(255, 140, 60, 0.45);
 }
 

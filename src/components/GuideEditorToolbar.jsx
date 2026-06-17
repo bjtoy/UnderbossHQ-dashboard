@@ -156,7 +156,9 @@ export default function GuideEditorToolbar({ content, onChange, textareaRef }) {
       </div>
 
       <p className="muted guide-toolbar-help">
-        Banners support custom fonts and backgrounds. Example:{" "}
+        Banners support custom fonts and backgrounds. Background images in{" "}
+        <code>public/banners/</code> also appear on Discord when you post a
+        guide. Example:{" "}
         <code>
           {`:::banner-fancy\nfont=cinzel bg=gold\nTitle\nSubtitle\n:::`}
         </code>
