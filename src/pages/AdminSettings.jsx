@@ -3,6 +3,7 @@ import { api } from "../api/api.js";
 import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
 import PageHeader from "../components/PageHeader.jsx";
+import DiscordChannelSelect from "../components/DiscordChannelSelect.jsx";
 
 const EMPTY = {
   prefix: "!",
@@ -101,31 +102,21 @@ export default function AdminSettings() {
               />
             </div>
 
-            <div className="field-group">
-              <label className="field-label" htmlFor="settings-welcome">
-                Welcome channel ID
-              </label>
-              <input
-                id="settings-welcome"
-                className="field-input"
-                value={settings.welcomeChannelId}
-                onChange={(e) => updateField("welcomeChannelId", e.target.value)}
-                placeholder="Discord channel ID"
-              />
-            </div>
+            <DiscordChannelSelect
+              id="settings-welcome"
+              label="Welcome channel"
+              value={settings.welcomeChannelId}
+              onChange={(value) => updateField("welcomeChannelId", value)}
+              disabled={saving}
+            />
 
-            <div className="field-group">
-              <label className="field-label" htmlFor="settings-log">
-                Log channel ID
-              </label>
-              <input
-                id="settings-log"
-                className="field-input"
-                value={settings.logChannelId}
-                onChange={(e) => updateField("logChannelId", e.target.value)}
-                placeholder="Discord channel ID"
-              />
-            </div>
+            <DiscordChannelSelect
+              id="settings-log"
+              label="Log channel"
+              value={settings.logChannelId}
+              onChange={(value) => updateField("logChannelId", value)}
+              disabled={saving}
+            />
 
             <div className="field-group">
               <label className="field-label" htmlFor="settings-autorole">
@@ -146,46 +137,29 @@ export default function AdminSettings() {
               announcements from the dashboard.
             </p>
 
-            <div className="field-group">
-              <label className="field-label" htmlFor="settings-guides">
-                Guides channel ID
-              </label>
-              <input
-                id="settings-guides"
-                className="field-input"
-                value={settings.guidesChannelId}
-                onChange={(e) => updateField("guidesChannelId", e.target.value)}
-                placeholder="#guides or welcome section channel ID"
-              />
-            </div>
+            <DiscordChannelSelect
+              id="settings-guides"
+              label="Guides channel"
+              value={settings.guidesChannelId}
+              onChange={(value) => updateField("guidesChannelId", value)}
+              disabled={saving}
+            />
 
-            <div className="field-group">
-              <label className="field-label" htmlFor="settings-rules">
-                Rules channel ID
-              </label>
-              <input
-                id="settings-rules"
-                className="field-input"
-                value={settings.rulesChannelId}
-                onChange={(e) => updateField("rulesChannelId", e.target.value)}
-                placeholder="#rules channel ID"
-              />
-            </div>
+            <DiscordChannelSelect
+              id="settings-rules"
+              label="Rules channel"
+              value={settings.rulesChannelId}
+              onChange={(value) => updateField("rulesChannelId", value)}
+              disabled={saving}
+            />
 
-            <div className="field-group">
-              <label className="field-label" htmlFor="settings-announcements">
-                Announcements channel ID
-              </label>
-              <input
-                id="settings-announcements"
-                className="field-input"
-                value={settings.announcementsChannelId}
-                onChange={(e) =>
-                  updateField("announcementsChannelId", e.target.value)
-                }
-                placeholder="#announcements channel ID"
-              />
-            </div>
+            <DiscordChannelSelect
+              id="settings-announcements"
+              label="Announcements channel"
+              value={settings.announcementsChannelId}
+              onChange={(value) => updateField("announcementsChannelId", value)}
+              disabled={saving}
+            />
 
             <div className="action-row">
               <button type="submit" className="btn btn-outline-red btn-sm" disabled={saving}>
