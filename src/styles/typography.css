@@ -1,116 +1,114 @@
 /* ============================================
-   UNDERBOSSHQ — GLOBAL TYPOGRAPHY SYSTEM
-   Red neon glow on Goldrops + Caudex
+   UNDERBOSSHQ — GLOBAL TYPOGRAPHY
+   Cinzel headings · Caudex body · readable contrast
    ============================================ */
 
-/* Base Text */
 p {
     font-size: 16px;
     margin-bottom: 14px;
-    color: var(--text-bright);
-    line-height: 1.6;
+    color: var(--text-primary);
+    line-height: 1.65;
     font-family: var(--font-body);
     text-shadow: none;
 }
 
-small, .small {
+small,
+.small {
     font-size: 14px;
-    color: var(--text-red-muted);
+    color: var(--text-muted);
     font-family: var(--font-body);
-    text-shadow: var(--text-glow-red-muted);
+    text-shadow: none;
 }
 
 .muted {
-    color: var(--text-red-muted);
-    text-shadow: var(--text-glow-red-muted);
+    color: var(--text-muted);
+    text-shadow: none;
 }
 
-/* ============================================
-   HEADERS — Goldrops + strong red glow
-   ============================================ */
+/* Headings — gold + blood red accent, Cinzel display */
 
-h1, .h1 {
+h1,
+.h1 {
     font-family: var(--font-heading);
     font-size: 52px;
-    font-weight: 400;
-    color: var(--text-red);
+    font-weight: 600;
+    color: var(--accent-gold);
     margin-bottom: 18px;
-    letter-spacing: 1.2px;
-    text-shadow: var(--text-glow-red);
+    letter-spacing: 0.06em;
+    text-shadow: none;
 }
 
-h2, .h2 {
+h2,
+.h2 {
     font-family: var(--font-heading);
     font-size: 40px;
-    font-weight: 400;
-    color: var(--text-red);
+    font-weight: 600;
+    color: var(--text-heading);
     margin-bottom: 16px;
-    letter-spacing: 1px;
-    text-shadow: var(--text-glow-red);
+    letter-spacing: 0.05em;
+    text-shadow: none;
 }
 
-h3, .h3 {
+h3,
+.h3 {
     font-family: var(--font-heading);
     font-size: 30px;
-    font-weight: 400;
-    color: var(--text-red);
+    font-weight: 600;
+    color: var(--text-heading);
     margin-bottom: 12px;
-    text-shadow: var(--text-glow-red-soft);
+    letter-spacing: 0.04em;
+    text-shadow: none;
 }
 
-h4, .h4 {
+h4,
+.h4 {
     font-family: var(--font-heading);
     font-size: 24px;
-    font-weight: 400;
-    color: var(--text-red);
+    font-weight: 600;
+    color: var(--text-secondary);
     margin-bottom: 10px;
-    text-shadow: var(--text-glow-red-soft);
+    letter-spacing: 0.03em;
+    text-shadow: none;
 }
 
-h5, .h5 {
+h5,
+.h5 {
     font-family: var(--font-heading);
     font-size: 18px;
-    font-weight: 400;
-    color: var(--text-red-muted);
+    font-weight: 600;
+    color: var(--text-secondary);
     margin-bottom: 8px;
-    text-shadow: var(--text-glow-red-muted);
+    text-shadow: none;
 }
 
-h6, .h6 {
+h6,
+.h6 {
     font-family: var(--font-heading);
     font-size: 16px;
-    font-weight: 400;
-    color: var(--text-red-muted);
+    font-weight: 600;
+    color: var(--text-muted);
     margin-bottom: 6px;
-    text-shadow: var(--text-glow-red-muted);
+    text-shadow: none;
 }
-
-/* ============================================
-   SECTION TITLES
-   ============================================ */
 
 .section-title {
     font-family: var(--font-heading);
     font-size: 40px;
-    font-weight: 400;
+    font-weight: 600;
     margin-bottom: 25px;
-    color: var(--text-red);
-    letter-spacing: 1.2px;
-    text-shadow: var(--text-glow-red);
+    color: var(--accent-gold);
+    letter-spacing: 0.06em;
+    text-shadow: none;
 }
-
-/* ============================================
-   LABELS & TAGS
-   ============================================ */
 
 .label {
     font-family: var(--font-body);
     font-size: 14px;
     font-weight: 700;
-    color: var(--text-red-soft);
+    color: var(--text-brand);
     text-transform: uppercase;
-    letter-spacing: 1px;
-    text-shadow: var(--text-glow-red-soft);
+    letter-spacing: 0.08em;
+    text-shadow: none;
 }
 
 .tag {
@@ -120,15 +118,11 @@ h6, .h6 {
     font-size: 13px;
     font-weight: 700;
     border-radius: 6px;
-    background: rgba(179, 0, 27, 0.2);
-    color: var(--text-red);
+    background: rgba(122, 0, 24, 0.2);
+    color: var(--text-brand);
     border: 1px solid var(--border-strong);
-    text-shadow: var(--text-glow-red-soft);
+    text-shadow: none;
 }
-
-/* ============================================
-   LOADING SCREEN
-   ============================================ */
 
 .loading-screen {
     min-height: 100vh;
@@ -136,39 +130,36 @@ h6, .h6 {
     align-items: center;
     justify-content: center;
     background: var(--bg-darkest);
-    color: var(--text-red);
+    color: var(--text-primary);
     font-family: var(--font-body);
     font-size: 18px;
-    text-shadow: var(--text-glow-red);
+    text-shadow: none;
 }
 
-/* ============================================
-   TEXT ALIGNMENT UTILITIES
-   ============================================ */
+.text-center {
+    text-align: center;
+}
 
-.text-center { text-align: center; }
-.text-right { text-align: right; }
+.text-right {
+    text-align: right;
+}
 
 .header-title {
     font-family: var(--font-heading);
     font-size: 56px;
-    font-weight: 400;
-    color: var(--text-red);
-    letter-spacing: 2px;
-    text-shadow: var(--text-glow-red);
+    font-weight: 700;
+    color: var(--accent-gold);
+    letter-spacing: 0.08em;
+    text-shadow: none;
 }
 
 .header-subtitle {
     font-family: var(--font-body);
     font-size: 22px;
     font-weight: 400;
-    color: var(--text-red-soft);
-    text-shadow: var(--text-glow-red-soft);
+    color: var(--text-secondary);
+    text-shadow: none;
 }
-
-/* ============================================
-   SPACING UTILITIES
-   ============================================ */
 
 .mt-1 { margin-top: 6px; }
 .mt-2 { margin-top: 12px; }

@@ -15,14 +15,14 @@ export default function Badge({
       border: "1px solid rgba(0, 255, 120, 0.4)",
     },
     warning: {
-      background: "rgba(255, 200, 0, 0.15)",
-      color: "#ffcc00",
-      border: "1px solid rgba(255, 200, 0, 0.4)",
+      background: "rgba(201, 160, 48, 0.15)",
+      color: "var(--accent-gold)",
+      border: "1px solid rgba(201, 160, 48, 0.4)",
     },
     danger: {
-      background: "rgba(255, 46, 46, 0.15)",
-      color: "var(--red-neon)",
-      border: "1px solid rgba(255, 46, 46, 0.4)",
+      background: "rgba(122, 0, 24, 0.2)",
+      color: "var(--brand-red-glow)",
+      border: "1px solid rgba(164, 40, 72, 0.4)",
     },
     info: {
       background: "rgba(0, 180, 255, 0.15)",

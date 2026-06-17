@@ -15,7 +15,7 @@ export default function NotAuthorized() {
           maxWidth: "520px",
           padding: "40px 30px",
           borderRadius: "16px",
-          boxShadow: "0 0 20px rgba(255, 46, 46, 0.25)",
+          boxShadow: "var(--glow-purple)",
         }}
       >
         <h1
@@ -23,7 +23,7 @@ export default function NotAuthorized() {
           style={{
             fontSize: "46px",
             marginBottom: "10px",
-            textShadow: "0 0 12px rgba(255, 46, 46, 0.8)",
+            textShadow: "none",
           }}
         >
           Access Denied
@@ -33,8 +33,8 @@ export default function NotAuthorized() {
           style={{
             marginTop: "10px",
             marginBottom: "30px",
-            color: "var(--text-red-soft)",
-            textShadow: "var(--text-glow-red-soft)",
+            color: "var(--text-secondary)",
+            textShadow: "none",
             fontSize: "16px",
           }}
         >

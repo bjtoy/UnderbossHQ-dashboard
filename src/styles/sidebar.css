@@ -57,8 +57,8 @@
     margin: 0 0 2px;
     font-size: 0.9rem;
     font-weight: 700;
-    color: var(--text-red);
-    text-shadow: var(--text-glow-red-soft);
+    color: var(--text-primary);
+    text-shadow: none;
 }
 
 
@@ -113,9 +113,9 @@
 
     font-family: var(--font-body);
 
-    color: var(--text-red-soft);
+    color: var(--text-secondary);
 
-    text-shadow: var(--text-glow-red-soft);
+    text-shadow: none;
 
     text-decoration: none;
 
@@ -129,17 +129,17 @@
 
 .nav-item.active {
 
-    color: var(--text-red);
+    color: var(--accent-gold);
 
-    background: rgba(201, 72, 72, 0.1);
+    background: rgba(92, 53, 112, 0.22);
 
-    border-left-color: var(--brand-red-glow);
+    border-left-color: var(--brand-red-bright);
 
     font-weight: 700;
 
-    text-shadow: var(--text-glow-red-soft);
+    text-shadow: none;
 
-    box-shadow: inset 0 0 12px rgba(201, 72, 72, 0.12);
+    box-shadow: inset 0 0 12px rgba(92, 53, 112, 0.15);
 
 }
 
@@ -147,11 +147,11 @@
 
 .nav-item:hover {
 
-    color: var(--text-red);
+    color: var(--text-heading);
 
-    background: rgba(201, 72, 72, 0.06);
+    background: rgba(92, 53, 112, 0.12);
 
-    text-shadow: var(--text-glow-red-muted);
+    text-shadow: none;
 
 }
 
@@ -169,13 +169,13 @@
 
     font-family: var(--font-body);
 
-    color: var(--text-red-muted);
+    color: var(--text-muted);
 
     text-transform: uppercase;
 
     letter-spacing: 1.4px;
 
-    text-shadow: var(--text-glow-red-muted);
+    text-shadow: none;
 
 }
 

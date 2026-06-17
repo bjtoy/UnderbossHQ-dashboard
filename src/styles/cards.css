@@ -16,30 +16,28 @@
 
 /* Hover — Gold border + soft glow */
 .card:hover {
-    border-color: var(--accent-gold);
-    box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
+    border-color: var(--border-accent);
+    box-shadow: var(--glow-purple);
     transform: translateY(-3px);
 }
 
-/* Card Title — Goldrops */
 .card h3,
 .card-title {
     font-family: var(--font-heading);
     font-size: 26px;
-    font-weight: 400;
+    font-weight: 600;
     margin-bottom: 12px;
-    color: var(--text-red);
-    text-shadow: var(--text-glow-red-soft);
+    color: var(--accent-gold);
+    text-shadow: none;
 }
 
-/* Stat values — Caudex bold */
 .card .value {
     font-family: var(--font-body);
     font-size: 32px;
     font-weight: 700;
-    color: var(--text-red);
+    color: var(--text-heading);
     letter-spacing: 0.5px;
-    text-shadow: var(--text-glow-red-strong);
+    text-shadow: none;
 }
 
 /* section-title lives in typography.css */
@@ -49,33 +47,33 @@
    ============================================ */
 
 .error-card {
-    background: rgba(138, 0, 21, 0.15);
-    border: 1px solid var(--danger);
+    background: rgba(122, 0, 24, 0.15);
+    border: 1px solid var(--brand-red-bright);
     border-radius: 10px;
     padding: 20px;
-    color: var(--text-red);
-    text-shadow: var(--text-glow-red-soft);
-    box-shadow: 0 0 12px rgba(255, 58, 58, 0.35);
+    color: var(--text-primary);
+    text-shadow: none;
+    box-shadow: var(--glow-red);
 }
 
 .error-card h3 {
-    color: var(--text-red);
-    text-shadow: var(--text-glow-red-strong);
+    color: var(--text-brand);
+    text-shadow: none;
 }
 
 .info-card {
-    background: var(--surface-1);
-    border: 1px solid var(--brand-red-glow);
+    background: var(--purple-deep);
+    border: 1px solid var(--border-purple);
     border-radius: 10px;
     padding: 20px;
-    color: var(--text-red-soft);
-    text-shadow: var(--text-glow-red-soft);
-    box-shadow: 0 0 10px rgba(255, 58, 58, 0.25);
+    color: var(--text-secondary);
+    text-shadow: none;
+    box-shadow: var(--glow-purple);
 }
 
 .info-card h3 {
-    color: var(--text-red);
-    text-shadow: var(--text-glow-red);
+    color: var(--accent-gold);
+    text-shadow: none;
 }
 
 /* ============================================

@@ -25,7 +25,7 @@
 
 .btn:hover {
     background: var(--surface-3);
-    border-color: rgba(212, 175, 55, 0.45);
+    border-color: var(--border-accent);
     color: var(--accent-gold-hover);
     box-shadow: var(--glow-gold);
     transform: translateY(-1px);
@@ -52,33 +52,33 @@
 .btn-outline-gold:hover,
 .btn-outline-red:hover {
     background: var(--surface-3);
-    border-color: rgba(212, 175, 55, 0.45);
+    border-color: var(--border-accent);
     color: var(--accent-gold-hover);
     box-shadow: var(--glow-gold);
     transform: translateY(-1px);
 }
 
 .btn.active {
-    border-color: rgba(212, 175, 55, 0.55);
+    border-color: var(--border-accent);
     color: var(--accent-gold);
-    background: rgba(212, 175, 55, 0.08);
+    background: rgba(201, 160, 48, 0.1);
     box-shadow: var(--glow-gold);
 }
 
-/* Destructive — muted red border, soft label (Kick / Delete) */
+/* Destructive */
 .btn-danger {
     background: var(--surface-2);
-    border: 1px solid rgba(179, 0, 27, 0.5);
-    color: var(--text-red-soft);
+    border: 1px solid var(--border-strong);
+    color: var(--text-brand);
     text-shadow: none;
     box-shadow: none;
 }
 
 .btn-danger:hover {
-    background: rgba(179, 0, 27, 0.14);
-    border-color: var(--brand-red);
+    background: rgba(122, 0, 24, 0.22);
+    border-color: var(--brand-red-bright);
     color: var(--accent-gold-hover);
-    box-shadow: 0 0 10px rgba(179, 0, 27, 0.35);
+    box-shadow: var(--glow-red);
     transform: translateY(-1px);
 }
 

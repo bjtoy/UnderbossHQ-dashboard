@@ -55,8 +55,8 @@
   font-family: var(--font-body);
   font-size: 0.95rem;
   font-weight: 400;
-  color: var(--text-red-soft);
-  text-shadow: var(--text-glow-red-soft);
+  color: var(--text-muted);
+  text-shadow: none;
   letter-spacing: 0.04em;
   margin-top: 4px;
 }
@@ -113,11 +113,11 @@
 
 .brand-mark-title {
   font-family: var(--font-heading);
-  font-weight: 400;
-  color: var(--text-red);
+  font-weight: 600;
+  color: var(--accent-gold);
   letter-spacing: 0.08em;
   line-height: 1.1;
-  text-shadow: var(--text-glow-red);
+  text-shadow: none;
 }
 
 .brand-mark-sm .brand-mark-title {
@@ -135,8 +135,8 @@
 .brand-mark-tagline {
   font-family: var(--font-body);
   font-size: 1.1rem;
-  color: var(--text-red-soft);
-  text-shadow: var(--text-glow-red-soft);
+  color: var(--text-secondary);
+  text-shadow: none;
 }
 
 .login-page .brand-mark-lg {

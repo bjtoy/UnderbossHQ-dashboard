@@ -14,19 +14,19 @@ export default function Loader() {
         style={{
           width: "48px",
           height: "48px",
-          border: "4px solid rgba(255, 46, 46, 0.15)",
-          borderTopColor: "var(--red-neon)",
+          border: "4px solid rgba(164, 40, 72, 0.2)",
+          borderTopColor: "var(--brand-red-glow)",
           borderRadius: "50%",
           animation: "spin 0.9s linear infinite",
-          boxShadow: "0 0 12px rgba(255, 46, 46, 0.6)",
+          boxShadow: "var(--glow-red)",
         }}
       ></div>
 
       <p
         style={{
           marginTop: "14px",
-          color: "var(--text-red-soft)",
-          textShadow: "var(--text-glow-red-soft)",
+          color: "var(--text-secondary)",
+          textShadow: "none",
           fontSize: "15px",
           letterSpacing: "0.5px",
         }}

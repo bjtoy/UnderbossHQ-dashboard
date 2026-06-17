@@ -8,11 +8,11 @@
     display: block;
     font-size: 14px;
     font-weight: 700;
-    color: var(--text-red);
+    color: var(--text-brand);
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.08em;
     margin-bottom: 8px;
-    text-shadow: var(--text-glow-red-soft);
+    text-shadow: none;
 }
 
 .field-input,
@@ -23,7 +23,7 @@
     background: var(--surface-1);
     border: 1px solid var(--border-soft);
     border-radius: 8px;
-    color: var(--text-red);
+    color: var(--text-primary);
     font-size: 15px;
     font-family: inherit;
 }
@@ -32,8 +32,8 @@
 .field-textarea:focus,
 .field-select:focus {
     outline: none;
-    border-color: var(--brand-red-glow);
-    box-shadow: 0 0 10px rgba(255, 58, 58, 0.35);
+    border-color: var(--purple-accent);
+    box-shadow: 0 0 0 2px rgba(92, 53, 112, 0.35);
 }
 
 .field-textarea {
@@ -72,17 +72,17 @@
     padding: 12px 14px;
     border: 1px solid var(--border-soft);
     text-align: left;
-    color: var(--text-red-soft);
-    text-shadow: var(--text-glow-red-muted);
+    color: var(--text-secondary);
+    text-shadow: none;
 }
 
 .data-table th {
-    background: var(--surface-3);
-    color: var(--text-red);
+    background: var(--purple-deep);
+    color: var(--accent-gold);
     font-size: 13px;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
-    text-shadow: var(--text-glow-red-soft);
+    letter-spacing: 0.06em;
+    text-shadow: none;
 }
 
 .data-table tbody tr {
@@ -94,8 +94,8 @@
 }
 
 .empty-state {
-    color: var(--text-red-muted);
-    text-shadow: var(--text-glow-red-muted);
+    color: var(--text-muted);
+    text-shadow: none;
     padding: 24px 0;
 }
 
@@ -104,18 +104,18 @@
     border-radius: 8px;
     margin-bottom: 16px;
     border: 1px solid var(--border-soft);
-    color: var(--text-red);
-    text-shadow: var(--text-glow-red-soft);
+    color: var(--text-primary);
+    text-shadow: none;
 }
 
 .message-banner.success {
-    border-color: var(--brand-red-glow);
-    background: rgba(255, 58, 58, 0.08);
+    border-color: var(--border-accent);
+    background: rgba(201, 160, 48, 0.08);
 }
 
 .message-banner.error {
-    border-color: var(--danger);
-    background: rgba(138, 0, 21, 0.15);
+    border-color: var(--brand-red-bright);
+    background: rgba(122, 0, 24, 0.18);
 }
 
 .page-stack {
@@ -127,6 +127,6 @@
 .guide-preview {
     white-space: pre-wrap;
     line-height: 1.7;
-    color: var(--text-red-soft);
-    text-shadow: var(--text-glow-red-muted);
+    color: var(--text-secondary);
+    text-shadow: none;
 }

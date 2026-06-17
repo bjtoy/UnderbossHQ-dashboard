@@ -5,7 +5,8 @@
   justify-content: center;
   padding: 40px 24px;
   background:
-    radial-gradient(circle at top, rgba(179, 0, 27, 0.18), transparent 45%),
+    radial-gradient(circle at top, rgba(92, 53, 112, 0.35), transparent 48%),
+    radial-gradient(circle at bottom, rgba(122, 0, 24, 0.2), transparent 45%),
     var(--bg-darkest);
 }
 
@@ -14,17 +15,17 @@
   max-width: 520px;
   text-align: center;
   padding: 40px 40px 48px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--border-purple);
   border-radius: 12px;
   background: var(--surface-2);
-  box-shadow: var(--glow-red);
+  box-shadow: var(--glow-purple);
 }
 
 .login-copy {
-  color: var(--text-red-soft);
-  line-height: 1.6;
+  color: var(--text-secondary);
+  line-height: 1.65;
   margin-bottom: 32px;
-  text-shadow: var(--text-glow-red-soft);
+  text-shadow: none;
 }
 
 .page-intro {
@@ -46,23 +47,17 @@
 .log-promote,
 .log-demote,
 .log-upcoming {
-  color: var(--text-red);
-  text-shadow: var(--text-glow-red-soft);
+  color: var(--text-brand);
+  text-shadow: none;
 }
 
 .log-live {
   color: var(--accent-gold);
-  text-shadow: 0 0 8px rgba(212, 175, 55, 0.45);
+  text-shadow: none;
 }
 
 .log-ended,
 .log-note {
-  color: var(--text-red-muted);
-}
-
-.log-mute,
-.log-unmute,
-.log-unban {
-  color: var(--text-red-soft);
-  text-shadow: var(--text-glow-red-soft);
+  color: var(--text-muted);
+  text-shadow: none;
 }
