@@ -31,7 +31,7 @@ h1,
 .h1 {
     font-family: var(--font-heading);
     font-size: 52px;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--accent-gold);
     margin-bottom: 18px;
     letter-spacing: 0.06em;
@@ -42,7 +42,7 @@ h2,
 .h2 {
     font-family: var(--font-heading);
     font-size: 40px;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--brand-red-glow);
     margin-bottom: 16px;
     letter-spacing: 0.05em;
@@ -53,7 +53,7 @@ h3,
 .h3 {
     font-family: var(--font-heading);
     font-size: 30px;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--text-heading);
     margin-bottom: 12px;
     letter-spacing: 0.04em;
@@ -94,7 +94,7 @@ h6,
 .section-title {
     font-family: var(--font-heading);
     font-size: 40px;
-    font-weight: 600;
+    font-weight: 400;
     margin-bottom: 25px;
     color: var(--accent-gold);
     letter-spacing: 0.06em;
@@ -147,7 +147,7 @@ h6,
 .header-title {
     font-family: var(--font-heading);
     font-size: 56px;
-    font-weight: 700;
+    font-weight: 400;
     color: var(--accent-gold);
     letter-spacing: 0.08em;
     text-shadow: none;

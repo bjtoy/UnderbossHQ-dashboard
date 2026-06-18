@@ -87,8 +87,8 @@
     --text-glow-red-soft: none;
     --text-glow-red-muted: none;
 
-    /* Cinzel ≈ Goldrops prestige; Caudex for body */
-    --font-heading: "Cinzel", "Goldrops", Georgia, serif;
+    /* Bizantheum — local display serif; Goldrops fallback */
+    --font-heading: "Bizantheum", "Goldrops", Georgia, serif;
     --font-body: "Caudex", Georgia, serif;
 
     --red-neon: var(--brand-red-glow);
