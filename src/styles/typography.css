@@ -25,49 +25,53 @@ small,
     text-shadow: none;
 }
 
-/* Headings — gold + blood red accent, Cinzel display */
+/* Headings — gold + crimson accent, refined display */
 
 h1,
 .h1 {
     font-family: var(--font-heading);
-    font-size: 52px;
+    font-size: 46px;
     font-weight: 400;
     color: var(--accent-gold);
     margin-bottom: 18px;
-    letter-spacing: 0.06em;
+    letter-spacing: var(--heading-letter-spacing, 0.035em);
+    line-height: var(--heading-line-height, 1.18);
     text-shadow: none;
 }
 
 h2,
 .h2 {
     font-family: var(--font-heading);
-    font-size: 40px;
+    font-size: 36px;
     font-weight: 400;
     color: var(--brand-red-glow);
     margin-bottom: 16px;
-    letter-spacing: 0.05em;
+    letter-spacing: var(--heading-letter-spacing, 0.035em);
+    line-height: var(--heading-line-height, 1.18);
     text-shadow: none;
 }
 
 h3,
 .h3 {
     font-family: var(--font-heading);
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 400;
     color: var(--text-heading);
     margin-bottom: 12px;
-    letter-spacing: 0.04em;
+    letter-spacing: var(--heading-letter-spacing, 0.035em);
+    line-height: var(--heading-line-height, 1.18);
     text-shadow: none;
 }
 
 h4,
 .h4 {
     font-family: var(--font-heading);
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 400;
     color: var(--text-secondary);
     margin-bottom: 10px;
     letter-spacing: 0.03em;
+    line-height: var(--heading-line-height, 1.18);
     text-shadow: none;
 }
 
@@ -75,7 +79,7 @@ h5,
 .h5 {
     font-family: var(--font-heading);
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--text-secondary);
     margin-bottom: 8px;
     text-shadow: none;
@@ -85,7 +89,7 @@ h6,
 .h6 {
     font-family: var(--font-heading);
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--text-muted);
     margin-bottom: 6px;
     text-shadow: none;
@@ -93,11 +97,12 @@ h6,
 
 .section-title {
     font-family: var(--font-heading);
-    font-size: 40px;
+    font-size: 36px;
     font-weight: 400;
     margin-bottom: 25px;
     color: var(--accent-gold);
-    letter-spacing: 0.06em;
+    letter-spacing: var(--heading-letter-spacing, 0.035em);
+    line-height: var(--heading-line-height, 1.18);
     text-shadow: none;
 }
 
