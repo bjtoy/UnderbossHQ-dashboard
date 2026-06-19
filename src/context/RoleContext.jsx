@@ -45,6 +45,9 @@ export function RoleProvider({
   const [isPlatformOwner, setIsPlatformOwner] =
     useState(false);
 
+  const [dashboardAccess, setDashboardAccess] =
+    useState(null);
+
   const [loading,
     setLoading] =
     useState(true);
@@ -104,8 +107,9 @@ export function RoleProvider({
         setRoles([]);
         setPermissions([]);
         setIsPlatformOwner(false);
+        setDashboardAccess(null);
 
-        return { user: null, roles: [], permissions: [], isPlatformOwner: false };
+        return { user: null, roles: [], permissions: [], isPlatformOwner: false, dashboardAccess: null };
       }
 
       if (!response.ok) {
@@ -124,17 +128,20 @@ export function RoleProvider({
         ? data.permissions
         : [];
       const nextIsPlatformOwner = Boolean(data.isPlatformOwner);
+      const nextDashboardAccess = data.dashboardAccess || null;
 
       setUser(nextUser);
       setRoles(nextRoles);
       setPermissions(nextPermissions);
       setIsPlatformOwner(nextIsPlatformOwner);
+      setDashboardAccess(nextDashboardAccess);
 
       return {
         user: nextUser,
         roles: nextRoles,
         permissions: nextPermissions,
         isPlatformOwner: nextIsPlatformOwner,
+        dashboardAccess: nextDashboardAccess,
       };
     } catch (error) {
       console.error("Failed loading auth state:", error);
@@ -147,8 +154,9 @@ export function RoleProvider({
       setRoles([]);
       setPermissions([]);
       setIsPlatformOwner(false);
+      setDashboardAccess(null);
 
-      return { user: null, roles: [], permissions: [], isPlatformOwner: false };
+      return { user: null, roles: [], permissions: [], isPlatformOwner: false, dashboardAccess: null };
     } finally {
       if (!mountedRef.current) {
         return;
@@ -242,6 +250,7 @@ export function RoleProvider({
     setPermissions([]);
 
     setIsPlatformOwner(false);
+    setDashboardAccess(null);
 
     localStorage.removeItem(
       "guildId"
@@ -279,6 +288,7 @@ export function RoleProvider({
         hasAnyRole,
         hasPermission,
         isPlatformOwner,
+        dashboardAccess,
         refreshUser:
           loadUser,
         logout,

@@ -367,9 +367,19 @@ export const api = {
   premium: {
     status: () => request("GET", "/api/premium/status"),
 
+    access: () => request("GET", "/api/premium/access"),
+
     grant: (body) => request("POST", "/api/premium/grant", body),
 
     revoke: () => request("POST", "/api/premium/revoke"),
+
+    listComplimentary: () => request("GET", "/api/premium/complimentary"),
+
+    grantComplimentary: (body) =>
+      request("POST", "/api/premium/complimentary", body),
+
+    revokeComplimentary: (discordId) =>
+      request("DELETE", `/api/premium/complimentary/${discordId}`),
   },
 
   translate: {

@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar.jsx";
 import BrandMark from "../components/BrandMark.jsx";
+import PremiumPaywall from "../pages/PremiumPaywall.jsx";
 import { useRoles } from "../context/RoleContext.jsx";
 
 function getPageLabel(path) {
@@ -19,9 +20,15 @@ function getPageLabel(path) {
 }
 
 export default function DashboardLayout({ children }) {
-  const { user, guildId, loading } = useRoles();
+  const { user, guildId, loading, dashboardAccess, isPlatformOwner } = useRoles();
   const location = useLocation();
   const pageLabel = getPageLabel(location.pathname);
+
+  const billingBlocked =
+    guildId &&
+    dashboardAccess?.premiumRequired !== false &&
+    dashboardAccess?.allowed === false &&
+    !(isPlatformOwner && location.pathname.startsWith("/admin/premium"));
 
   const guildName =
     user?.guilds?.find((guild) => guild.id === guildId)?.name ||
@@ -61,7 +68,9 @@ export default function DashboardLayout({ children }) {
         </header>
 
         <main className="dashboard-content">
-          <div className="dashboard-inner">{children}</div>
+          <div className="dashboard-inner">
+            {billingBlocked ? <PremiumPaywall /> : children}
+          </div>
         </main>
       </div>
     </div>
