@@ -87,9 +87,9 @@ export default function MemberHome() {
               <div className="value">{factionStats?.guides ?? "—"}</div>
             </div>
             <div className="card">
-              <h3>New (30d)</h3>
+              <h3>New Members</h3>
               <div className="value">{factionStats?.newMembers30d ?? "—"}</div>
-              <p className="muted">Tracked joins this month</p>
+              <p className="muted">Joined in the last 30 days</p>
             </div>
           </div>
 

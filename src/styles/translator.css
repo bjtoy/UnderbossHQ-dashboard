@@ -1,0 +1,57 @@
+.translator-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.translator-controls {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: end;
+}
+
+.translator-swap-btn {
+  min-width: 48px;
+  padding-inline: 12px;
+  margin-bottom: 2px;
+}
+
+.translator-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.translator-textarea {
+  min-height: 220px;
+}
+
+.translator-output {
+  background: var(--purple-deep);
+  border-color: var(--border-strong);
+}
+
+.translator-meta {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.translator-actions {
+  margin-top: 4px;
+}
+
+@media (max-width: 900px) {
+  .translator-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .translator-swap-btn {
+    width: 100%;
+  }
+
+  .translator-panels {
+    grid-template-columns: 1fr;
+  }
+}

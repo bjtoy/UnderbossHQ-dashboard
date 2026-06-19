@@ -5,6 +5,7 @@ import { useRoles } from "../context/RoleContext.jsx";
 
 function getPageLabel(path) {
   if (path === "/member") return "Member Dashboard";
+  if (path === "/translator") return "Translator";
   if (path === "/moderator") return "Moderator Dashboard";
   if (path === "/admin") return "Admin Dashboard";
   if (path.startsWith("/admin/logs")) return "System Logs";
