@@ -9,6 +9,7 @@
 @import "./legal.css";
 @import "./layout.css";
 @import "./login.css";
+@import "./translator.css";
 @import "./guides.css";
 
 /* ============================================
@@ -87,8 +88,8 @@
     --text-glow-red-soft: none;
     --text-glow-red-muted: none;
 
-    /* Gathering Represent — elegant local display */
-    --font-heading: "Gathering Represent", "Goldrops", Georgia, serif;
+    /* Bizantheum — local display serif */
+    --font-heading: "Bizantheum", "Goldrops", Georgia, serif;
     --heading-letter-spacing: 0.035em;
     --heading-line-height: 1.18;
     --font-body: "Caudex", Georgia, serif;
