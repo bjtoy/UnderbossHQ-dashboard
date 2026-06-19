@@ -150,7 +150,6 @@ export default function AdminPremium() {
           <div className="card page-stack">
             <h3>Included today</h3>
             <ul className="muted page-stack" style={{ paddingLeft: "1.2rem" }}>
-              <li>AI guide, announcement, and moderation tools</li>
               <li>More premium features will unlock here as Section J grows</li>
             </ul>
             {status.stripeConfigured ? (

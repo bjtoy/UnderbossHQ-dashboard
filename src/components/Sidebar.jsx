@@ -33,6 +33,9 @@ export default function Sidebar() {
           <Link to="/member" className={navClass(path === "/member")}>
             Home
           </Link>
+          <Link to="/translator" className={navClass(path === "/translator")}>
+            Translator
+          </Link>
         </div>
 
         <div className="sidebar-section">
@@ -96,12 +99,6 @@ export default function Sidebar() {
               className={navClass(path === "/moderator/user-lookup")}
             >
               User Lookup
-            </Link>
-            <Link
-              to="/admin/ai"
-              className={navClass(path === "/admin/ai")}
-            >
-              AI Tools
             </Link>
           </div>
         )}

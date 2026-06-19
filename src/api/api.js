@@ -364,23 +364,17 @@ export const api = {
     test: (id) => request("POST", `/api/webhooks/${id}/test`),
   },
 
-  ai: {
-    status: () => request("GET", "/api/ai/status"),
-
-    guideDraft: (body) => request("POST", "/api/ai/guide-draft", body),
-
-    announcementDraft: (body) =>
-      request("POST", "/api/ai/announcement-draft", body),
-
-    moderationSummary: (body) =>
-      request("POST", "/api/ai/moderation-summary", body),
-  },
-
   premium: {
     status: () => request("GET", "/api/premium/status"),
 
     grant: (body) => request("POST", "/api/premium/grant", body),
 
     revoke: () => request("POST", "/api/premium/revoke"),
+  },
+
+  translate: {
+    languages: () => request("GET", "/api/translate/languages"),
+
+    translate: (body) => request("POST", "/api/translate", body),
   },
 };
