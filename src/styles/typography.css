@@ -151,10 +151,11 @@ h6,
 
 .header-title {
     font-family: var(--font-heading);
-    font-size: 56px;
+    font-size: 50px;
     font-weight: 400;
     color: var(--accent-gold);
-    letter-spacing: 0.08em;
+    letter-spacing: var(--heading-letter-spacing, 0.035em);
+    line-height: var(--heading-line-height, 1.18);
     text-shadow: none;
 }
 

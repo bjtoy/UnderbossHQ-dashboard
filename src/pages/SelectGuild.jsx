@@ -4,6 +4,7 @@ import { api } from "../api/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
 import { getDefaultRoute } from "../utils/getDefaultRoute.js";
 import BrandMark from "../components/BrandMark.jsx";
+import { getDiscordBotInviteUrl } from "../utils/discordBotInvite.js";
 
 export default function SelectGuild() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function SelectGuild() {
   const [guilds, setGuilds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const botInviteUrl = getDiscordBotInviteUrl();
 
   useEffect(() => {
     api.guilds
@@ -73,10 +75,22 @@ export default function SelectGuild() {
 
         <div className="standalone-list">
           {guilds.length === 0 ? (
-            <p className="page-subtitle">
-              No manageable servers found. You need Manage Server permission on a
-              Discord server where UnderbossHQ is installed.
-            </p>
+            <>
+              <p className="page-subtitle">
+                No manageable servers found. Add UnderbossHQ to a Discord server
+                where you have Manage Server permission, then sign in again.
+              </p>
+              {botInviteUrl && (
+                <a
+                  href={botInviteUrl}
+                  className="btn btn-outline-gold"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Add bot to server
+                </a>
+              )}
+            </>
           ) : (
             guilds.map((guild) => (
               <button

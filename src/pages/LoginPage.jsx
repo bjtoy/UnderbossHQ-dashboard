@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
 import BrandMark from "../components/BrandMark.jsx";
+import { getDiscordBotInviteUrl } from "../utils/discordBotInvite.js";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -23,6 +24,8 @@ export default function LoginPage() {
     window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/login`;
   }
 
+  const botInviteUrl = getDiscordBotInviteUrl();
+
   if (loading) {
     return (
       <div className="loading-screen">
@@ -39,9 +42,21 @@ export default function LoginPage() {
           Sign in with Discord to access your server dashboard, guides, and
           moderation tools.
         </p>
-        <button type="button" className="btn btn-outline-red" onClick={handleLogin}>
-          Login with Discord
-        </button>
+        <div className="login-actions">
+          <button type="button" className="btn btn-outline-red" onClick={handleLogin}>
+            Login with Discord
+          </button>
+          {botInviteUrl && (
+            <a
+              href={botInviteUrl}
+              className="btn btn-outline-gold"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Add bot to server
+            </a>
+          )}
+        </div>
         <p className="login-legal-links">
           <Link to="/terms">Terms of Service</Link>
           {" · "}
