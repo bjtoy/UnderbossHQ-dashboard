@@ -1,9 +1,34 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { api } from "../api/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
+import { canManageGuildBilling } from "../utils/guildBillingAuth.js";
 import PageHeader from "../components/PageHeader.jsx";
 
 export default function PremiumPaywall() {
-  const { user, isPlatformOwner, dashboardAccess } = useRoles();
+  const { user, guildId, isPlatformOwner, dashboardAccess } = useRoles();
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const canSubscribe = canManageGuildBilling(user, guildId);
+
+  async function handleSubscribe() {
+    setCheckoutLoading(true);
+    setError(null);
+
+    try {
+      const res = await api.stripe.checkout();
+      if (res?.url) {
+        window.location.href = res.url;
+        return;
+      }
+      throw new Error("Checkout URL not returned");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setCheckoutLoading(false);
+    }
+  }
 
   return (
     <div className="dashboard-page">
@@ -33,8 +58,8 @@ export default function PremiumPaywall() {
           ) : (
             <ul className="muted page-stack" style={{ paddingLeft: "1.2rem" }}>
               <li>
-                Server owners can purchase premium when self-serve billing is
-                connected.
+                Server owners and admins can subscribe to unlock the dashboard
+                for everyone on this server.
               </li>
               <li>
                 Operators can grant complimentary access to specific Discord
@@ -46,7 +71,19 @@ export default function PremiumPaywall() {
             </ul>
           )}
 
+          {error && <p className="muted">{error}</p>}
+
           <div className="action-row">
+            {canSubscribe && (
+              <button
+                type="button"
+                className="btn btn-outline-red btn-sm"
+                disabled={checkoutLoading}
+                onClick={handleSubscribe}
+              >
+                {checkoutLoading ? "Redirecting…" : "Subscribe with Stripe"}
+              </button>
+            )}
             <Link to="/select-guild" className="btn btn-outline-red btn-sm">
               Change server
             </Link>
@@ -56,6 +93,13 @@ export default function PremiumPaywall() {
               </Link>
             )}
           </div>
+
+          {!canSubscribe && dashboardAccess?.premiumRequired !== false && (
+            <p className="muted">
+              Ask a server owner or admin with Manage Server permission to
+              subscribe for this server.
+            </p>
+          )}
         </div>
       </div>
     </div>

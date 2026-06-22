@@ -154,6 +154,44 @@ export default function AdminPremium() {
 
 
 
+  async function openBillingPortal() {
+
+    setActing(true);
+
+    setMessage("");
+
+    setError(null);
+
+
+
+    try {
+
+      const res = await api.stripe.portal();
+
+      if (res?.url) {
+
+        window.location.href = res.url;
+
+        return;
+
+      }
+
+      throw new Error("Billing portal URL not returned");
+
+    } catch (err) {
+
+      setError(err.message);
+
+    } finally {
+
+      setActing(false);
+
+    }
+
+  }
+
+
+
   async function addComplimentary(event) {
 
     event.preventDefault();
@@ -626,17 +664,47 @@ export default function AdminPremium() {
 
             {status.stripeConfigured ? (
 
-              <p className="muted">Stripe is configured on the backend.</p>
+              <p className="muted">
+
+                Stripe checkout is live. Server admins can subscribe from the
+
+                paywall; subscriptions sync automatically via webhooks.
+
+              </p>
 
             ) : (
 
               <p className="muted">
 
-                Stripe is not configured yet — use manual server grants and
+                Add <code>STRIPE_SECRET_KEY</code>,{" "}
 
-                complimentary users until self-serve checkout is live.
+                <code>STRIPE_PREMIUM_PRICE_ID</code>, and{" "}
+
+                <code>STRIPE_WEBHOOK_SECRET</code> on the backend to enable
+
+                self-serve billing. Manual grants work until then.
 
               </p>
+
+            )}
+
+            {status?.source === "stripe" && status?.subscriptionId && (
+
+              <button
+
+                type="button"
+
+                className="btn btn-outline-gold btn-sm"
+
+                disabled={acting}
+
+                onClick={openBillingPortal}
+
+              >
+
+                Manage Stripe subscription
+
+              </button>
 
             )}
 

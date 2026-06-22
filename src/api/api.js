@@ -382,6 +382,12 @@ export const api = {
       request("DELETE", `/api/premium/complimentary/${discordId}`),
   },
 
+  stripe: {
+    checkout: () => request("POST", "/api/stripe/checkout"),
+
+    portal: () => request("POST", "/api/stripe/portal"),
+  },
+
   translate: {
     languages: () => request("GET", "/api/translate/languages"),
 
