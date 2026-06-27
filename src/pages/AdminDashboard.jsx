@@ -5,6 +5,8 @@ import { useRoles } from "../context/RoleContext.jsx";
 import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
 import PageHeader from "../components/PageHeader.jsx";
+import { getDiscordBotInviteUrl } from "../utils/discordBotInvite.js";
+import { getDashboardUrl } from "../utils/appUrls.js";
 
 export default function AdminDashboard() {
   const { isPlatformOwner, loading: authLoading } = useRoles();
@@ -150,10 +152,55 @@ export default function AdminDashboard() {
             )}
           </div>
 
-          <div className="card">
+          <div className="card page-stack">
             <h3>Guild Info</h3>
             <p className="muted">Name: {guildInfo?.name ?? "Unknown"}</p>
             <p className="muted">ID: {guildInfo?.id ?? "—"}</p>
+          </div>
+
+          <div className="card page-stack">
+            <h3>Web dashboard</h3>
+            <p className="muted">
+              UnderbossHQ is a Discord bot plus web dashboard. Staff can manage
+              guides, announcements, moderation, invite tracking, analytics, and
+              server settings from the browser — the bot handles in-Discord
+              slash commands and live server actions.
+            </p>
+            <ul className="muted page-stack" style={{ paddingLeft: "1.2rem" }}>
+              <li>Share the dashboard link with admins who have Manage Server.</li>
+              <li>Add the bot to any server before using dashboard features there.</li>
+              <li>Use `/help` in Discord for command reference and the dashboard link.</li>
+            </ul>
+            <div className="action-row">
+              {dashboardUrl && (
+                <a
+                  href={dashboardUrl}
+                  className="btn btn-outline-red btn-sm"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open dashboard
+                </a>
+              )}
+              <Link to="/admin/settings" className="btn btn-outline-red btn-sm">
+                Server settings
+              </Link>
+              {botInviteUrl && (
+                <a
+                  href={botInviteUrl}
+                  className="btn btn-outline-gold btn-sm"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Add bot to server
+                </a>
+              )}
+            </div>
+            {dashboardUrl && (
+              <p className="muted">
+                Dashboard URL: <code>{dashboardUrl}</code>
+              </p>
+            )}
           </div>
 
           <div className="action-row">

@@ -2,11 +2,11 @@ import { useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar.jsx";
 import BrandMark from "../components/BrandMark.jsx";
 import PremiumPaywall from "../pages/PremiumPaywall.jsx";
+import TranslatorWidget from "../components/TranslatorWidget.jsx";
 import { useRoles } from "../context/RoleContext.jsx";
 
 function getPageLabel(path) {
   if (path === "/member") return "Member Dashboard";
-  if (path === "/translator") return "Translator";
   if (path === "/moderator") return "Moderator Dashboard";
   if (path === "/admin") return "Admin Dashboard";
   if (path.startsWith("/admin/logs")) return "System Logs";
@@ -73,6 +73,8 @@ export default function DashboardLayout({ children }) {
           </div>
         </main>
       </div>
+
+      {!billingBlocked && <TranslatorWidget />}
     </div>
   );
 }

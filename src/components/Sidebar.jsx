@@ -33,9 +33,6 @@ export default function Sidebar() {
           <Link to="/member" className={navClass(path === "/member")}>
             Home
           </Link>
-          <Link to="/translator" className={navClass(path === "/translator")}>
-            Translator
-          </Link>
         </div>
 
         <div className="sidebar-section">

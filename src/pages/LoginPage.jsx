@@ -40,7 +40,7 @@ export default function LoginPage() {
         <BrandMark size="lg" />
         <p className="login-copy">
           Sign in with Discord to access your server dashboard, guides, and
-          moderation tools.
+          moderation tools. Add the bot first if it is not in your server yet.
         </p>
         <div className="login-actions">
           <button type="button" className="btn btn-outline-red" onClick={handleLogin}>

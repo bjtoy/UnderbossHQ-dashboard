@@ -30,7 +30,6 @@ import AdminPremium from "./pages/AdminPremium.jsx";
 import PremiumSuccess from "./pages/PremiumSuccess.jsx";
 import EventsList from "./pages/events/EventsList.jsx";
 import EventEditor from "./pages/events/EventEditor.jsx";
-import Translator from "./pages/Translator.jsx";
 import NotAuthorized from "./pages/NotAuthorized.jsx";
 import TermsOfService from "./pages/TermsOfService.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
@@ -68,17 +67,6 @@ export default function App() {
             <ProtectedRoute>
               <DashboardLayout>
                 <MemberHome />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/translator"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <Translator />
               </DashboardLayout>
             </ProtectedRoute>
           }
