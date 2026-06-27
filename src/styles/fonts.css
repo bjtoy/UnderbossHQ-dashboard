@@ -5,7 +5,19 @@
 
 @font-face {
   font-family: "Gathering Represent";
-  src: url("../fonts/Gathering Represent Demo.otf") format("opentype");
+  src:
+    url("../fonts/Gathering Represent Demo.otf") format("opentype"),
+    url("../fonts/Gathering Represent Demo.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Resilient Essence";
+  src:
+    url("../fonts/Resilient Essence Demo.otf") format("opentype"),
+    url("../fonts/Resilient Essence Demo.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -24,45 +36,5 @@
   src: url("../fonts/Bizantheum.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Goldrops";
-  src: url("../fonts/GoldropspersonaluseRegular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Caudex";
-  src: url("../fonts/Caudex-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Caudex";
-  src: url("../fonts/Caudex-Italic.ttf") format("truetype");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Caudex";
-  src: url("../fonts/Caudex-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Caudex";
-  src: url("../fonts/Caudex-BoldItalic.ttf") format("truetype");
-  font-weight: 700;
-  font-style: italic;
   font-display: swap;
 }

@@ -88,11 +88,12 @@
     --text-glow-red-soft: none;
     --text-glow-red-muted: none;
 
-    /* Bizantheum — local display serif */
-    --font-heading: "Bizantheum", "Goldrops", Georgia, serif;
-    --heading-letter-spacing: 0.035em;
-    --heading-line-height: 1.18;
-    --font-body: "Caudex", Georgia, serif;
+    /* Local brand typography */
+    --font-brand: "Gathering Represent", "Resilient Essence", Georgia, serif;
+    --font-heading: "Resilient Essence", "Bizantheum", Georgia, serif;
+    --heading-letter-spacing: 0.04em;
+    --heading-line-height: 1.12;
+    --font-body: "Medino", Georgia, serif;
 
     --red-neon: var(--brand-red-glow);
     --yellow-neon: var(--accent-gold);
