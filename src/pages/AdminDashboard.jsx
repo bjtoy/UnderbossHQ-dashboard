@@ -100,6 +100,8 @@ export default function AdminDashboard() {
   }
 
   const hasData = status || guildInfo;
+  const dashboardUrl = getDashboardUrl();
+  const botInviteUrl = getDiscordBotInviteUrl();
 
   return (
     <div className="dashboard-page">
