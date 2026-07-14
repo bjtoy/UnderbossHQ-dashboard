@@ -143,3 +143,19 @@
   color: var(--text-muted);
   text-shadow: none;
 }
+
+@media (max-width: 768px) {
+  .login-page {
+    padding: 24px 16px;
+  }
+
+  .login-card {
+    padding: 28px 20px 32px;
+  }
+
+  .login-actions .btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+  }
+}

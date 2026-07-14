@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar.jsx";
 import BrandMark from "../components/BrandMark.jsx";
@@ -23,6 +24,16 @@ export default function DashboardLayout({ children }) {
   const { user, guildId, loading, dashboardAccess, isPlatformOwner } = useRoles();
   const location = useLocation();
   const pageLabel = getPageLabel(location.pathname);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    document.body.classList.toggle("mobile-nav-open", sidebarOpen);
+    return () => document.body.classList.remove("mobile-nav-open");
+  }, [sidebarOpen]);
 
   const billingBlocked =
     guildId &&
@@ -41,9 +52,28 @@ export default function DashboardLayout({ children }) {
   }
 
   return (
-    <div className="dashboard-layout">
+    <div className={`dashboard-layout${sidebarOpen ? " sidebar-open" : ""}`}>
+      <button
+        type="button"
+        className="dashboard-nav-toggle"
+        aria-expanded={sidebarOpen}
+        aria-label={sidebarOpen ? "Close menu" : "Open menu"}
+        onClick={() => setSidebarOpen((open) => !open)}
+      >
+        <span aria-hidden="true">{sidebarOpen ? "✕" : "☰"}</span>
+      </button>
+
+      {sidebarOpen ? (
+        <button
+          type="button"
+          className="dashboard-sidebar-overlay"
+          aria-label="Close menu"
+          onClick={() => setSidebarOpen(false)}
+        />
+      ) : null}
+
       <div className="dashboard-sidebar">
-        <Sidebar />
+        <Sidebar onNavigate={() => setSidebarOpen(false)} />
       </div>
 
       <div className="dashboard-main">
