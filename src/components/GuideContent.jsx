@@ -79,15 +79,44 @@ export default function GuideContent({ content, className = "" }) {
         }
 
         if (block.type === "section") {
+          const variant = block.variant || "plain";
           return (
-            <h3 key={index} className="guide-section-title">
+            <h3
+              key={index}
+              className={`guide-section-title guide-section-${variant}`}
+            >
               {block.text}
             </h3>
           );
         }
 
+        if (block.type === "heading") {
+          const variant = block.variant || "lg";
+          const Tag = variant === "sm" ? "h4" : variant === "md" ? "h3" : "h2";
+          return (
+            <Tag
+              key={index}
+              className={`guide-heading guide-heading-${variant}`}
+            >
+              {block.text}
+            </Tag>
+          );
+        }
+
+        if (block.type === "styledText") {
+          const variant = block.variant || "body";
+          return (
+            <div
+              key={index}
+              className={`guide-text-block guide-text-${variant}`}
+            >
+              {renderParagraphs(block.text)}
+            </div>
+          );
+        }
+
         return (
-          <div key={index} className="guide-text-block">
+          <div key={index} className="guide-text-block guide-text-body">
             {renderParagraphs(block.text)}
           </div>
         );

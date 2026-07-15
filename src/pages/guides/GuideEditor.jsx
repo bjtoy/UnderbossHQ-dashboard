@@ -9,16 +9,26 @@ import GuideContent from "../../components/GuideContent.jsx";
 import DiscordChannelSelect from "../../components/DiscordChannelSelect.jsx";
 import { bannerSnippet } from "../../utils/guideMarkup.js";
 
-const STARTER_TEMPLATE = `${bannerSnippet("fancy", "Guide Title")}
+const STARTER_TEMPLATE = `${bannerSnippet("fancy", "Guide Title", { font: "caudex" })}
 
-Write your introduction here.
+:::text-lead
+Write a short introduction that sets the tone for this guide.
+:::
 
-:::section
+:::section-bar
 Section Title
 :::
 
-:::color-red
-Important red text
+:::heading-md
+Key Points
+:::
+
+:::text-body
+Explain the details here. Use text styles, colors, and callouts to emphasize important ideas.
+:::
+
+:::color-gold
+Important gold highlight
 :::
 
 :::tip
@@ -68,7 +78,7 @@ export default function GuideEditor() {
   async function handleSave() {
     if (!title.trim() || !content.trim()) {
       setMessage("Title and content are required.");
-      return;
+      return null;
     }
 
     setSaving(true);
@@ -80,12 +90,15 @@ export default function GuideEditor() {
         const result = await api.guides.create({ title, content });
         navigate(`/guides/${result.id}/edit`, { replace: true });
         setMessage("Guide created.");
-      } else {
-        await api.guides.update(id, { title, content });
-        setMessage("Guide saved.");
+        return result.id;
       }
+
+      await api.guides.update(id, { title, content });
+      setMessage("Guide saved.");
+      return id;
     } catch (err) {
       setError(err.message);
+      return null;
     } finally {
       setSaving(false);
     }
@@ -115,8 +128,10 @@ export default function GuideEditor() {
     }
   }
 
-  async function handlePostToDiscord() {
-    if (isNew) {
+  async function handlePostToDiscord(postId = id) {
+    const targetId = postId || id;
+
+    if (!targetId || targetId === "new") {
       setMessage("Save the guide before posting to Discord.");
       return;
     }
@@ -130,8 +145,47 @@ export default function GuideEditor() {
     setError(null);
 
     try {
-      await api.guides.post(id, { channelId: discordChannelId });
+      await api.guides.post(targetId, { channelId: discordChannelId });
       setMessage("Guide posted to Discord.");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleSaveAndPost() {
+    if (!discordChannelId) {
+      setMessage("Select a Discord channel first.");
+      return;
+    }
+
+    if (!title.trim() || !content.trim()) {
+      setMessage("Title and content are required.");
+      return;
+    }
+
+    setSaving(true);
+    setMessage("");
+    setError(null);
+
+    try {
+      let targetId = isNew ? null : id;
+
+      if (isNew) {
+        const result = await api.guides.create({ title, content });
+        targetId = result.id;
+      } else {
+        await api.guides.update(id, { title, content });
+      }
+
+      await api.guides.post(targetId, { channelId: discordChannelId });
+
+      if (isNew) {
+        navigate(`/guides/${targetId}/edit`, { replace: true });
+      }
+
+      setMessage("Guide saved and posted to Discord.");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -168,7 +222,7 @@ export default function GuideEditor() {
     <div className="dashboard-page">
       <PageHeader
         title={isNew ? "Create Guide" : "Edit Guide"}
-        subtitle="Use banners, colored text, and callouts to style your guide."
+        subtitle="Build with the toolbar tabs, then check the live preview."
         actions={
           <Link to="/guides" className="btn btn-outline-red btn-sm">
             Back to Guides
@@ -180,7 +234,7 @@ export default function GuideEditor() {
       {message && <div className="message-banner success">{message}</div>}
 
       <div className="page-body">
-        <div className="card page-stack">
+        <div className="card page-stack guide-create-shell">
           <div className="field-group">
             <label className="field-label" htmlFor="guide-title">
               Title
@@ -201,9 +255,9 @@ export default function GuideEditor() {
           />
 
           <div className="guide-editor-layout">
-            <div className="field-group">
+            <div className="field-group guide-editor-write">
               <label className="field-label" htmlFor="guide-content">
-                Content
+                Write
               </label>
               <textarea
                 id="guide-content"
@@ -212,7 +266,7 @@ export default function GuideEditor() {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Write the guide content..."
-                rows={18}
+                rows={20}
               />
             </div>
 
@@ -222,37 +276,45 @@ export default function GuideEditor() {
             </div>
           </div>
 
-          {!isNew && (
-            <DiscordChannelSelect
-              id="guide-discord-channel"
-              label="Post to Discord channel"
-              value={discordChannelId}
-              onChange={setDiscordChannelId}
-              defaultChannelId={
-                /rule/i.test(title)
-                  ? defaultRulesChannelId
-                  : defaultGuidesChannelId
-              }
-              disabled={saving}
-              onDefaultsLoaded={applyChannelDefaults}
-            />
-          )}
+          <DiscordChannelSelect
+            id="guide-discord-channel"
+            label="Post to Discord channel"
+            value={discordChannelId}
+            onChange={setDiscordChannelId}
+            defaultChannelId={
+              /rule/i.test(title)
+                ? defaultRulesChannelId
+                : defaultGuidesChannelId
+            }
+            disabled={saving}
+            onDefaultsLoaded={applyChannelDefaults}
+          />
 
           <div className="action-row">
             <button
               type="button"
               className="btn btn-outline-red btn-sm"
-              onClick={handleSave}
+              onClick={() => handleSave()}
               disabled={saving}
             >
               {saving ? "Saving..." : "Save"}
             </button>
+            {discordChannelId && (
+              <button
+                type="button"
+                className="btn btn-outline-red btn-sm"
+                onClick={handleSaveAndPost}
+                disabled={saving}
+              >
+                Save & post to Discord
+              </button>
+            )}
             {!isNew && (
               <>
                 <button
                   type="button"
                   className="btn btn-outline-red btn-sm"
-                  onClick={handlePostToDiscord}
+                  onClick={() => handlePostToDiscord()}
                   disabled={saving || !discordChannelId}
                 >
                   Post to Discord
