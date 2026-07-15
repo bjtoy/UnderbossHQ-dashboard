@@ -10,7 +10,8 @@ export const HELP_SECTIONS = [
     ],
     bullets: [
       "View member profile stats and server activity",
-      "Publish guides, announcements, and events",
+      "Write rich guides (banners, fonts, callouts), announcements, and events",
+      "Post content from the dashboard straight into Discord channels",
       "Moderate members (warn, promote, demote, kick, case files)",
       "Track invites and server growth",
       "Configure bot channels and sync roles",
@@ -29,22 +30,23 @@ export const HELP_SECTIONS = [
           "Authorize UnderbossHQ when Discord asks for permission.",
           "You will return to the dashboard automatically.",
         ],
-        note: "If login fails, ask your server admin to confirm the bot is installed and OAuth is configured correctly.",
+        note: "If login fails, ask your server admin to confirm the bot is installed and OAuth is configured correctly. You can download the Word manual from the login page without signing in.",
       },
       {
         title: "Choose a server",
         steps: [
           "After login you land on Select Server.",
           "Pick the Discord server you want to manage.",
-          "You must have Manage Server (or equivalent staff access) on that server for most tools.",
+          "You need Manage Server (or equivalent staff access) on that server for most tools.",
         ],
-        note: "Use Change Server in the sidebar anytime to switch. You can open Help before picking a server.",
+        note: "Use Change Server in the sidebar anytime to switch. You can open Help or download the Word manual before picking a server.",
       },
       {
         title: "Premium access",
         paragraphs: [
-          "Some servers require an active premium subscription to use the dashboard.",
+          "Some servers require an active premium subscription to use most of the dashboard.",
           "Complimentary users can use the dashboard without paying. Paying unlocks the server for everyone on it.",
+          "Help stays available even when the paywall is up.",
         ],
         table: {
           headers: ["Situation", "What to do"],
@@ -70,27 +72,48 @@ export const HELP_SECTIONS = [
     id: "roles",
     title: "Who can do what",
     paragraphs: [
-      "Access depends on your Discord permissions and UnderbossHQ roles.",
-      "If you expect staff tools but only see Member links, confirm your Discord roles sync correctly (Admin → Sync Roles).",
+      "Access depends on your Discord permissions and UnderbossHQ roles. After role changes, an admin should run Admin → Sync Roles.",
+      "If Discord posting fails with a permission error, you will see a toast message. Ask an admin to sync roles or update Discord role mappings.",
     ],
     table: {
       headers: ["Role", "Typical access"],
       rows: [
-        ["Member", "Home, guides, announcements, events (read); translator"],
+        ["Member", "Home, guides / announcements / events (read), Help, translator"],
         [
-          "Moderator",
-          "Everything members have, plus moderation tools, analytics, case history, user lookup",
+          "Enforcer",
+          "Create and edit guides; publish / post guides to Discord",
+        ],
+        [
+          "Moderator (Mod)",
+          "Guide publish plus announcements, events, moderation, analytics, cases, user lookup",
         ],
         [
           "Admin",
-          "Everything moderators have, plus admin dashboard, logs, webhooks, invites, users, settings",
+          "Full server tools: admin dashboard, logs, webhooks, invites, users, settings",
         ],
         [
           "Platform owner",
-          "Premium & Billing (grant/revoke subscriptions and free users)",
+          "Premium & Billing (grant/revoke subscriptions and complimentary users)",
         ],
       ],
     },
+    subsections: [
+      {
+        title: "Guide permissions",
+        table: {
+          headers: ["Action", "Who"],
+          rows: [
+            ["Read / view guides", "Everyone with dashboard access"],
+            ["Create / edit guides", "Admin, Mod, Moderator, Enforcer"],
+            ["Delete guides", "Admin, Mod, Moderator (not Enforcer)"],
+            [
+              "Publish / post to Discord",
+              "PUBLISH_GUIDE — Admin, Mod, Moderator, and Enforcer",
+            ],
+          ],
+        },
+      },
+    ],
   },
   {
     id: "navigation",
@@ -99,7 +122,7 @@ export const HELP_SECTIONS = [
       {
         title: "Desktop",
         bullets: [
-          "Left sidebar lists pages you can open.",
+          "Left sidebar lists pages you can open (sections appear based on your roles).",
           "Top bar shows UnderbossHQ, the current page name, your username, and the selected server.",
         ],
       },
@@ -117,8 +140,8 @@ export const HELP_SECTIONS = [
         bullets: [
           "Change Server — pick a different Discord server",
           "Log out — end your session",
-          "Translator — floating button (🌐) for quick text translation (when access allows)",
-          "Help — this guide (also available before purchasing premium)",
+          "Help — this guide; works before picking a server and behind the premium paywall",
+          "Translator — floating 🌐 when you are not blocked by the paywall",
         ],
       },
     ],
@@ -136,34 +159,46 @@ export const HELP_SECTIONS = [
         ],
       },
       {
-        title: "Guides",
-        paragraphs: [
-          "Browse faction guides published for your server. Open a guide to read it. Staff with editor permission can create, edit, publish, and post guides to Discord.",
+        title: "Guides — reading",
+        bullets: [
+          "Browse faction guides for the selected server",
+          "Open a guide to read the styled dashboard layout",
+          "Use Copy for Discord when you need a plain-text version for paste",
         ],
+      },
+      {
+        title: "Guides — create and post (staff)",
         steps: [
-          "Go to Guides → Create Guide (or Edit on an existing guide).",
-          "Enter a title and content.",
-          "Use the toolbar for banners, colored text, callouts, and sections.",
-          "Preview on the right as you type.",
-          "Save, then optionally choose a Discord channel and Post to Discord / Publish.",
+          "Go to Guides → Create Guide (or Edit).",
+          "Enter a title and write content (new guides start with a sample Fancy / Caudex banner).",
+          "Use the tabbed toolbar — Banner, Structure, Text, Callouts — and watch the live preview.",
+          "Save the guide.",
+          "With PUBLISH_GUIDE: pick a Discord channel in the editor and use Save & post / Post / Publish & post.",
+          "Or use quick post on the Guides list: choose a channel, then Post to Discord on a card.",
         ],
+        note: "Discord does not render full dashboard styling. The bot posts a Discord-friendly version; use Copy for Discord for hand-paste.",
       },
       {
-        title: "Announcements",
+        title: "Guide editor — formatting toolkit",
         paragraphs: [
-          "View server announcements. Staff can create, edit, delete, and post them to a Discord channel.",
+          "Tab 1 Banner: styles (Standard, Fancy, Minimal, Gaming, Tactical, Plaque, Ribbon, Poster), fonts (Fancy / Sans-Title / Typewriter), colors and textures (Parchment, Carbon, Marble, Damask, and more).",
+          "Tab 2 Structure: section variants (Plain, Bar, Pill, Divider) and headings (Large, Medium, Small).",
+          "Tab 3 Text: Body, Lead, Quote, Note, Centered, plus color highlights.",
+          "Tab 4 Callouts: Tip, Warning, and Important boxes.",
         ],
+        note: "Keep fancy fonts for titles. Put the long rich version on the dashboard; keep Discord posts shorter.",
       },
       {
-        title: "Events",
-        paragraphs: [
-          "View upcoming and past events. Staff can create events with title, description, location, and start/end times.",
+        title: "Announcements & Events",
+        bullets: [
+          "Announcements — staff (Admin / Mod / Moderator) can create, edit, delete, and post to Discord",
+          "Events — staff can set title, description, location, and start/end times",
         ],
       },
       {
         title: "Translator",
         steps: [
-          "Tap 🌐.",
+          "Tap 🌐 (hidden while the premium paywall is blocking you).",
           "Choose languages (or leave source as Auto-detect).",
           "Type or paste text — translation updates after a short pause.",
           "Copy or clear as needed.",
@@ -174,7 +209,9 @@ export const HELP_SECTIONS = [
   {
     id: "moderator",
     title: "Moderator tools",
-    paragraphs: ["Visible when you have Mod / Moderator access."],
+    paragraphs: [
+      "Visible when you have Mod / Moderator access (Admin also sees these).",
+    ],
     subsections: [
       {
         title: "Moderation Tools",
@@ -193,7 +230,7 @@ export const HELP_SECTIONS = [
       {
         title: "User Lookup",
         paragraphs: [
-          "Look up a Discord user by ID and run moderation actions (warn, promote, demote, kick) with a reason.",
+          "Look up a Discord user by ID and run moderation actions (warn, promote, demote, kick) with a reason. Usernames are resolved when Discord profile data is available.",
         ],
         note: "Always include a clear reason for moderation actions — it is logged for audit.",
       },
@@ -217,7 +254,7 @@ export const HELP_SECTIONS = [
           "Guild member count and premium status (for operators)",
           "Reload Bot Config and Sync Roles",
         ],
-        note: "Use Sync Roles after changing Discord role mappings so dashboard permissions update.",
+        note: "Use Sync Roles after changing Discord role mappings so dashboard permissions (including guide publish) update.",
       },
       {
         title: "System Logs",
@@ -248,7 +285,7 @@ export const HELP_SECTIONS = [
           "Welcome / log / guides / rules / announcements channels",
           "Auto-role",
         ],
-        note: "Save after changes so the bot and dashboard use the new channels.",
+        note: "Save after changes. Guide and announcement post pickers use these channel defaults when possible.",
       },
     ],
   },
@@ -257,8 +294,8 @@ export const HELP_SECTIONS = [
     title: "Premium & Billing",
     paragraphs: [
       "Only platform owners see Premium & Billing in the sidebar.",
-      "Server premium unlocks the dashboard for everyone on the selected server.",
-      "Complimentary users get free dashboard access by Discord user ID.",
+      "Server premium unlocks the dashboard for everyone on the selected server and unlocks premium Discord bot slash commands for that guild.",
+      "Complimentary users get free dashboard access by Discord user ID (separate from guild bot premium).",
     ],
     subsections: [
       {
@@ -283,6 +320,7 @@ export const HELP_SECTIONS = [
         bullets: [
           "Server owners/admins can Subscribe with Stripe from the paywall",
           "Operators can open the Stripe customer portal from Premium & Billing when a Stripe subscription exists",
+          "Checkout and billing flows still work when the rest of the dashboard is locked",
         ],
       },
     ],
@@ -291,18 +329,32 @@ export const HELP_SECTIONS = [
     id: "bot",
     title: "Discord bot (quick reference)",
     paragraphs: [
-      "The bot runs with the backend when a bot token is configured. Prefer the dashboard for long guides and announcements; use slash commands for quick in-Discord actions.",
-      "Exact commands depend on what is registered for your bot.",
+      "Prefer the dashboard for long styled guides and announcements; use slash commands for quick in-Discord actions.",
+      "Staff slash actions still require staff Discord permissions even when the guild has premium.",
     ],
-    table: {
-      headers: ["Area", "Examples"],
-      rows: [
-        ["Utility", "/ping, /serverinfo, /help"],
-        ["Moderation", "/warn, /kick, /mute, /promote, /demote"],
-        ["Roles", "/role assign, /role remove, /role list"],
-        ["Content", "/guide create, /guide post, /guide list, announce helpers"],
-      ],
-    },
+    subsections: [
+      {
+        title: "Free commands (every guild)",
+        table: {
+          headers: ["Area", "Examples"],
+          rows: [
+            ["Utility", "/ping, /serverinfo, /help"],
+            ["Moderation", "/warn, /mute, /kick"],
+          ],
+        },
+      },
+      {
+        title: "Premium commands (guild must have premium)",
+        table: {
+          headers: ["Area", "Examples"],
+          rows: [
+            ["Content", "/announce, /guide, /guide-styled"],
+            ["Staff", "/promote, /demote"],
+            ["Roles / access", "/role, /channel-access"],
+          ],
+        },
+      },
+    ],
   },
   {
     id: "troubleshooting",
@@ -316,16 +368,24 @@ export const HELP_SECTIONS = [
         ],
         ["Wrong server tools", "Use Change Server and re-select"],
         [
-          "Missing Mod/Admin menu",
-          "Check Discord permissions; ask an admin to Sync Roles",
+          "Missing Mod/Admin/Enforcer tools",
+          "Check Discord roles; ask an admin to Sync Roles",
         ],
         [
           "Premium required screen",
-          "Subscribe (owner/admin) or request complimentary access — Help stays available behind the paywall",
+          "Subscribe (owner/admin) or request complimentary access — Help stays available",
+        ],
+        [
+          "Can’t see Post to Discord",
+          "Confirm PUBLISH_GUIDE (Admin / Mod / Moderator / Enforcer after sync)",
         ],
         [
           "Guide won’t post",
-          "Save first; pick a Discord channel; confirm bot can post there",
+          "Save first; pick a channel; confirm the bot can post there; read the toast error",
+        ],
+        [
+          "Banner fonts look wrong",
+          "Try another font group; keep fancy fonts for titles, not long paragraphs",
         ],
         [
           "Mobile menu hard to use",
@@ -333,7 +393,7 @@ export const HELP_SECTIONS = [
         ],
         [
           "Translator not loading",
-          "Confirm you have dashboard access; try again in a few seconds",
+          "Confirm you are past the paywall; try again in a few seconds",
         ],
       ],
     },
@@ -366,7 +426,7 @@ export const HELP_SECTIONS = [
       "Terms of Service — /terms in the dashboard",
       "Privacy Policy — /privacy in the dashboard",
       "Help — this in-app guide at /help",
-      "Download User Manual — Word file from the login page or the button at the top of this page",
+      "Download User Manual — Word file from the login page, Help page, Select Server, or the button above",
     ],
   },
 ];
