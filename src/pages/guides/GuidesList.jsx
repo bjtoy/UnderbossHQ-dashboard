@@ -5,15 +5,20 @@ import { useRoles } from "../../context/RoleContext.jsx";
 import Loader from "../../components/Loader.jsx";
 import ErrorCard from "../../components/ErrorCard.jsx";
 import PageHeader from "../../components/PageHeader.jsx";
+import DiscordChannelSelect from "../../components/DiscordChannelSelect.jsx";
 import { GuideContentPreview } from "../../components/GuideContent.jsx";
 
 export default function GuidesList() {
-  const { hasAnyRole } = useRoles();
+  const { hasAnyRole, hasPermission } = useRoles();
   const canManage = hasAnyRole(["Admin", "Mod", "Moderator", "Enforcer"]);
+  const canPostToDiscord = hasPermission("PUBLISH_GUIDE");
 
   const [guides, setGuides] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState("");
+  const [discordChannelId, setDiscordChannelId] = useState("");
+  const [postingId, setPostingId] = useState(null);
 
   useEffect(() => {
     api.guides
@@ -23,11 +28,31 @@ export default function GuidesList() {
       .finally(() => setLoading(false));
   }, []);
 
+  async function handleQuickPost(id) {
+    if (!discordChannelId) {
+      setMessage("Select a Discord channel first.");
+      return;
+    }
+
+    setPostingId(id);
+    setMessage("");
+    setError(null);
+
+    try {
+      await api.guides.post(id, { channelId: discordChannelId });
+      setMessage("Guide posted to Discord.");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setPostingId(null);
+    }
+  }
+
   return (
     <div className="dashboard-page">
       <PageHeader
         title="Guides"
-        subtitle="Faction guides and reference material."
+        subtitle="Faction guides — save in the dashboard, post to Discord."
         actions={
           canManage ? (
             <Link to="/guides/new" className="btn btn-outline-red">
@@ -39,9 +64,22 @@ export default function GuidesList() {
 
       {loading && <Loader />}
       {error && <ErrorCard message={error} />}
+      {message && <div className="message-banner success">{message}</div>}
 
       {!loading && !error && (
         <div className="page-body">
+          {canPostToDiscord && guides.length > 0 && (
+            <div className="card page-stack">
+              <DiscordChannelSelect
+                id="guides-list-channel"
+                label="Discord channel for quick post"
+                value={discordChannelId}
+                onChange={setDiscordChannelId}
+                disabled={postingId !== null}
+              />
+            </div>
+          )}
+
           {guides.length === 0 ? (
             <div className="card empty-state">No guides yet.</div>
           ) : (
@@ -63,12 +101,26 @@ export default function GuidesList() {
                       View
                     </Link>
                     {canManage && (
-                      <Link
-                        to={`/guides/${guide.id}/edit`}
-                        className="btn btn-outline-red btn-sm"
-                      >
-                        Edit
-                      </Link>
+                      <>
+                        <Link
+                          to={`/guides/${guide.id}/edit`}
+                          className="btn btn-outline-red btn-sm"
+                        >
+                          Edit
+                        </Link>
+                        {canPostToDiscord && (
+                          <button
+                            type="button"
+                            className="btn btn-outline-red btn-sm"
+                            disabled={!discordChannelId || postingId === guide.id}
+                            onClick={() => handleQuickPost(guide.id)}
+                          >
+                            {postingId === guide.id
+                              ? "Posting..."
+                              : "Post to Discord"}
+                          </button>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>

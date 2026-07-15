@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { api } from "../../api/api.js";
+import { useRoles } from "../../context/RoleContext.jsx";
 import Loader from "../../components/Loader.jsx";
 import ErrorCard from "../../components/ErrorCard.jsx";
 import PageHeader from "../../components/PageHeader.jsx";
@@ -36,6 +37,8 @@ Helpful tip for readers
 :::`;
 
 export default function GuideEditor() {
+  const { hasPermission } = useRoles();
+  const canPostToDiscord = hasPermission("PUBLISH_GUIDE");
   const { id } = useParams();
   const navigate = useNavigate();
   const textareaRef = useRef(null);
@@ -276,19 +279,21 @@ export default function GuideEditor() {
             </div>
           </div>
 
-          <DiscordChannelSelect
-            id="guide-discord-channel"
-            label="Post to Discord channel"
-            value={discordChannelId}
-            onChange={setDiscordChannelId}
-            defaultChannelId={
-              /rule/i.test(title)
-                ? defaultRulesChannelId
-                : defaultGuidesChannelId
-            }
-            disabled={saving}
-            onDefaultsLoaded={applyChannelDefaults}
-          />
+          {canPostToDiscord && (
+            <DiscordChannelSelect
+              id="guide-discord-channel"
+              label="Post to Discord channel"
+              value={discordChannelId}
+              onChange={setDiscordChannelId}
+              defaultChannelId={
+                /rule/i.test(title)
+                  ? defaultRulesChannelId
+                  : defaultGuidesChannelId
+              }
+              disabled={saving}
+              onDefaultsLoaded={applyChannelDefaults}
+            />
+          )}
 
           <div className="action-row">
             <button
@@ -299,7 +304,7 @@ export default function GuideEditor() {
             >
               {saving ? "Saving..." : "Save"}
             </button>
-            {discordChannelId && (
+            {canPostToDiscord && discordChannelId && (
               <button
                 type="button"
                 className="btn btn-outline-red btn-sm"
@@ -311,22 +316,26 @@ export default function GuideEditor() {
             )}
             {!isNew && (
               <>
-                <button
-                  type="button"
-                  className="btn btn-outline-red btn-sm"
-                  onClick={() => handlePostToDiscord()}
-                  disabled={saving || !discordChannelId}
-                >
-                  Post to Discord
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-outline-red btn-sm"
-                  onClick={handlePublish}
-                  disabled={saving}
-                >
-                  {discordChannelId ? "Publish & post" : "Publish"}
-                </button>
+                {canPostToDiscord && (
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-outline-red btn-sm"
+                      onClick={() => handlePostToDiscord()}
+                      disabled={saving || !discordChannelId}
+                    >
+                      Post to Discord
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-red btn-sm"
+                      onClick={handlePublish}
+                      disabled={saving}
+                    >
+                      {discordChannelId ? "Publish & post" : "Publish"}
+                    </button>
+                  </>
+                )}
                 <button
                   type="button"
                   className="btn btn-danger btn-sm"

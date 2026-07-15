@@ -66,17 +66,23 @@ async function request(
     throw new Error("Not authenticated");
   }
 
-  if (res.status === 403) {
-    window.location.href = "/not-authorized";
-    throw new Error("Forbidden");
-  }
-
   let data = null;
 
   try {
     data = await res.json();
   } catch {
     data = null;
+  }
+
+  if (res.status === 403) {
+    const forbiddenMsg =
+      data?.error ||
+      data?.message ||
+      "You do not have permission for this action";
+
+    toastError(forbiddenMsg);
+
+    throw new Error(forbiddenMsg);
   }
 
   if (!res.ok) {
