@@ -58,9 +58,16 @@ export default function LoginPage() {
           )}
         </div>
         <p className="login-legal-links">
+          <a href="/UnderbossHQ-User-Manual.docx" download>
+            Download User Manual
+          </a>
+          {" · "}
           <Link to="/terms">Terms of Service</Link>
           {" · "}
           <Link to="/privacy">Privacy Policy</Link>
+        </p>
+        <p className="login-legal-links login-help-hint muted">
+          After sign-in, open <strong>Help</strong> in the sidebar for the full guide.
         </p>
       </div>
     </div>

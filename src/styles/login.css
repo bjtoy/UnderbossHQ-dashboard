@@ -110,6 +110,10 @@
   color: var(--accent-gold);
 }
 
+.login-help-hint {
+  margin-top: 8px;
+}
+
 .page-intro {
   margin-bottom: 24px;
 }

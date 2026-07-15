@@ -8,6 +8,7 @@ import { useRoles } from "../context/RoleContext.jsx";
 
 function getPageLabel(path) {
   if (path === "/member") return "Member Dashboard";
+  if (path === "/help") return "Help";
   if (path === "/moderator") return "Moderator Dashboard";
   if (path === "/admin") return "Admin Dashboard";
   if (path.startsWith("/admin/logs")) return "System Logs";
@@ -39,7 +40,8 @@ export default function DashboardLayout({ children }) {
     guildId &&
     dashboardAccess?.premiumRequired !== false &&
     dashboardAccess?.allowed === false &&
-    !(isPlatformOwner && location.pathname.startsWith("/admin/premium"));
+    !(isPlatformOwner && location.pathname.startsWith("/admin/premium")) &&
+    location.pathname !== "/help";
 
   const guildName =
     user?.guilds?.find((guild) => guild.id === guildId)?.name ||

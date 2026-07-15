@@ -38,6 +38,9 @@ export default function Sidebar({ onNavigate }) {
           <Link to="/member" className={navClass(path === "/member")} onClick={closeNav}>
             Home
           </Link>
+          <Link to="/help" className={navClass(path === "/help")} onClick={closeNav}>
+            Help
+          </Link>
         </div>
 
         <div className="sidebar-section">

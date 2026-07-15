@@ -1,8 +1,19 @@
 /* ============================================
    UNDERBOSSHQ — LOCAL FONT FACES
-   Brand mark only (Gathering Represent). UI uses Caudex + Source Sans 3.
+   Brand title: Edwardian Script when installed locally;
+   web fallback is Luxurious Script (Google Fonts).
+   UI headings use Caudex + Source Sans 3 body.
    Files: dashboard/src/fonts/
    ============================================ */
+
+/* Prefer real Edwardian Script ITC when the OS provides it (e.g. Windows). */
+@font-face {
+  font-family: "Edwardian Script ITC";
+  src: local("Edwardian Script ITC"), local("Edwardian Script");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 @font-face {
   font-family: "Gathering Represent";

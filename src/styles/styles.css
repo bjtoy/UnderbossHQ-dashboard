@@ -90,8 +90,8 @@
     --text-glow-red-muted: none;
 
     /* Typography — full glyph coverage for UI (digits, #, arrows, IDs).
-       Decorative local faces stay on the brand mark only. */
-    --font-brand: "Gathering Represent", "Caudex", Georgia, serif;
+       Brand title: Edwardian / Luxurious Script. UI headings: Caudex. */
+    --font-brand: "Edwardian Script ITC", "Luxurious Script", "Great Vibes", cursive;
     --font-heading: "Caudex", Georgia, serif;
     --heading-letter-spacing: 0.04em;
     --heading-line-height: 1.2;

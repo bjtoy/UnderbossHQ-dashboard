@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../api/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
 import { getDefaultRoute } from "../utils/getDefaultRoute.js";
@@ -104,6 +104,15 @@ export default function SelectGuild() {
             ))
           )}
         </div>
+
+        <p className="page-subtitle select-guild-help">
+          Need a walkthrough?{" "}
+          <Link to="/help">Open Help</Link>
+          {" · "}
+          <a href="/UnderbossHQ-User-Manual.docx" download>
+            Download User Manual
+          </a>
+        </p>
       </div>
     </div>
   );

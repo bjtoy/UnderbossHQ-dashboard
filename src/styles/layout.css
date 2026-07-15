@@ -76,11 +76,11 @@ body:has(.login-page) {
 
 .dashboard-topbar-title {
     font-family: var(--font-brand);
-    font-size: 3.75rem;
+    font-size: 4.1rem;
     font-weight: 400;
-    line-height: 1;
+    line-height: 1.05;
     color: var(--accent-gold);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.01em;
     text-shadow: none;
     margin: 0;
     white-space: nowrap;
@@ -300,6 +300,19 @@ body:has(.login-page) {
     text-align: center;
 }
 
+.select-guild-help {
+    margin-top: 24px;
+}
+
+.select-guild-help a {
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+.select-guild-help a:hover {
+    color: var(--accent-gold);
+}
+
 /* ===========================
    RESPONSIVE
    =========================== */
@@ -447,8 +460,8 @@ body:has(.login-page) {
     }
 
     .dashboard-topbar-title {
-        font-size: 1.35rem;
-        letter-spacing: 0.04em;
+        font-size: 1.55rem;
+        letter-spacing: 0.01em;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
