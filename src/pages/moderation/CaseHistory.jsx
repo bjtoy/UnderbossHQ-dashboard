@@ -51,9 +51,27 @@ export default function CaseHistory() {
           ) : (
             <div className="page-stack">
               {cases.map((c) => (
-                <div key={c.caseId} className="card">
+                <div key={c.caseId} className="card case-card">
                   <h3>Case #{c.caseId}</h3>
-                  <p className="muted">User: {c.userId}</p>
+                  <p className="muted">
+                    User:{" "}
+                    <strong>{c.userLabel || c.userUsername || c.userId}</strong>
+                    {c.userUsername ? (
+                      <span className="discord-id"> · {c.userId}</span>
+                    ) : null}
+                  </p>
+                  <p className="muted">
+                    Moderator:{" "}
+                    <strong>
+                      {c.moderatorLabel || c.moderatorUsername || c.moderatorId}
+                    </strong>
+                    {c.moderatorUsername ? (
+                      <span className="discord-id"> · {c.moderatorId}</span>
+                    ) : null}
+                  </p>
+                  <p className="muted">
+                    Opened: {new Date(c.openedAt).toLocaleString()}
+                  </p>
                   <div className="action-row">
                     <Link
                       to={`/moderator/cases/${c.userId}`}
@@ -62,10 +80,6 @@ export default function CaseHistory() {
                       Open Case File
                     </Link>
                   </div>
-                  <p className="muted">Moderator: {c.moderatorId}</p>
-                  <p className="muted">
-                    Opened: {new Date(c.openedAt).toLocaleString()}
-                  </p>
 
                   {!c.actions || c.actions.length === 0 ? (
                     <p className="empty-state">No actions recorded.</p>
@@ -82,7 +96,7 @@ export default function CaseHistory() {
                         {c.actions.map((a, i) => (
                           <tr key={i}>
                             <td>{a.type}</td>
-                            <td>{a.reason}</td>
+                            <td>{a.reason || "-"}</td>
                             <td>{new Date(a.timestamp).toLocaleString()}</td>
                           </tr>
                         ))}

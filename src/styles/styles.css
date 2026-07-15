@@ -11,6 +11,7 @@
 @import "./login.css";
 @import "./translator.css";
 @import "./guides.css";
+@import "./help.css";
 
 /* ============================================
    UNDERBOSSHQ — GLOBAL ROOT + BASE STYLES
@@ -88,12 +89,13 @@
     --text-glow-red-soft: none;
     --text-glow-red-muted: none;
 
-    /* Local brand typography */
-    --font-brand: "Gathering Represent", "Resilient Essence", Georgia, serif;
-    --font-heading: "Resilient Essence", "Bizantheum", Georgia, serif;
+    /* Typography — full glyph coverage for UI (digits, #, arrows, IDs).
+       Decorative local faces stay on the brand mark only. */
+    --font-brand: "Gathering Represent", "Cinzel", Georgia, serif;
+    --font-heading: "Cinzel", Georgia, serif;
     --heading-letter-spacing: 0.04em;
-    --heading-line-height: 1.12;
-    --font-body: "Medino", Georgia, serif;
+    --heading-line-height: 1.2;
+    --font-body: "Source Sans 3", "Segoe UI", Tahoma, sans-serif;
 
     --red-neon: var(--brand-red-glow);
     --yellow-neon: var(--accent-gold);

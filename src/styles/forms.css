@@ -65,6 +65,7 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 12px;
+    font-family: var(--font-body);
 }
 
 .data-table th,
@@ -74,12 +75,14 @@
     text-align: left;
     color: var(--text-secondary);
     text-shadow: none;
+    font-family: var(--font-body);
 }
 
 .data-table th {
     background: var(--purple-deep);
     color: var(--accent-gold);
     font-size: 13px;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     text-shadow: none;

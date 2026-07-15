@@ -58,11 +58,11 @@ export default function FactionAnalytics() {
 
           <div className="dashboard-grid dashboard-grid-3">
             <div className="card">
-              <h3>New Members (7d)</h3>
+              <h3>New members · 7 days</h3>
               <div className="value">{data.growth?.joinsLast7Days ?? 0}</div>
             </div>
             <div className="card">
-              <h3>New Members (30d)</h3>
+              <h3>New members · 30 days</h3>
               <div className="value">{data.growth?.joinsLast30Days ?? 0}</div>
             </div>
             <div className="card">

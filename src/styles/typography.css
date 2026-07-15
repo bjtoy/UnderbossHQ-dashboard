@@ -1,6 +1,6 @@
 /* ============================================
    UNDERBOSSHQ — GLOBAL TYPOGRAPHY
-   Resilient headings · Medino body · readable contrast
+   Cinzel headings · Source Sans 3 body · full glyph coverage
    ============================================ */
 
 p {
@@ -23,6 +23,19 @@ small,
 .muted {
     color: var(--text-muted);
     text-shadow: none;
+    font-family: var(--font-body);
+}
+
+.discord-id {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.85em;
+    color: var(--text-muted);
+    word-break: break-all;
+}
+
+code.discord-id {
+    background: transparent;
+    padding: 0;
 }
 
 /* Headings — gold + crimson accent, refined display */
@@ -30,56 +43,56 @@ small,
 h1,
 .h1 {
     font-family: var(--font-heading);
-    font-size: 46px;
-    font-weight: 400;
+    font-size: 2.4rem;
+    font-weight: 600;
     color: var(--accent-gold);
     margin-bottom: 18px;
     letter-spacing: var(--heading-letter-spacing, 0.035em);
-    line-height: var(--heading-line-height, 1.18);
+    line-height: var(--heading-line-height, 1.2);
     text-shadow: none;
 }
 
 h2,
 .h2 {
     font-family: var(--font-heading);
-    font-size: 36px;
-    font-weight: 400;
+    font-size: 1.85rem;
+    font-weight: 600;
     color: var(--brand-red-glow);
     margin-bottom: 16px;
     letter-spacing: var(--heading-letter-spacing, 0.035em);
-    line-height: var(--heading-line-height, 1.18);
+    line-height: var(--heading-line-height, 1.2);
     text-shadow: none;
 }
 
 h3,
 .h3 {
     font-family: var(--font-heading);
-    font-size: 28px;
-    font-weight: 400;
+    font-size: 1.35rem;
+    font-weight: 600;
     color: var(--text-heading);
     margin-bottom: 12px;
     letter-spacing: var(--heading-letter-spacing, 0.035em);
-    line-height: var(--heading-line-height, 1.18);
+    line-height: var(--heading-line-height, 1.2);
     text-shadow: none;
 }
 
 h4,
 .h4 {
     font-family: var(--font-heading);
-    font-size: 22px;
-    font-weight: 400;
+    font-size: 1.15rem;
+    font-weight: 600;
     color: var(--text-secondary);
     margin-bottom: 10px;
     letter-spacing: 0.03em;
-    line-height: var(--heading-line-height, 1.18);
+    line-height: var(--heading-line-height, 1.2);
     text-shadow: none;
 }
 
 h5,
 .h5 {
     font-family: var(--font-heading);
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 1.05rem;
+    font-weight: 600;
     color: var(--text-secondary);
     margin-bottom: 8px;
     text-shadow: none;
@@ -88,8 +101,8 @@ h5,
 h6,
 .h6 {
     font-family: var(--font-heading);
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 0.95rem;
+    font-weight: 600;
     color: var(--text-muted);
     margin-bottom: 6px;
     text-shadow: none;
@@ -97,12 +110,12 @@ h6,
 
 .section-title {
     font-family: var(--font-heading);
-    font-size: 36px;
-    font-weight: 400;
+    font-size: 1.85rem;
+    font-weight: 600;
     margin-bottom: 25px;
     color: var(--accent-gold);
     letter-spacing: var(--heading-letter-spacing, 0.035em);
-    line-height: var(--heading-line-height, 1.18);
+    line-height: var(--heading-line-height, 1.2);
     text-shadow: none;
 }
 
@@ -151,11 +164,11 @@ h6,
 
 .header-title {
     font-family: var(--font-heading);
-    font-size: 50px;
-    font-weight: 400;
+    font-size: 2.5rem;
+    font-weight: 600;
     color: var(--accent-gold);
     letter-spacing: var(--heading-letter-spacing, 0.035em);
-    line-height: var(--heading-line-height, 1.18);
+    line-height: var(--heading-line-height, 1.2);
     text-shadow: none;
 }
 

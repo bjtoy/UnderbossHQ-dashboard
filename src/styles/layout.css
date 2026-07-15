@@ -222,8 +222,8 @@ body:has(.login-page) {
 
 .page-section-title {
     font-family: var(--font-heading);
-    font-size: 28px;
-    font-weight: 400;
+    font-size: 1.65rem;
+    font-weight: 600;
     color: var(--brand-red-glow);
     text-shadow: none;
     margin: 0;

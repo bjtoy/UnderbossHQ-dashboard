@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { api } from "../../api/api.js";
 import Loader from "../../components/Loader.jsx";
 import ErrorCard from "../../components/ErrorCard.jsx";
@@ -57,16 +58,39 @@ export default function ActiveCases() {
                     <th>Moderator</th>
                     <th>Status</th>
                     <th>Opened</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   {cases.map((c) => (
                     <tr key={c.caseId}>
                       <td>{c.caseId}</td>
-                      <td>{c.userId}</td>
-                      <td>{c.moderatorId}</td>
+                      <td>
+                        <div>{c.userLabel || c.userUsername || c.userId}</div>
+                        {c.userUsername ? (
+                          <div className="discord-id">{c.userId}</div>
+                        ) : null}
+                      </td>
+                      <td>
+                        <div>
+                          {c.moderatorLabel ||
+                            c.moderatorUsername ||
+                            c.moderatorId}
+                        </div>
+                        {c.moderatorUsername ? (
+                          <div className="discord-id">{c.moderatorId}</div>
+                        ) : null}
+                      </td>
                       <td>{c.status || "open"}</td>
                       <td>{new Date(c.openedAt).toLocaleString()}</td>
+                      <td>
+                        <Link
+                          to={`/moderator/cases/${c.userId}`}
+                          className="btn btn-outline-red btn-sm"
+                        >
+                          Open
+                        </Link>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

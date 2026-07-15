@@ -79,7 +79,9 @@ export default function CaseDetail() {
     <div className="dashboard-page">
       <PageHeader
         title="Case File"
-        subtitle={`Full moderation history for ${userId}`}
+        subtitle={`Full moderation history for ${
+          caseFile?.profile?.username || caseFile?.userLabel || userId
+        }`}
         actions={
           <Link to="/moderator/user-lookup" className="btn btn-outline-red btn-sm">
             User Lookup
@@ -96,10 +98,13 @@ export default function CaseDetail() {
           <div className="card page-stack">
             <h3>Member</h3>
             <p className="muted">
-              Username: {caseFile.profile?.username || "Unknown"}
+              Username:{" "}
+              <strong>
+                {caseFile.profile?.username || caseFile.userLabel || "Unknown"}
+              </strong>
             </p>
             <p className="muted">
-              Discord ID: <code>{userId}</code>
+              Discord ID: <code className="discord-id">{userId}</code>
             </p>
             <p className="muted">Warnings: {caseFile.warningCount}</p>
             {caseFile.activeTimeouts?.length > 0 && (
@@ -195,12 +200,21 @@ export default function CaseDetail() {
                           {entry.action}
                         </span>
                       </td>
-                      <td>{entry.reason || "—"}</td>
-                      <td>{entry.moderatorId}</td>
+                      <td>{entry.reason || "-"}</td>
+                      <td>
+                        <div>
+                          {entry.moderatorLabel ||
+                            entry.moderatorUsername ||
+                            entry.moderatorId}
+                        </div>
+                        {entry.moderatorUsername ? (
+                          <div className="discord-id">{entry.moderatorId}</div>
+                        ) : null}
+                      </td>
                       <td>
                         {entry.durationMinutes
                           ? `${entry.durationMinutes}m`
-                          : "—"}
+                          : "-"}
                       </td>
                       <td>{new Date(entry.timestamp).toLocaleString()}</td>
                     </tr>

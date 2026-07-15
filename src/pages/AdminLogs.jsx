@@ -95,9 +95,23 @@ export default function AdminLogs() {
                           {log.action}
                         </span>
                       </td>
-                      <td>{log.userId}</td>
-                      <td>{log.moderatorId}</td>
-                      <td>{log.reason || "—"}</td>
+                      <td>
+                        <div>{log.userLabel || log.userUsername || log.userId}</div>
+                        {log.userUsername ? (
+                          <div className="discord-id">{log.userId}</div>
+                        ) : null}
+                      </td>
+                      <td>
+                        <div>
+                          {log.moderatorLabel ||
+                            log.moderatorUsername ||
+                            log.moderatorId}
+                        </div>
+                        {log.moderatorUsername ? (
+                          <div className="discord-id">{log.moderatorId}</div>
+                        ) : null}
+                      </td>
+                      <td>{log.reason || "-"}</td>
                       <td>{new Date(log.timestamp).toLocaleString()}</td>
                     </tr>
                   ))}
