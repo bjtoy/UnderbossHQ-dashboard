@@ -8,7 +8,8 @@ import PageHeader from "../../components/PageHeader.jsx";
 import GuideEditorToolbar from "../../components/GuideEditorToolbar.jsx";
 import GuideContent from "../../components/GuideContent.jsx";
 import DiscordChannelSelect from "../../components/DiscordChannelSelect.jsx";
-import { bannerSnippet } from "../../utils/guideMarkup.js";
+import { bannerSnippet, formatGuideForDiscordPaste } from "../../utils/guideMarkup.js";
+import { debugLog } from "../../utils/debugLog.js";
 
 const STARTER_TEMPLATE = `${bannerSnippet("fancy", "Guide Title", { font: "caudex" })}
 
@@ -37,8 +38,10 @@ Helpful tip for readers
 :::`;
 
 export default function GuideEditor() {
-  const { hasPermission } = useRoles();
-  const canPostToDiscord = hasPermission("PUBLISH_GUIDE");
+  const { hasAnyRole, hasPermission } = useRoles();
+  const canPostToDiscord =
+    hasAnyRole(["Admin", "Mod", "Moderator"]) ||
+    (hasAnyRole(["Enforcer"]) && hasPermission("PUBLISH_GUIDE"));
   const { id } = useParams();
   const navigate = useNavigate();
   const textareaRef = useRef(null);
@@ -147,11 +150,30 @@ export default function GuideEditor() {
     setSaving(true);
     setError(null);
 
+    debugLog({
+      location: "GuideEditor.jsx:handlePostToDiscord",
+      message: "Guide editor post started",
+      hypothesisId: "B",
+      data: { guideId: targetId, hasChannelId: Boolean(discordChannelId) },
+    });
+
     try {
       await api.guides.post(targetId, { channelId: discordChannelId });
       setMessage("Guide posted to Discord.");
+      debugLog({
+        location: "GuideEditor.jsx:handlePostToDiscord",
+        message: "Guide editor post succeeded",
+        hypothesisId: "B",
+        data: { guideId: targetId },
+      });
     } catch (err) {
       setError(err.message);
+      debugLog({
+        location: "GuideEditor.jsx:handlePostToDiscord",
+        message: "Guide editor post failed",
+        hypothesisId: "B",
+        data: { guideId: targetId, error: err.message },
+      });
     } finally {
       setSaving(false);
     }
@@ -193,6 +215,29 @@ export default function GuideEditor() {
       setError(err.message);
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function handleCopyForDiscord() {
+    const text = formatGuideForDiscordPaste(title, content);
+
+    try {
+      await navigator.clipboard.writeText(text);
+      setMessage("Guide copied — paste into any Discord channel.");
+      debugLog({
+        location: "GuideEditor.jsx:handleCopyForDiscord",
+        message: "Guide copied to clipboard",
+        hypothesisId: "F",
+        data: { length: text.length, isNew },
+      });
+    } catch (err) {
+      setMessage("Could not copy to clipboard.");
+      debugLog({
+        location: "GuideEditor.jsx:handleCopyForDiscord",
+        message: "Clipboard copy failed",
+        hypothesisId: "F",
+        data: { error: err.message, isNew },
+      });
     }
   }
 
@@ -303,6 +348,14 @@ export default function GuideEditor() {
               disabled={saving}
             >
               {saving ? "Saving..." : "Save"}
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline-red btn-sm"
+              onClick={handleCopyForDiscord}
+              disabled={saving || !title.trim() || !content.trim()}
+            >
+              Copy for Discord
             </button>
             {canPostToDiscord && discordChannelId && (
               <button

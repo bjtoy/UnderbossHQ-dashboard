@@ -7,11 +7,15 @@ import ErrorCard from "../../components/ErrorCard.jsx";
 import PageHeader from "../../components/PageHeader.jsx";
 import DiscordChannelSelect from "../../components/DiscordChannelSelect.jsx";
 import { GuideContentPreview } from "../../components/GuideContent.jsx";
+import { formatGuideForDiscordPaste } from "../../utils/guideMarkup.js";
+import { debugLog } from "../../utils/debugLog.js";
 
 export default function GuidesList() {
   const { hasAnyRole, hasPermission } = useRoles();
   const canManage = hasAnyRole(["Admin", "Mod", "Moderator", "Enforcer"]);
-  const canPostToDiscord = hasPermission("PUBLISH_GUIDE");
+  const canPostToDiscord =
+    hasAnyRole(["Admin", "Mod", "Moderator"]) ||
+    (hasAnyRole(["Enforcer"]) && hasPermission("PUBLISH_GUIDE"));
 
   const [guides, setGuides] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,13 +42,55 @@ export default function GuidesList() {
     setMessage("");
     setError(null);
 
+    debugLog({
+      location: "GuidesList.jsx:handleQuickPost",
+      message: "Guide quick post started",
+      hypothesisId: "B",
+      data: { guideId: id, hasChannelId: Boolean(discordChannelId) },
+    });
+
     try {
       await api.guides.post(id, { channelId: discordChannelId });
       setMessage("Guide posted to Discord.");
+      debugLog({
+        location: "GuidesList.jsx:handleQuickPost",
+        message: "Guide quick post succeeded",
+        hypothesisId: "B",
+        data: { guideId: id },
+      });
     } catch (err) {
       setError(err.message);
+      debugLog({
+        location: "GuidesList.jsx:handleQuickPost",
+        message: "Guide quick post failed",
+        hypothesisId: "B",
+        data: { guideId: id, error: err.message },
+      });
     } finally {
       setPostingId(null);
+    }
+  }
+
+  async function handleCopyForDiscord(guide) {
+    const text = formatGuideForDiscordPaste(guide.title, guide.content);
+
+    try {
+      await navigator.clipboard.writeText(text);
+      setMessage("Guide copied — paste into any Discord channel.");
+      debugLog({
+        location: "GuidesList.jsx:handleCopyForDiscord",
+        message: "Guide copied to clipboard",
+        hypothesisId: "F",
+        data: { guideId: guide.id, length: text.length },
+      });
+    } catch (err) {
+      setMessage("Could not copy to clipboard.");
+      debugLog({
+        location: "GuidesList.jsx:handleCopyForDiscord",
+        message: "Clipboard copy failed",
+        hypothesisId: "F",
+        data: { guideId: guide.id, error: err.message },
+      });
     }
   }
 
@@ -108,6 +154,13 @@ export default function GuidesList() {
                         >
                           Edit
                         </Link>
+                        <button
+                          type="button"
+                          className="btn btn-outline-red btn-sm"
+                          onClick={() => handleCopyForDiscord(guide)}
+                        >
+                          Copy for Discord
+                        </button>
                         {canPostToDiscord && (
                           <button
                             type="button"

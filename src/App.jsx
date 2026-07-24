@@ -1,11 +1,15 @@
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage.jsx";
+import PublicHome from "./pages/PublicHome.jsx";
+import PricingPage from "./pages/PricingPage.jsx";
+import PublicHelp from "./pages/PublicHelp.jsx";
+import DemoGuide from "./pages/DemoGuide.jsx";
+import ContactPage from "./pages/ContactPage.jsx";
 import AuthCallback from "./pages/AuthCallback.jsx";
 import SelectGuild from "./pages/SelectGuild.jsx";
 import MemberHome from "./pages/MemberHome.jsx";
@@ -46,8 +50,12 @@ const EVENT_EDITOR_ROLES = ["Admin", "Mod", "Moderator"];
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
+    <Routes>
+        <Route path="/" element={<PublicHome />} />
+        <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/help/public" element={<PublicHelp />} />
+        <Route path="/demo" element={<DemoGuide />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/terms" element={<TermsOfService />} />
@@ -349,9 +357,7 @@ export default function App() {
         />
 
         <Route path="/not-authorized" element={<NotAuthorized />} />
-        <Route path="/" element={<Navigate to="/member" replace />} />
         <Route path="*" element={<FallbackRoute />} />
-      </Routes>
-    </Router>
+    </Routes>
   );
 }

@@ -2,6 +2,8 @@
 DISCORD PASTE — RAID MASTER GUIDE
 Paste each PART as its own message (Discord 2000-char limit).
 Optional: wrap each part in a spoiler for channel cleanup: || text ||
+Dashboard source of truth: guides-paste/raid-master-DASHBOARD.txt
+(use Copy for Discord from the editor after pasting there)
 ════════════════════════════════════
 
 —— TITLE (dashboard Title field) ——
@@ -9,19 +11,20 @@ The Grand Mafia: Raid Preparation & Execution
 
 
 —— PART 1 / 4 ——
-# THE GRAND MAFIA: RAID PREPARATION & EXECUTION
-**Faction Edition — Advanced Strategy & Execution**
+# THE GRAND MAFIA
+**Faction Edition — Raid Preparation & Execution**
+
+Raids are coordinated faction attacks against high-value PvE or PvP targets (enemy turfs, Kingpins, Mercenaries, event bosses). Multiple members feed one rally. One player leads it.
+
+🏆 **Successful raids are won before the rally launches.**
+
+⚠️ **The rally leader's gear, enforcers, combat specs, and boosts determine the raid's overall strength.** Joiners amplify — they do not rewrite — the leader's setup.
 
 ## What raids are & why they matter
-Raids are coordinated faction attacks against high-value PvE or PvP targets (enemy turfs, Kingpins, Mercenaries, event bosses). Multiple members contribute troops to one rally, led by one player.
-
-⚠️ **The rally leader's gear, enforcers, combat specs, and boosts determine the raid's overall strength.**
-
-Raids are essential for:
 • Faction dominance in turf wars and events
 • Resource denial and enemy suppression
 • High-tier loot from PvE raid events
-• Faction coordination and growth
+• Real coordination practice under pressure
 
 ## Raid preparation — Rally leaders
 • **Mansion Level:** Higher = larger rally capacity
@@ -30,73 +33,68 @@ Raids are essential for:
 • **Godfather Equipment:** Boost main troop type or rally size
 • **Combat Specs:** Combat preset (not Economy / Kingpin)
 • **Boosts:** 25% or 50% ATK, DEF, HP, March Size
-• **Enforcers:** 4 matching your troop type + synergy
-• **Troop Type:** Mono-type (e.g. all Bikers)
-• **Scout:** Reinforcements, troop types, traps
+• **Enforcers:** 4 matching troop type + synergy
+• **Troop Type:** Mono-type preferred (e.g. all Bikers)
+• **Scout:** Reinforcements, troop types, traps, anti-scout
 
-## Raid preparation — Rally joiners
-• Send **only** the troop type the leader is boosting
-• **No enforcers** — leader's enforcers only
-• Activate **Combat Specs** for troop stats
-• Boosts: optional PvE / recommended PvP
-• Troop tier: **T9 or T10**
-• Join early — late joins may be excluded
-
-⚠️ Only the rally leader's enforcers are used.
-⚠️ Send only the troop type requested by the rally leader.
+❗ Lock the rally 10–15s before launch. Screenshot your setup.
 
 
 —— PART 2 / 4 ——
-## Enforcer strategy (rally leaders)
+## Raid preparation — Rally joiners
+• Send **only** the troop type the leader called
+• **No enforcers** — leader's enforcers only
+• Activate **Combat Specs** for the type you send
+• Boosts: optional PvE / recommended PvP
+• Troop tier: **T9 or T10**
+• Join early — late joins may be cut
 
-**Biker raid**
-Best: Vlad, Goro, Angelo, Yuki — burst, speed, crit
+⚠️ Wrong troop type = wasted march and a weaker raid.
 
-**Shooter raid**
-Best: Scarlet, Tracy, Eva, Yuki — long-range AoE + P.ATK
+## Enforcer strategy (leaders)
 
-**Bruiser raid**
-Best: Donald, Klaas, Bobby, Gina — HP, sustain, frontline
+**Biker** — Vlad · Goro · Angelo · Yuki — burst, speed, crit
+**Shooter** — Scarlet · Tracy · Eva · Yuki — long-range AoE + P.ATK
+**Bruiser** — Donald · Klaas · Bobby · Gina — HP, sustain, frontline
 
-> Yuki is versatile across raid types (high DPS + range).
+> Yuki is the flex pick when a fourth seat is open.
 
 ## Gear sets
-• **Victor** — Combat — Biker ATK/DEF, March Speed — UB 50+ — Biker raids
-• **New Blood** — Combat — Shooter ATK/HP — UB 50+ — Shooter raids
-• **Kings** — Combat — Rally Capacity + all troops — UB 60+ — High-end
-• **Godfather** — Combat — Balanced ATK/DEF/HP — UB 60+ — General PvP
-• **Challenger** — PvE — Kingpin dmg / Enforcer ATK — Early — Kingpins
+• **Victor** — Biker ATK/DEF, March Speed — UB 50+ — Biker
+• **New Blood** — Shooter ATK/HP — UB 50+ — Shooter
+• **Kings** — Rally Capacity + all troops — UB 60+ — High-end
+• **Godfather** — Balanced ATK/DEF/HP — UB 60+ — General PvP
+• **Challenger** — Kingpin dmg / Enforcer ATK — Early — Kingpins
 
 ## Set bonuses
-• 2pc: minor (e.g. +5% ATK)
-• 4pc: moderate (e.g. +10% DEF)
-• 6pc: major (e.g. +15% HP / March Size)
-
-> Only matching pieces count. Mixing sets disables set bonuses.
-
-## Combat specs
-**Leaders:** troop ATK/DEF/HP (main type), Rally Capacity, Troop Damage Bonus, Enemy Damage Reduction
-**Joiners:** troop ATK/DEF/HP (sent type), March Speed optional — Rally Capacity only matters for leaders
-
-❗ Double-check your active spec before launch/join. Use Combat / Kingpin / Economy presets.
+• 2pc minor · 4pc moderate · 6pc major (e.g. HP / March Size)
+> Only matching pieces count. Mixing sets kills the bonus.
 
 
 —— PART 3 / 4 ——
+## Combat specs
+**Leaders:** troop ATK/DEF/HP (main type), Rally Capacity, Troop Damage Bonus, Enemy Damage Reduction
+**Joiners:** troop ATK/DEF/HP (sent type), March Speed optional — Rally Capacity is leaders-only
+
+❗ Double-check active spec before launch/join (Combat / Kingpin / Economy presets).
+
 ## Boosts
-• **Attack 25%/50%** — more damage — leaders mandatory; joiners for PvP
-• **Defense** — less incoming damage — optional PvP
-• **Crew HP** — survivability — useful PvP
-• **March Capacity** — more troops sent — leaders only
-• **Rally Capacity** — bigger rally — leaders (gear/specs)
+• **Attack 25%/50%** — leaders mandatory; joiners for PvP
+• **Defense** — optional PvP
+• **Crew HP** — useful PvP
+• **March Capacity** — leaders only
+• **Rally Capacity** — leaders (gear/specs)
 
 ## Troop composition variants
-• **Mono-type** — one troop type — most raids (synergy / max dmg)
-• **Mixed-type** — two types — counters specific setups
-• **Tank-heavy** — Bruiser frontline — traps / defending
+• **Mono-type** — one type — default / max synergy
+• **Mixed-type** — two types — specific counters
+• **Tank-heavy** — Bruiser frontline — traps / defense
 • **Speed** — Biker-focused — tiles, bait, fast PvP
 
+
+—— PART 4 / 4 ——
 ## Raid execution
-**Scout first:** reinforcements, anti-scout, troop types. Cancel/adjust if trap.
+**Scout first:** reinforcements, anti-scout, troop mix. Cancel/retarget if trap.
 
 **Communicate:**
 • Roles: leader / reinforcers / backup rallies
@@ -104,30 +102,28 @@ Best: Donald, Klaas, Bobby, Gina — HP, sustain, frontline
 • Confirm troop type + joiner readiness
 
 **Timing:**
-• Coordinate time in faction chat / Discord
+• Lock a launch window
 • Teleport near target
-• Fake rallies to bait / confuse
+• Fake rallies to bait / split response when needed
 
-
-—— PART 4 / 4 ——
 ## Final pre-raid checklist (leader)
-☐ Full 6-piece combat set (Victor / New Blood / Kings / etc.)
+☐ Full 6-piece combat set
 ☐ Godfather gear for troop ATK or Rally Size
 ☐ Combat Specs (not Economy / Kingpin)
 ☐ Boosts: ATK, DEF, HP, March Size
 ☐ 4 synergistic enforcers matching troop type
-☐ Confirm troop type → tell joiners
+☐ Troop type called to joiners
 ☐ Final scout
 ☐ Teleport near target
 ☐ Lock rally 10–15s before launch
-☐ Screenshot setup for review
+☐ Screenshot setup
 
 ## Post-raid
-• Review battle reports (performance / damage / losses)
+• Review reports (performance / damage / losses)
 • Heal wounded immediately
-• Share reports with faction
-• Adjust enforcers / specs / gear from results
-• Coordinate follow-ups / reinforcements
+• Share with faction
+• Adjust enforcers / specs / gear
+• Queue follow-ups while the window is open
 
-🏆 **Successful raids are won before the rally launches.**
-Prepare correctly. Coordinate clearly. Analyze results. Improve continuously.
+🏆 **Prepare correctly. Coordinate clearly. Analyze results. Improve continuously.**
+**THE GRAND MAFIA — OWN THE TILE. OWN THE WAR.**

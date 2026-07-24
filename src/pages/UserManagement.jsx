@@ -28,13 +28,13 @@ export default function UserManagement() {
   }
 
   useEffect(() => {
-    loadUsers("");
-  }, []);
+    const term = search.trim();
+    const timer = window.setTimeout(() => {
+      loadUsers(term);
+    }, 300);
 
-  function handleSearch(event) {
-    event.preventDefault();
-    loadUsers(search);
-  }
+    return () => window.clearTimeout(timer);
+  }, [search]);
 
   function startEdit(user) {
     setEditNames((prev) => ({ ...prev, [user.id]: user.username }));
@@ -190,27 +190,22 @@ export default function UserManagement() {
           </form>
         )}
 
-        <form className="card action-row" onSubmit={handleSearch}>
+        <div className="card action-row">
           <input
             className="field-input"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by username or Discord ID"
+            placeholder="Search by Discord name"
+            aria-label="Search by Discord name"
           />
-          <button type="submit" className="btn btn-outline-red btn-sm">
-            Search
-          </button>
           <button
             type="button"
             className="btn btn-outline-red btn-sm"
-            onClick={() => {
-              setSearch("");
-              loadUsers("");
-            }}
+            onClick={() => setSearch("")}
           >
             Clear
           </button>
-        </form>
+        </div>
 
         {loading && <Loader />}
 
@@ -226,7 +221,7 @@ export default function UserManagement() {
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>Username</th>
+                  <th>Discord name</th>
                   <th>Discord ID</th>
                   <th>Warnings</th>
                   <th>Joined</th>

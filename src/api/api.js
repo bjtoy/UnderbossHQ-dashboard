@@ -1,4 +1,5 @@
 import { toastError } from "../utils/toastHelper.js";
+import { debugLog } from "../utils/debugLog.js";
 
 let logoutFn = null;
 let refreshUserFn = null;
@@ -91,9 +92,38 @@ async function request(
       data?.message ||
       "API request failed";
 
+    if (
+      endpoint.includes("/guides/") ||
+      endpoint.includes("/discord/channels")
+    ) {
+      debugLog({
+        location: "api.js:request",
+        message: "Guide/discord API error",
+        hypothesisId: "B",
+        data: {
+          method,
+          endpoint,
+          status: res.status,
+          error: msg,
+        },
+      });
+    }
+
     toastError(msg);
 
     throw new Error(msg);
+  }
+
+  if (
+    method === "POST" &&
+    (endpoint.includes("/guides/") && endpoint.endsWith("/post"))
+  ) {
+    debugLog({
+      location: "api.js:request",
+      message: "Guide post API success",
+      hypothesisId: "B",
+      data: { endpoint, success: data?.success ?? true },
+    });
   }
 
   if (
@@ -241,6 +271,15 @@ export const api = {
 
       mute: (body) => request("POST", "/api/bot/mod/mute", body),
 
+      searchMembers: (query, limit = 15) =>
+        request(
+          "GET",
+          `/api/bot/mod/members/search?q=${encodeURIComponent(query)}&limit=${limit}`
+        ),
+
+      memberProfile: (discordId) =>
+        request("GET", `/api/bot/mod/members/${encodeURIComponent(discordId)}`),
+
       unmute: (body) => request("POST", "/api/bot/mod/unmute", body),
 
       note: (body) => request("POST", "/api/bot/mod/note", body),
@@ -386,6 +425,19 @@ export const api = {
 
     revokeComplimentary: (discordId) =>
       request("DELETE", `/api/premium/complimentary/${discordId}`),
+  },
+
+  billing: {
+    config: () => request("GET", "/api/billing/config"),
+
+    checkout: () => request("POST", "/api/billing/checkout"),
+
+    portal: () => request("POST", "/api/billing/portal"),
+  },
+
+  revolut: {
+    confirm: (orderId) =>
+      request("POST", "/api/revolut/confirm", { orderId }),
   },
 
   stripe: {

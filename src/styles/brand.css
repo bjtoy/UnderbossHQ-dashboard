@@ -22,8 +22,8 @@
 }
 
 .brand-mark-sidebar .brand-mark-image {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   flex-shrink: 0;
   object-fit: contain;
 }
@@ -47,8 +47,8 @@
 }
 
 .brand-mark-header .brand-mark-title {
-  font-size: 2.85rem;
-  line-height: 1.1;
+  font-size: 3.5rem;
+  line-height: 1.05;
 }
 
 .brand-mark-page-label {
@@ -62,7 +62,7 @@
 }
 
 .brand-mark-sidebar .brand-mark-title {
-  font-size: 1.15rem;
+  font-size: 1.45rem;
 }
 
 .brand-mark-sidebar .brand-mark-page-label {
@@ -137,7 +137,8 @@
 }
 
 .brand-mark-lg .brand-mark-title {
-  font-size: 2.6rem;
+  font-size: 3.4rem;
+  line-height: 1.05;
 }
 
 .brand-mark-tagline {

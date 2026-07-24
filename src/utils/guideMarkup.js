@@ -346,6 +346,44 @@ function stripMarkup(content = "") {
     .trim();
 }
 
+const CALLOUT_LABELS = {
+  tip: "✅ Tip",
+  warning: "⚠️ Warning",
+  important: "❗ Important",
+};
+
+function blockToDiscordText(block) {
+  switch (block.type) {
+    case "banner": {
+      const lines = [`# ${block.title}`];
+      if (block.subtitle) lines.push(block.subtitle);
+      return lines.join("\n");
+    }
+    case "section":
+      return `## ${block.text}`;
+    case "heading":
+      return block.variant === "sm" ? `### ${block.text}` : `## ${block.text}`;
+    case "callout":
+      return `${CALLOUT_LABELS[block.variant] || "Note"}\n${block.text}`;
+    case "color":
+      return `**${block.text}**`;
+    default:
+      return block.text || "";
+  }
+}
+
+function formatGuideForDiscordPaste(title = "", content = "") {
+  const body = parseBlocks(content)
+    .map((block) => blockToDiscordText(block))
+    .filter(Boolean)
+    .join("\n\n")
+    .trim();
+
+  if (!title?.trim()) return body;
+  if (!body) return title.trim();
+  return `${title.trim()}\n\n${body}`;
+}
+
 export {
   BANNER_STYLES,
   BANNER_FONTS,
@@ -368,5 +406,6 @@ export {
   headingSnippet,
   textSnippet,
   stripMarkup,
+  formatGuideForDiscordPaste,
   normalizeContent,
 };

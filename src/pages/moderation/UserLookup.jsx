@@ -1,19 +1,28 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { api } from "../../api/api.js";
+import MemberSearchField from "../../components/MemberSearchField.jsx";
 import PageHeader from "../../components/PageHeader.jsx";
 import WarningsList from "./WarningsList.jsx";
 
 export default function UserLookup() {
   const [searchParams] = useSearchParams();
-  const [userId, setUserId] = useState(searchParams.get("userId") || "");
+  const initialUserId = searchParams.get("userId") || "";
+  const [selectedMember, setSelectedMember] = useState(null);
   const [reason, setReason] = useState("");
   const [actionMessage, setActionMessage] = useState("");
   const [loadingAction, setLoadingAction] = useState(false);
 
+  const userId = selectedMember?.discordId || "";
+
+  function handleMemberSelect(member) {
+    setSelectedMember(member);
+    setActionMessage("");
+  }
+
   async function handleAction(type) {
     if (!userId) {
-      setActionMessage("Enter a user ID first.");
+      setActionMessage("Search for a member first.");
       return;
     }
 
@@ -69,19 +78,14 @@ export default function UserLookup() {
 
       <div className="page-body">
         <div className="card page-stack">
-          <div className="field-group">
-            <label className="field-label" htmlFor="lookup-user-id">
-              Discord User ID
-            </label>
-            <input
-              id="lookup-user-id"
-              type="text"
-              value={userId}
-              onChange={(e) => setUserId(e.target.value)}
-              placeholder="Enter user ID"
-              className="field-input"
-            />
-          </div>
+          <MemberSearchField
+            label="Member"
+            placeholder="Type a Discord name…"
+            selectedMember={selectedMember}
+            onSelect={handleMemberSelect}
+            initialDiscordId={initialUserId}
+            disabled={loadingAction}
+          />
 
           <div className="field-group">
             <label className="field-label" htmlFor="lookup-reason">
@@ -100,7 +104,7 @@ export default function UserLookup() {
             <button
               type="button"
               onClick={() => handleAction("warn")}
-              disabled={loadingAction}
+              disabled={loadingAction || !userId}
               className="btn btn-outline-red btn-sm"
             >
               Warn
@@ -108,7 +112,7 @@ export default function UserLookup() {
             <button
               type="button"
               onClick={() => handleAction("promote")}
-              disabled={loadingAction}
+              disabled={loadingAction || !userId}
               className="btn btn-outline-red btn-sm"
             >
               Promote
@@ -116,7 +120,7 @@ export default function UserLookup() {
             <button
               type="button"
               onClick={() => handleAction("demote")}
-              disabled={loadingAction}
+              disabled={loadingAction || !userId}
               className="btn btn-outline-red btn-sm"
             >
               Demote
@@ -124,7 +128,7 @@ export default function UserLookup() {
             <button
               type="button"
               onClick={() => handleAction("kick")}
-              disabled={loadingAction}
+              disabled={loadingAction || !userId}
               className="btn btn-danger btn-sm"
             >
               Kick

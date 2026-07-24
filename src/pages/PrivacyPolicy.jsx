@@ -79,7 +79,7 @@ export default function PrivacyPolicy() {
             when configured and premium is active
           </li>
           <li>
-            <strong>Stripe</strong> — payment processing when self-serve billing
+            <strong>Revolut</strong> and <strong>Stripe</strong> — payment processing when self-serve billing
             is enabled
           </li>
         </ul>

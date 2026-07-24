@@ -17,7 +17,7 @@ export default function LoginPage() {
       return;
     }
 
-    navigate("/", { replace: true });
+    navigate("/member", { replace: true });
   }, [user, loading, guildId, navigate]);
 
   function handleLogin() {
@@ -57,17 +57,34 @@ export default function LoginPage() {
             </a>
           )}
         </div>
-        <p className="login-legal-links">
-          <a href="/UnderbossHQ-User-Manual.docx" download>
+        <div className="login-manual">
+          <a
+            href="/UnderbossHQ-User-Manual.docx"
+            download
+            className="login-manual-link"
+          >
             Download User Manual
           </a>
+          <p className="login-manual-hint muted">
+            After sign-in, open <strong>Help</strong> in the sidebar for the full
+            guide.
+          </p>
+        </div>
+        <p className="login-legal-links">
+          <Link to="/">Home</Link>
+          {" · "}
+          <Link to="/pricing">Pricing</Link>
+          {" · "}
+          <Link to="/help/public">Help</Link>
+          {" · "}
+          <Link to="/demo">Demo</Link>
+        </p>
+        <p className="login-legal-links">
+          <Link to="/contact">Contact</Link>
           {" · "}
           <Link to="/terms">Terms of Service</Link>
           {" · "}
           <Link to="/privacy">Privacy Policy</Link>
-        </p>
-        <p className="login-legal-links login-help-hint muted">
-          After sign-in, open <strong>Help</strong> in the sidebar for the full guide.
         </p>
       </div>
     </div>

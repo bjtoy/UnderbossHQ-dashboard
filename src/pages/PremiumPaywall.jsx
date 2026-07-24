@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
@@ -8,16 +8,26 @@ import PageHeader from "../components/PageHeader.jsx";
 export default function PremiumPaywall() {
   const { user, guildId, isPlatformOwner, dashboardAccess } = useRoles();
   const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [billingProvider, setBillingProvider] = useState(null);
   const [error, setError] = useState(null);
 
   const canSubscribe = canManageGuildBilling(user, guildId);
+  const guildName =
+    user?.guilds?.find((g) => g.id === guildId)?.name || "this server";
+
+  useEffect(() => {
+    api.billing
+      .config()
+      .then((res) => setBillingProvider(res?.data?.provider || null))
+      .catch(() => setBillingProvider(null));
+  }, []);
 
   async function handleSubscribe() {
     setCheckoutLoading(true);
     setError(null);
 
     try {
-      const res = await api.stripe.checkout();
+      const res = await api.billing.checkout();
       if (res?.url) {
         window.location.href = res.url;
         return;
@@ -30,58 +40,76 @@ export default function PremiumPaywall() {
     }
   }
 
+  const subscribeLabel =
+    billingProvider === "revolut"
+      ? "Pay with Revolut"
+      : billingProvider === "stripe"
+        ? "Subscribe with Stripe"
+        : "Subscribe";
+
   return (
     <div className="dashboard-page">
       <PageHeader
         title="Premium required"
-        subtitle="This server does not have an active UnderbossHQ subscription."
+        subtitle={`${guildName} needs an active subscription before members can use the dashboard.`}
       />
 
       <div className="page-body page-stack">
         <div className="card page-stack">
-          <p className="muted">
-            {user?.username ? (
-              <>
-                Signed in as <strong>{user.username}</strong>.
-              </>
-            ) : (
-              "You are signed in."
-            )}{" "}
-            To use the dashboard on this server, the server needs premium billing
-            — or you need complimentary access from the platform operator.
-          </p>
+          <h3>What you can do</h3>
 
-          {dashboardAccess?.premiumRequired === false ? (
-            <p className="muted">
-              Billing enforcement is disabled in this environment.
-            </p>
+          {canSubscribe ? (
+            <>
+              <p className="muted">
+                You have <strong>Manage Server</strong> on{" "}
+                <strong>{guildName}</strong>. Paying unlocks the dashboard for{" "}
+                <em>everyone</em> on that Discord server — not just you.
+              </p>
+              {billingProvider ? (
+                <p className="muted">
+                  Checkout via{" "}
+                  <strong>
+                    {billingProvider === "revolut" ? "Revolut" : "Stripe"}
+                  </strong>
+                  . After payment, premium activates automatically.
+                </p>
+              ) : (
+                <p className="billing-callout muted">
+                  Online checkout is not set up yet. Ask the platform operator
+                  to connect billing, or request a manual grant / complimentary
+                  access.
+                </p>
+              )}
+            </>
           ) : (
-            <ul className="muted page-stack" style={{ paddingLeft: "1.2rem" }}>
-              <li>
-                Server owners and admins can subscribe to unlock the dashboard
-                for everyone on this server.
-              </li>
-              <li>
-                Operators can grant complimentary access to specific Discord
-                users who should use the dashboard for free.
-              </li>
-              <li>
-                Paying servers unlock access for all members on that server.
-              </li>
-            </ul>
+            <p className="muted">
+              You cannot purchase for this server. Ask someone with{" "}
+              <strong>Administrator</strong> or <strong>Manage Server</strong>{" "}
+              on <strong>{guildName}</strong> to subscribe, or ask the platform
+              operator for complimentary access.
+            </p>
+          )}
+
+          {dashboardAccess?.premiumRequired === false && (
+            <p className="muted">
+              Note: billing enforcement is disabled in this environment.
+            </p>
           )}
 
           {error && <p className="muted">{error}</p>}
 
           <div className="action-row">
-            {canSubscribe && (
+            <Link to="/pricing" className="btn btn-outline-gold btn-sm">
+              Full pricing (AUD)
+            </Link>
+            {canSubscribe && billingProvider && (
               <button
                 type="button"
                 className="btn btn-outline-red btn-sm"
                 disabled={checkoutLoading}
                 onClick={handleSubscribe}
               >
-                {checkoutLoading ? "Redirecting…" : "Subscribe with Stripe"}
+                {checkoutLoading ? "Redirecting…" : subscribeLabel}
               </button>
             )}
             <Link to="/select-guild" className="btn btn-outline-red btn-sm">
@@ -89,17 +117,32 @@ export default function PremiumPaywall() {
             </Link>
             {isPlatformOwner && (
               <Link to="/admin/premium" className="btn btn-outline-red btn-sm">
-                Manage billing
+                Operator billing tools
               </Link>
             )}
           </div>
+        </div>
 
-          {!canSubscribe && dashboardAccess?.premiumRequired !== false && (
-            <p className="muted">
-              Ask a server owner or admin with Manage Server permission to
-              subscribe for this server.
-            </p>
-          )}
+        <div className="card page-stack">
+          <h3>Other ways to get access</h3>
+          <ul className="help-list">
+            <li>
+              <Link to="/pricing">Individual and server plans (App, Bot, bundles)</Link>{" "}
+              — see full AUD pricing before you subscribe.
+            </li>
+            <li>
+              <strong>Server subscription</strong> — one payment covers all
+              members (you pay if you have Manage Server).
+            </li>
+            <li>
+              <strong>Complimentary user</strong> — the operator adds your
+              Discord ID; you can use the dashboard on any server for free.
+            </li>
+            <li>
+              <strong>Manual grant</strong> — the operator extends premium for
+              this server without payment (trials, partners, etc.).
+            </li>
+          </ul>
         </div>
       </div>
     </div>

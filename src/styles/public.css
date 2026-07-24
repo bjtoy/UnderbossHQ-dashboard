@@ -1,0 +1,197 @@
+.public-site {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(circle at top, rgba(168, 40, 68, 0.35), transparent 46%),
+    var(--bg-darkest);
+}
+
+.public-header {
+  border-bottom: 1px solid var(--border-strong);
+  background: linear-gradient(180deg, var(--surface-1), var(--purple-deep));
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.public-header-inner {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+
+.public-brand-link {
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.public-brand-link .brand-mark {
+  margin-bottom: 0;
+}
+
+.public-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  flex: 1;
+  justify-content: center;
+}
+
+.public-nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 6px 4px;
+  border-bottom: 2px solid transparent;
+}
+
+.public-nav-link:hover,
+.public-nav-link-active {
+  color: var(--accent-gold);
+  border-bottom-color: var(--accent-gold);
+}
+
+.public-login-btn {
+  margin-left: auto;
+}
+
+.public-main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+}
+
+.public-page-intro {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.public-page-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--accent-gold);
+  margin: 0 0 12px;
+}
+
+.public-page-subtitle {
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.public-section-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--brand-red-glow);
+  margin: 0 0 16px;
+}
+
+.public-card-title {
+  font-size: 1.15rem;
+  color: var(--accent-gold);
+  margin: 0;
+}
+
+.public-hero {
+  text-align: center;
+}
+
+.public-hero-actions {
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.public-grid {
+  margin-top: 24px;
+}
+
+.public-footer {
+  border-top: 1px solid var(--border-soft);
+  padding: 20px 24px 32px;
+  text-align: center;
+}
+
+.public-help-actions {
+  margin-bottom: 24px;
+}
+
+.pricing-plan-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-top: 20px;
+}
+
+.pricing-plan-highlight {
+  border-color: var(--border-accent);
+  box-shadow: var(--glow-gold);
+}
+
+.pricing-plan-meta {
+  margin: 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.pricing-plan-name {
+  margin: 4px 0 0;
+  font-size: 1.25rem;
+  color: var(--accent-gold);
+}
+
+.pricing-plan-price {
+  margin: 8px 0 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.pricing-plan-annual {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.pricing-plan-save {
+  margin: 0;
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+}
+
+.pricing-plan-soon {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.demo-guide-preview {
+  white-space: pre-wrap;
+  line-height: 1.7;
+  font-family: var(--font-body);
+}
+
+@media (max-width: 768px) {
+  .public-header-inner {
+    padding: 12px 16px;
+  }
+
+  .public-nav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .public-login-btn {
+    margin-left: 0;
+  }
+
+  .public-main {
+    padding: 24px 16px 40px;
+  }
+}

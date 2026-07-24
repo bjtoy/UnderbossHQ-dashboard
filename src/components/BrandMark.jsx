@@ -7,7 +7,7 @@ export default function BrandMark({
   className = "",
 }) {
   const sizes = {
-    sidebar: { img: 44, title: "1.15rem" },
+    sidebar: { img: 48, title: "1.45rem" },
     sm: { img: 48, title: "1rem" },
     header: { img: 64, title: "2rem" },
     md: { img: 120, title: "1.25rem" },

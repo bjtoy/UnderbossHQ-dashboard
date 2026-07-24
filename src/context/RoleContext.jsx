@@ -5,10 +5,12 @@ import {
   useState,
   useRef,
 } from "react";
+import { useLocation } from "react-router-dom";
 
 import {
   registerAuthHandlers,
 } from "../api/api.js";
+import { isPublicPath } from "../content/business.js";
 
 const RoleContext =
   createContext();
@@ -19,6 +21,8 @@ const API_URL =
 export function RoleProvider({
   children,
 }) {
+  const location = useLocation();
+  const onPublicPage = isPublicPath(location.pathname);
 
   /**
    * =========================
@@ -50,7 +54,7 @@ export function RoleProvider({
 
   const [loading,
     setLoading] =
-    useState(true);
+    useState(!onPublicPage);
 
   /**
    * Prevent duplicate loads
@@ -177,6 +181,14 @@ export function RoleProvider({
     mountedRef.current =
       true;
 
+    if (onPublicPage) {
+      setLoading(false);
+      loadUser();
+      return () => {
+        mountedRef.current = false;
+      };
+    }
+
     loadUser();
 
     return () => {
@@ -185,7 +197,7 @@ export function RoleProvider({
         false;
     };
 
-  }, [guildId]);
+  }, [guildId, location.pathname]);
 
   /**
    * =========================

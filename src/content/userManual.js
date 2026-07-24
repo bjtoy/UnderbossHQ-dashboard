@@ -57,7 +57,7 @@ export const HELP_SECTIONS = [
             ],
             [
               "You manage the server",
-              "Use Subscribe with Stripe on the paywall (if enabled)",
+              "Use Pay with Revolut on the paywall (if enabled)",
             ],
             [
               "You are a platform operator",
@@ -301,7 +301,7 @@ export const HELP_SECTIONS = [
       {
         title: "Server premium",
         bullets: [
-          "Grant days of premium for the currently selected server (manual), or use Stripe when configured",
+          "Grant days of premium for the currently selected server (manual), or use Revolut checkout when configured",
           "Revoke server premium if needed",
           "Paying unlocks the dashboard for everyone on that server",
         ],
@@ -316,10 +316,11 @@ export const HELP_SECTIONS = [
         ],
       },
       {
-        title: "Stripe (when configured)",
+        title: "Revolut billing (when configured)",
         bullets: [
-          "Server owners/admins can Subscribe with Stripe from the paywall",
-          "Operators can open the Stripe customer portal from Premium & Billing when a Stripe subscription exists",
+          "Server owners/admins can pay with Revolut from the paywall",
+          "Premium extends by the configured period when Revolut sends ORDER_COMPLETED",
+          "Legacy Stripe subscriptions can still be managed from Premium & Billing if present",
           "Checkout and billing flows still work when the rest of the dashboard is locked",
         ],
       },
@@ -409,7 +410,7 @@ export const HELP_SECTIONS = [
       {
         title: "Safety",
         bullets: [
-          "Never share Discord tokens, Stripe keys, or session cookies",
+          "Never share Discord tokens, Revolut/Stripe keys, or session cookies",
           "Only grant complimentary access to people you trust",
           "Log moderation reasons clearly",
         ],
@@ -430,3 +431,28 @@ export const HELP_SECTIONS = [
     ],
   },
 ];
+
+/** Shown on /help/public — no sign-in required */
+export const PUBLIC_HELP_SECTIONS = [
+  HELP_SECTIONS.find((s) => s.id === "overview"),
+  {
+    id: "public-access",
+    title: "What you can do without signing in",
+    bullets: [
+      "Browse Home, Pricing, this public Help page, and the Demo guide",
+      "Read Terms of Service and Privacy Policy",
+      "Download the overview Word manual from the login page or footer",
+    ],
+    note: "Sign in with Discord for member home, full Help, moderation, and admin tools. See Pricing for App and Bot premium (individual and server plans, AUD).",
+  },
+  {
+    id: "getting-started-public",
+    title: "Getting started (after sign-in)",
+    steps: [
+      "Open Sign in and authorize with Discord.",
+      "Choose your server on Select Server.",
+      "Open Help in the sidebar for the complete manual.",
+      "If you see Premium required, view Pricing or ask your server owner to subscribe.",
+    ],
+  },
+].filter(Boolean);

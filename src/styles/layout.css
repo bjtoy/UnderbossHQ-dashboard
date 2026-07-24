@@ -14,15 +14,19 @@ body {
 
 body:has(.standalone-page),
 body:has(.loading-screen),
-body:has(.login-page) {
-    overflow: auto;
+body:has(.login-page),
+body:has(.public-site),
+body:has(.legal-page) {
+  overflow: auto;
 }
 
 #root:has(.standalone-page),
 #root:has(.loading-screen),
-#root:has(.login-page) {
-    height: auto;
-    min-height: 100%;
+#root:has(.login-page),
+#root:has(.public-site),
+#root:has(.legal-page) {
+  height: auto;
+  min-height: 100%;
 }
 
 /* ===========================
@@ -76,9 +80,9 @@ body:has(.login-page) {
 
 .dashboard-topbar-title {
     font-family: var(--font-brand);
-    font-size: 4.1rem;
+    font-size: 5rem;
     font-weight: 400;
-    line-height: 1.05;
+    line-height: 1;
     color: var(--accent-gold);
     letter-spacing: 0.01em;
     text-shadow: none;
@@ -130,8 +134,8 @@ body:has(.login-page) {
 }
 
 .dashboard-topbar-brandmark .brand-mark-image {
-  width: 84px;
-  height: 84px;
+  width: 96px;
+  height: 96px;
 }
 
 .dashboard-topbar-mascot,
@@ -329,11 +333,11 @@ body:has(.login-page) {
     }
 
     .dashboard-topbar-title {
-        font-size: 2.5rem;
+        font-size: 3.2rem;
     }
 
     .dashboard-topbar-mascot {
-        height: 64px;
+        height: 72px;
     }
 
     .dashboard-topbar-meta {
@@ -460,7 +464,7 @@ body:has(.login-page) {
     }
 
     .dashboard-topbar-title {
-        font-size: 1.55rem;
+        font-size: 2.35rem;
         letter-spacing: 0.01em;
         white-space: nowrap;
         overflow: hidden;
@@ -468,8 +472,8 @@ body:has(.login-page) {
     }
 
     .dashboard-topbar-brandmark .brand-mark-image {
-        width: 44px;
-        height: 44px;
+        width: 56px;
+        height: 56px;
     }
 
     .dashboard-topbar-meta {
@@ -522,9 +526,9 @@ body:has(.login-page) {
 
     .page-header-actions .btn {
         flex: 1 1 auto;
-        min-height: 44px;
-        padding: 10px 14px;
-        font-size: 13px;
+        min-height: 34px;
+        padding: 6px 12px;
+        font-size: 11px;
     }
 
     .dashboard-grid-2,
@@ -543,7 +547,7 @@ body:has(.login-page) {
 
 @media (max-width: 480px) {
     .dashboard-topbar-title {
-        font-size: 1.15rem;
+        font-size: 2rem;
     }
 
     .card {

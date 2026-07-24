@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../api/api.js";
+import { debugLog } from "../utils/debugLog.js";
 
 function channelLabel(channel) {
   const typeLabel =
@@ -33,12 +34,29 @@ export default function DiscordChannelSelect({
       .channels()
       .then((res) => {
         if (cancelled) return;
-        setChannels(res?.data || []);
-        onDefaultsLoaded?.(res?.defaults || {});
+        const channelList = res?.data || [];
+        const defaults = res?.defaults || {};
+        setChannels(channelList);
+        onDefaultsLoaded?.(defaults);
+        debugLog({
+          location: "DiscordChannelSelect.jsx:channels",
+          message: "Discord channels loaded",
+          hypothesisId: "A",
+          data: {
+            channelCount: channelList.length,
+            hasGuidesDefault: Boolean(defaults.guidesChannelId),
+          },
+        });
       })
       .catch((err) => {
         if (cancelled) return;
         setLoadError(err.message);
+        debugLog({
+          location: "DiscordChannelSelect.jsx:channels",
+          message: "Discord channels load failed",
+          hypothesisId: "A",
+          data: { error: err.message },
+        });
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
