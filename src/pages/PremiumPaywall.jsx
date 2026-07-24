@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
@@ -6,21 +6,22 @@ import { canManageGuildBilling } from "../utils/guildBillingAuth.js";
 import PageHeader from "../components/PageHeader.jsx";
 
 export default function PremiumPaywall() {
-  const { user, guildId, isPlatformOwner, dashboardAccess } = useRoles();
+  const {
+    user,
+    guildId,
+    isPlatformOwner,
+    dashboardAccess,
+    billingProvider,
+    billingConfigured,
+  } = useRoles();
   const [checkoutLoading, setCheckoutLoading] = useState(false);
-  const [billingProvider, setBillingProvider] = useState(null);
   const [error, setError] = useState(null);
 
   const canSubscribe = canManageGuildBilling(user, guildId);
   const guildName =
     user?.guilds?.find((g) => g.id === guildId)?.name || "this server";
-
-  useEffect(() => {
-    api.billing
-      .config()
-      .then((res) => setBillingProvider(res?.data?.provider || null))
-      .catch(() => setBillingProvider(null));
-  }, []);
+  const revolutPaywall =
+    billingConfigured && (billingProvider === "revolut" || !billingProvider);
 
   async function handleSubscribe() {
     setCheckoutLoading(true);
@@ -32,20 +33,13 @@ export default function PremiumPaywall() {
         window.location.href = res.url;
         return;
       }
-      throw new Error("Checkout URL not returned");
+      throw new Error("Revolut checkout URL not returned");
     } catch (err) {
       setError(err.message);
     } finally {
       setCheckoutLoading(false);
     }
   }
-
-  const subscribeLabel =
-    billingProvider === "revolut"
-      ? "Pay with Revolut"
-      : billingProvider === "stripe"
-        ? "Subscribe with Stripe"
-        : "Subscribe";
 
   return (
     <div className="dashboard-page">
@@ -65,19 +59,20 @@ export default function PremiumPaywall() {
                 <strong>{guildName}</strong>. Paying unlocks the dashboard for{" "}
                 <em>everyone</em> on that Discord server — not just you.
               </p>
-              {billingProvider ? (
+              {revolutPaywall ? (
                 <p className="muted">
                   Checkout via{" "}
-                  <strong>
-                    {billingProvider === "revolut" ? "Revolut" : "Stripe"}
+                  <strong className="billing-badge billing-badge-revolut">
+                    Revolut
                   </strong>
-                  . After payment, premium activates automatically.
+                  . One payment extends server premium for the configured period.
+                  After payment, access activates automatically.
                 </p>
               ) : (
                 <p className="billing-callout muted">
-                  Online checkout is not set up yet. Ask the platform operator
-                  to connect billing, or request a manual grant / complimentary
-                  access.
+                  Revolut checkout is not configured on the server yet. Ask the
+                  platform operator to connect Revolut Merchant billing, or
+                  request a manual grant / complimentary access.
                 </p>
               )}
             </>
@@ -85,8 +80,8 @@ export default function PremiumPaywall() {
             <p className="muted">
               You cannot purchase for this server. Ask someone with{" "}
               <strong>Administrator</strong> or <strong>Manage Server</strong>{" "}
-              on <strong>{guildName}</strong> to subscribe, or ask the platform
-              operator for complimentary access.
+              on <strong>{guildName}</strong> to subscribe via Revolut, or ask
+              the platform operator for complimentary access.
             </p>
           )}
 
@@ -102,14 +97,14 @@ export default function PremiumPaywall() {
             <Link to="/pricing" className="btn btn-outline-gold btn-sm">
               Full pricing (AUD)
             </Link>
-            {canSubscribe && billingProvider && (
+            {canSubscribe && revolutPaywall && (
               <button
                 type="button"
                 className="btn btn-outline-red btn-sm"
                 disabled={checkoutLoading}
                 onClick={handleSubscribe}
               >
-                {checkoutLoading ? "Redirecting…" : subscribeLabel}
+                {checkoutLoading ? "Redirecting to Revolut…" : "Pay with Revolut"}
               </button>
             )}
             <Link to="/select-guild" className="btn btn-outline-red btn-sm">
@@ -127,12 +122,14 @@ export default function PremiumPaywall() {
           <h3>Other ways to get access</h3>
           <ul className="help-list">
             <li>
-              <Link to="/pricing">Individual and server plans (App, Bot, bundles)</Link>{" "}
+              <Link to="/pricing">
+                Individual and server plans (App, Bot, bundles)
+              </Link>{" "}
               — see full AUD pricing before you subscribe.
             </li>
             <li>
-              <strong>Server subscription</strong> — one payment covers all
-              members (you pay if you have Manage Server).
+              <strong>Server subscription (Revolut)</strong> — one payment
+              covers all members (you pay if you have Manage Server).
             </li>
             <li>
               <strong>Complimentary user</strong> — the operator adds your

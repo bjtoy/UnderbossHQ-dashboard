@@ -52,6 +52,12 @@ export function RoleProvider({
   const [dashboardAccess, setDashboardAccess] =
     useState(null);
 
+  const [billingProvider, setBillingProvider] =
+    useState(null);
+
+  const [billingConfigured, setBillingConfigured] =
+    useState(false);
+
   const [loading,
     setLoading] =
     useState(!onPublicPage);
@@ -112,6 +118,8 @@ export function RoleProvider({
         setPermissions([]);
         setIsPlatformOwner(false);
         setDashboardAccess(null);
+        setBillingProvider(null);
+        setBillingConfigured(false);
 
         return { user: null, roles: [], permissions: [], isPlatformOwner: false, dashboardAccess: null };
       }
@@ -133,12 +141,16 @@ export function RoleProvider({
         : [];
       const nextIsPlatformOwner = Boolean(data.isPlatformOwner);
       const nextDashboardAccess = data.dashboardAccess || null;
+      const nextBillingProvider = data.billingProvider || null;
+      const nextBillingConfigured = Boolean(data.billingConfigured);
 
       setUser(nextUser);
       setRoles(nextRoles);
       setPermissions(nextPermissions);
       setIsPlatformOwner(nextIsPlatformOwner);
       setDashboardAccess(nextDashboardAccess);
+      setBillingProvider(nextBillingProvider);
+      setBillingConfigured(nextBillingConfigured);
 
       return {
         user: nextUser,
@@ -146,6 +158,8 @@ export function RoleProvider({
         permissions: nextPermissions,
         isPlatformOwner: nextIsPlatformOwner,
         dashboardAccess: nextDashboardAccess,
+        billingProvider: nextBillingProvider,
+        billingConfigured: nextBillingConfigured,
       };
     } catch (error) {
       console.error("Failed loading auth state:", error);
@@ -159,6 +173,8 @@ export function RoleProvider({
       setPermissions([]);
       setIsPlatformOwner(false);
       setDashboardAccess(null);
+      setBillingProvider(null);
+      setBillingConfigured(false);
 
       return { user: null, roles: [], permissions: [], isPlatformOwner: false, dashboardAccess: null };
     } finally {
@@ -263,6 +279,8 @@ export function RoleProvider({
 
     setIsPlatformOwner(false);
     setDashboardAccess(null);
+    setBillingProvider(null);
+    setBillingConfigured(false);
 
     localStorage.removeItem(
       "guildId"
@@ -301,6 +319,8 @@ export function RoleProvider({
         hasPermission,
         isPlatformOwner,
         dashboardAccess,
+        billingProvider,
+        billingConfigured,
         refreshUser:
           loadUser,
         logout,
