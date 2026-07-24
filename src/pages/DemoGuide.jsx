@@ -1,38 +1,20 @@
 import { Link } from "react-router-dom";
+import GuideContent from "../components/GuideContent.jsx";
 import PublicShell from "../components/PublicShell.jsx";
-
-const DEMO_CONTENT = `[banner:crimson]
-
-# Faction rules (sample)
-
-This is a **demo guide** showing how styled UnderbossHQ content looks — banners, headings, and callouts.
-
-[callout:gold]
-Respect staff decisions. Disputes go to tickets, not public drama.
-[/callout]
-
-## Core rules
-
-1. No harassment or hate speech
-2. Keep recruitment in designated channels
-3. Follow Discord Terms of Service
-
-## Ranks
-
-Members earn rank through activity and events. Admins run **Sync Roles** after promotions.
-
----
-
-*This is a static preview. Sign in to create and post your own guides to Discord.*`;
+import { DEMO_GUIDE_CONTENT } from "../content/demoGuide.js";
 
 export default function DemoGuide() {
   return (
     <PublicShell
       title="Demo guide"
-      subtitle="Preview styled guide content without signing in."
+      subtitle="Real faction guide markup — banners, sections, callouts, and colors — exactly as members see it in Discord."
     >
       <div className="card page-stack public-section">
-        <div className="guide-preview demo-guide-preview">{DEMO_CONTENT}</div>
+        <GuideContent content={DEMO_GUIDE_CONTENT} />
+        <p className="muted">
+          Excerpt from a live UnderbossHQ guide template. Sign in to create, edit,
+          and post your own guides to Discord channels.
+        </p>
         <div className="action-row">
           <Link to="/pricing" className="btn btn-outline-gold btn-sm">
             See premium plans
