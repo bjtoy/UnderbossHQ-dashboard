@@ -12,7 +12,7 @@ export default function PublicHelp() {
       title="Help (public overview)"
       subtitle="No sign-in required. Sign in for the full in-app manual and your server tools."
     >
-      <div className="public-help-actions action-row">
+      <div className="public-help-actions action-row public-section">
         <a
           href={MANUAL_DOWNLOAD_URL}
           className="btn btn-outline-red btn-sm"
@@ -28,13 +28,13 @@ export default function PublicHelp() {
         </Link>
       </div>
 
-      <div className="help-sections page-stack">
+      <div className="help-sections page-stack public-section">
         {PUBLIC_HELP_SECTIONS.map((section) => (
           <HelpSectionBlock key={section.id} section={section} />
         ))}
       </div>
 
-      <p className="muted card page-stack">
+      <p className="muted card page-stack public-section">
         Premium tiers, billing, and moderation details are in{" "}
         <Link to="/pricing">Pricing</Link>. After sign-in, open{" "}
         <strong>Help</strong> in the sidebar for the complete guide including

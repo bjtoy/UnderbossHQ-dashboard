@@ -2,9 +2,73 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  font-family: var(--font-body);
+  color: var(--text-primary);
   background:
     radial-gradient(circle at top, rgba(168, 40, 68, 0.35), transparent 46%),
     var(--bg-darkest);
+}
+
+.public-site h1,
+.public-site h2,
+.public-site h3,
+.public-site h4 {
+  font-family: var(--font-heading);
+  letter-spacing: var(--heading-letter-spacing, 0.035em);
+  line-height: var(--heading-line-height, 1.2);
+}
+
+.public-site p,
+.public-site li,
+.public-site td,
+.public-site th {
+  font-family: var(--font-body);
+}
+
+.public-section {
+  margin-top: 24px;
+}
+
+.public-section:first-child {
+  margin-top: 0;
+}
+
+.public-footer-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.public-footer-links a:hover {
+  color: var(--accent-gold);
+}
+
+.public-auth-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 16px;
+}
+
+.public-legal-content {
+  padding: 32px 36px;
+  text-align: left;
+}
+
+.public-site .help-section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--brand-red-glow);
+}
+
+.public-site .help-subsection h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  margin: 0 0 8px;
+}
+
+.public-site .pricing-plan-name {
+  font-family: var(--font-heading);
+  font-weight: 600;
 }
 
 .public-header {
@@ -84,6 +148,8 @@
   max-width: 640px;
   margin: 0 auto;
   line-height: 1.6;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
 }
 
 .public-section-title {
@@ -94,7 +160,9 @@
 }
 
 .public-card-title {
+  font-family: var(--font-heading);
   font-size: 1.15rem;
+  font-weight: 600;
   color: var(--accent-gold);
   margin: 0;
 }
@@ -216,5 +284,9 @@
 
   .public-main {
     padding: 24px 16px 40px;
+  }
+
+  .public-legal-content {
+    padding: 24px 20px;
   }
 }

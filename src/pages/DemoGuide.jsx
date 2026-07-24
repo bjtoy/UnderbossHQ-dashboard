@@ -31,7 +31,7 @@ export default function DemoGuide() {
       title="Demo guide"
       subtitle="Preview styled guide content without signing in."
     >
-      <div className="card page-stack">
+      <div className="card page-stack public-section">
         <div className="guide-preview demo-guide-preview">{DEMO_CONTENT}</div>
         <div className="action-row">
           <Link to="/pricing" className="btn btn-outline-gold btn-sm">

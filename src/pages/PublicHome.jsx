@@ -33,7 +33,7 @@ export default function PublicHome() {
         </div>
       </section>
 
-      <section className="public-business-card card page-stack">
+      <section className="public-business-card card page-stack public-section">
         <h2 className="public-section-title">About {BUSINESS.name}</h2>
         <p className="muted">{BUSINESS.productDescription}</p>
         <p className="muted">
@@ -53,7 +53,7 @@ export default function PublicHome() {
         </p>
       </section>
 
-      <section className="public-grid dashboard-grid dashboard-grid-3">
+      <section className="public-grid dashboard-grid dashboard-grid-3 public-section">
         <div className="card page-stack">
           <h2 className="public-card-title">No login needed</h2>
           <p className="muted">

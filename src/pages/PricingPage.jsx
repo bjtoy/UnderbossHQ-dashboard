@@ -58,12 +58,12 @@ export default function PricingPage() {
       title="Pricing"
       subtitle="All prices in AUD. Public pages are free. Premium unlocks app and/or bot features for individuals or whole servers."
     >
-      <section className="page-stack">
+      <section className="public-section page-stack">
         <h2 className="public-section-title">Free access</h2>
         <div className="public-grid dashboard-grid dashboard-grid-2">
           {ACCESS_LEVELS.map((level) => (
             <div key={level.id} className="card page-stack">
-              <h3>{level.title}</h3>
+              <h3 className="public-card-title">{level.title}</h3>
               <p className="pricing-plan-price">{level.price}</p>
               <p className="muted">{level.description}</p>
               <ul className="help-list">
@@ -76,7 +76,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="page-stack">
+      <section className="public-section page-stack">
         <h2 className="public-section-title">Premium plans</h2>
         <p className="muted">
           <strong>App</strong> = web dashboard · <strong>Bot</strong> = Discord
@@ -90,7 +90,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="card page-stack">
+      <section className="card page-stack public-section">
         <h2 className="public-section-title">Feature comparison</h2>
         <div className="table-scroll">
           <table className="data-table billing-overview-table">
@@ -114,8 +114,8 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="card page-stack billing-callout">
-        <h3>{FOUNDING_OFFER.label}</h3>
+      <section className="card page-stack billing-callout public-section">
+        <h2 className="public-section-title">{FOUNDING_OFFER.label}</h2>
         <p className="muted">
           Individual bundle {formatAud(FOUNDING_OFFER.individualBundleMonthly)}
           /mo · Server bundle{" "}

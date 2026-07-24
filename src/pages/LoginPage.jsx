@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
 import BrandMark from "../components/BrandMark.jsx";
+import PublicShell from "../components/PublicShell.jsx";
 import { getDiscordBotInviteUrl } from "../utils/discordBotInvite.js";
 
 export default function LoginPage() {
@@ -35,58 +36,47 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="login-page">
-      <div className="login-card">
-        <BrandMark size="lg" />
-        <p className="login-copy">
-          Sign in with Discord to access your server dashboard, guides, and
-          moderation tools. Add the bot first if it is not in your server yet.
-        </p>
-        <div className="login-actions">
-          <button type="button" className="btn btn-outline-red" onClick={handleLogin}>
-            Login with Discord
-          </button>
-          {botInviteUrl && (
-            <a
-              href={botInviteUrl}
-              className="btn btn-outline-gold"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Add bot to server
-            </a>
-          )}
-        </div>
-        <div className="login-manual">
-          <a
-            href="/UnderbossHQ-User-Manual.docx"
-            download
-            className="login-manual-link"
-          >
-            Download User Manual
-          </a>
-          <p className="login-manual-hint muted">
-            After sign-in, open <strong>Help</strong> in the sidebar for the full
-            guide.
+    <PublicShell>
+      <div className="public-auth-wrap">
+        <div className="login-card">
+          <BrandMark
+            size="lg"
+            subtitle="Gaming community server management"
+          />
+          <p className="login-copy">
+            Sign in with Discord to access your server dashboard, guides, and
+            moderation tools. Add the bot first if it is not in your server yet.
           </p>
+          <div className="login-actions">
+            <button type="button" className="btn btn-outline-red" onClick={handleLogin}>
+              Login with Discord
+            </button>
+            {botInviteUrl && (
+              <a
+                href={botInviteUrl}
+                className="btn btn-outline-gold"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Add bot to server
+              </a>
+            )}
+          </div>
+          <div className="login-manual">
+            <a
+              href="/UnderbossHQ-User-Manual.docx"
+              download
+              className="login-manual-link"
+            >
+              Download User Manual
+            </a>
+            <p className="login-manual-hint muted">
+              After sign-in, open <strong>Help</strong> in the sidebar for the full
+              guide.
+            </p>
+          </div>
         </div>
-        <p className="login-legal-links">
-          <Link to="/">Home</Link>
-          {" · "}
-          <Link to="/pricing">Pricing</Link>
-          {" · "}
-          <Link to="/help/public">Help</Link>
-          {" · "}
-          <Link to="/demo">Demo</Link>
-        </p>
-        <p className="login-legal-links">
-          <Link to="/contact">Contact</Link>
-          {" · "}
-          <Link to="/terms">Terms of Service</Link>
-          {" · "}
-          <Link to="/privacy">Privacy Policy</Link>
-        </p>
       </div>
-    </div>
+    </PublicShell>
   );
 }

@@ -55,12 +55,16 @@ export default function PublicShell({ children, title, subtitle }) {
       </main>
 
       <footer className="public-footer">
-        <p className="muted">
+        <p className="muted public-footer-links">
+          <Link to="/">Home</Link>
+          {" · "}
+          <Link to="/pricing">Pricing</Link>
+          {" · "}
+          <Link to="/contact">Contact</Link>
+          {" · "}
           <Link to="/terms">Terms</Link>
           {" · "}
           <Link to="/privacy">Privacy</Link>
-          {" · "}
-          <Link to="/pricing">Pricing</Link>
           {" · "}
           <a href="/UnderbossHQ-User-Manual.docx" download>
             User manual

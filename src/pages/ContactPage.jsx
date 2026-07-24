@@ -7,7 +7,7 @@ export default function ContactPage() {
       title="Contact"
       subtitle="Reach the UnderbossHQ operator. No account or password required to view this page."
     >
-      <section className="card page-stack public-business-card">
+      <section className="card page-stack public-section public-business-card">
         <h2 className="public-section-title">Business details</h2>
         <table className="billing-overview-table">
           <tbody>
@@ -53,7 +53,7 @@ export default function ContactPage() {
         </table>
       </section>
 
-      <section className="card page-stack">
+      <section className="card page-stack public-section">
         <h2 className="public-section-title">Public pages (no login)</h2>
         <p className="muted">
           The following pages are available without a password or Discord
