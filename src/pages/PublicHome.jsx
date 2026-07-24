@@ -1,15 +1,21 @@
 import { Link } from "react-router-dom";
+import BrandMark from "../components/BrandMark.jsx";
 import PublicShell from "../components/PublicShell.jsx";
 import { BUSINESS } from "../content/business.js";
 
 export default function PublicHome() {
   return (
-    <PublicShell
-      title="Discord server management, done properly"
-      subtitle="Guides, moderation, and bot tools in one control panel. Browse pricing and help without an account — sign in when you are ready."
-    >
-      <section className="public-hero card page-stack">
-        <p>
+    <PublicShell>
+      <section className="public-home-hero page-stack">
+        <BrandMark
+          size="hero"
+          subtitle="Gaming community server management"
+        />
+        <p className="public-hero-lead muted">
+          Guides, moderation, and bot tools in one control panel. Browse pricing
+          and help without an account — sign in when you are ready.
+        </p>
+        <p className="public-hero-summary">
           UnderbossHQ gives faction and community servers a real dashboard:
           styled guides, announcements, case files, and a Discord bot that
           shares the same data.

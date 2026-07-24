@@ -27,7 +27,7 @@ export default function PublicShell({ children, title, subtitle }) {
       <header className="public-header">
         <div className="public-header-inner">
           <Link to="/" className="public-brand-link">
-            <BrandMark size="sm" showName={true} />
+            <BrandMark size="sm" showName={false} />
           </Link>
           <nav className="public-nav" aria-label="Public site">
             {NAV.map((item) => (

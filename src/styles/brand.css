@@ -141,6 +141,31 @@
   line-height: 1.05;
 }
 
+.brand-mark-hero {
+  margin-bottom: 8px;
+}
+
+.brand-mark-hero .brand-mark-image {
+  width: clamp(140px, 22vw, 240px);
+  height: auto;
+  max-height: 240px;
+}
+
+.brand-mark-hero .brand-mark-title {
+  font-size: clamp(3.5rem, 12vw, 6.5rem);
+  line-height: 1;
+}
+
+.brand-mark-hero .brand-mark-tagline {
+  font-family: var(--font-heading);
+  font-size: clamp(1.15rem, 2.8vw, 1.65rem);
+  color: var(--accent-gold);
+  max-width: 28ch;
+  text-align: center;
+  line-height: 1.35;
+  margin-top: 8px;
+}
+
 .brand-mark-tagline {
   font-family: var(--font-body);
   font-size: 1.1rem;
