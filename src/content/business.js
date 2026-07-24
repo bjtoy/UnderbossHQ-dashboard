@@ -9,7 +9,11 @@ export const BUSINESS = {
     import.meta.env.VITE_DASHBOARD_URL ||
     "https://underbosshq-two.vercel.app",
   contactEmail:
-    import.meta.env.VITE_BUSINESS_CONTACT_EMAIL || "contact@underbosshq.com",
+    import.meta.env.VITE_BUSINESS_CONTACT_EMAIL ||
+    "underbosshq@outlook.com.au",
+  contactPhone:
+    import.meta.env.VITE_BUSINESS_CONTACT_PHONE || "+61403713713",
+  contactPhoneDisplay: "+61 403 713 713",
   country: "Australia",
   currency: "AUD",
 };

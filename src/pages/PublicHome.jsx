@@ -40,6 +40,10 @@ export default function PublicHome() {
         <p className="muted">
           Contact:{" "}
           <a href={`mailto:${BUSINESS.contactEmail}`}>{BUSINESS.contactEmail}</a>
+          {" · "}
+          <a href={`tel:${BUSINESS.contactPhone}`}>
+            {BUSINESS.contactPhoneDisplay}
+          </a>
         </p>
       </section>
 

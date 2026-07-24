@@ -34,6 +34,14 @@ export default function ContactPage() {
               </td>
             </tr>
             <tr>
+              <th>Contact phone</th>
+              <td>
+                <a href={`tel:${BUSINESS.contactPhone}`}>
+                  {BUSINESS.contactPhoneDisplay}
+                </a>
+              </td>
+            </tr>
+            <tr>
               <th>Country</th>
               <td>{BUSINESS.country}</td>
             </tr>

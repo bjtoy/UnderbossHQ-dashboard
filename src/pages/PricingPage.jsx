@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import PublicShell from "../components/PublicShell.jsx";
+import { BUSINESS } from "../content/business.js";
 import {
   ACCESS_LEVELS,
   PREMIUM_PLANS,
@@ -43,7 +44,7 @@ function PlanCard({ plan }) {
         </Link>
       ) : (
         <p className="muted pricing-plan-soon">
-          Individual plans: email contact@underbosshq.com or sign in for server
+          Individual plans: email {BUSINESS.contactEmail} or sign in for server
           subscription.
         </p>
       )}
