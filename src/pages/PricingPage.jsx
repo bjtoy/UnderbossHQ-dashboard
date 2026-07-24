@@ -43,7 +43,8 @@ function PlanCard({ plan }) {
         </Link>
       ) : (
         <p className="muted pricing-plan-soon">
-          Individual checkout coming soon — contact operator or use server plan.
+          Individual plans: email contact@underbosshq.com or sign in for server
+          subscription.
         </p>
       )}
     </article>

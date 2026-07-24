@@ -21,7 +21,7 @@ export const ACCESS_LEVELS = [
     title: "Free account",
     price: "Free",
     period: "",
-    description: "Sign in with Discord (email login coming soon).",
+    description: "Sign in with Discord.",
     features: [
       "Everything in Public",
       "Member home and read-only community content",

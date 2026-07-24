@@ -56,7 +56,7 @@ export default function PublicHome() {
           <h2 className="public-card-title">Free with Discord</h2>
           <p className="muted">
             Sign in to access member home, full Help, and basic bot commands.
-            Discord is not required forever — standalone accounts are planned.
+            Discord is the primary sign-in method for dashboard access.
           </p>
         </div>
         <div className="card page-stack">
