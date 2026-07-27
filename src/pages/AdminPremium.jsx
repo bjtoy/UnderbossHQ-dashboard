@@ -16,7 +16,7 @@ const OVERVIEW_ROWS = [
   {
     type: "Server subscription",
     who: "Everyone on the selected Discord server",
-    how: "Revolut checkout, Stripe subscription, or manual grant (section 2–3)",
+    how: "Revolut checkout or manual grant (section 2–3)",
   },
   {
     type: "Complimentary user",
@@ -32,14 +32,12 @@ const OVERVIEW_ROWS = [
 
 function sourceLabel(source) {
   if (source === "revolut") return "Paid via Revolut";
-  if (source === "stripe") return "Stripe subscription";
   if (source === "manual") return "Manual grant";
   return "None";
 }
 
 function sourceBadgeClass(source) {
   if (source === "revolut") return "billing-badge billing-badge-revolut";
-  if (source === "stripe") return "billing-badge billing-badge-stripe";
   if (source === "manual") return "billing-badge billing-badge-manual";
   return "billing-badge billing-badge-inactive";
 }
@@ -123,25 +121,6 @@ export default function AdminPremium() {
       const res = await api.premium.revoke();
       setStatus(res?.data || null);
       setMessage(`Premium revoked for "${guildName}".`);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setActing(false);
-    }
-  }
-
-  async function openBillingPortal() {
-    setActing(true);
-    setMessage("");
-    setError(null);
-
-    try {
-      const res = await api.billing.portal();
-      if (res?.url) {
-        window.location.href = res.url;
-        return;
-      }
-      throw new Error("Billing portal URL not returned");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -325,10 +304,8 @@ export default function AdminPremium() {
             {status.billingConfigured ? (
               <>
                 <p className="muted">
-                  <strong>Checkout:</strong>{" "}
-                  {status.billingProvider === "revolut"
-                    ? "Revolut — one payment extends premium for the configured period (default 30 days)."
-                    : "Stripe — recurring subscription; renews automatically until cancelled."}
+                  <strong>Checkout:</strong> Revolut — one payment extends
+                  premium for the configured period (default 30 days).
                 </p>
                 <p className="muted">
                   <strong>Who can pay:</strong> Discord users with Administrator
@@ -338,25 +315,8 @@ export default function AdminPremium() {
             ) : (
               <p className="billing-callout muted">
                 Checkout is off. Server admins cannot pay yet — use manual grants
-                (section 3) or set up Revolut/Stripe in section 5.
+                (section 3) or set up Revolut in section 5.
               </p>
-            )}
-
-            {status?.source === "stripe" && status?.subscriptionId && (
-              <div className="page-stack">
-                <p className="muted">
-                  This server has an active Stripe subscription. Open the Stripe
-                  customer portal to update card, cancel, or view invoices.
-                </p>
-                <button
-                  type="button"
-                  className="btn btn-outline-gold btn-sm"
-                  disabled={acting}
-                  onClick={openBillingPortal}
-                >
-                  Open Stripe billing portal
-                </button>
-              </div>
             )}
 
             {status?.source === "revolut" && status?.active && (
@@ -585,20 +545,10 @@ export default function AdminPremium() {
                   </tr>
                   <tr>
                     <td>
-                      <code>STRIPE_*</code>
-                    </td>
-                    <td>
-                      Legacy Stripe subscriptions. Webhook:{" "}
-                      <code>/api/stripe/webhook</code>.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
                       <code>BILLING_PROVIDER</code>
                     </td>
                     <td>
-                      Optional: <code>revolut</code> or <code>stripe</code>. If
-                      unset, Revolut is used when configured, else Stripe.
+                      Set to <code>revolut</code> (only supported provider).
                     </td>
                   </tr>
                 </tbody>

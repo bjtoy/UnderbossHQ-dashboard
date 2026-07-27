@@ -34,5 +34,5 @@ export function useCustomerPricing(billingCheckout = null) {
       pricingSubtitle: getPricingPageSubtitle(),
       currencyLabel: getCustomerCurrencyLabel(),
     };
-  }, [billingCheckout?.amountMinor, billingCheckout?.currency, billingCheckout?.periodDays]);
+  }, [billingCheckout]);
 }

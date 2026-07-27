@@ -112,6 +112,7 @@ export default function PremiumPaywall() {
             billingConfigured={premiumAccess.billingConfigured}
             billingProvider={premiumAccess.billingProvider}
             billingCheckout={premiumAccess.billingCheckout}
+            planId="server-app"
             showPricingLink
           />
 

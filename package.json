@@ -14,7 +14,8 @@
     "preview": "vite preview",
     "build:manual": "node scripts/build-user-manual.mjs",
     "build:staff-briefing": "node scripts/build-staff-briefing.mjs",
-    "build:financials": "node scripts/build-financials.mjs"
+    "build:financials": "node scripts/build-financials.mjs",
+    "generate:banners": "node scripts/generate-banner-placeholders.mjs"
   },
   "dependencies": {
     "react": "^19.2.6",

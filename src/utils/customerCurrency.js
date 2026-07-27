@@ -166,12 +166,23 @@ export function getPricingPageSubtitle() {
 }
 
 export function describeCheckoutAmount(billingCheckout, options = {}) {
-  if (!billingCheckout?.amountMinor || !billingCheckout?.currency) {
+  if (!billingCheckout?.currency) {
     return null;
   }
 
   const customerCurrency = options.currency || detectCustomerCurrency();
-  const { amountMinor, currency, periodDays } = billingCheckout;
+  const planId = options.planId || billingCheckout.defaultPlanId;
+  const planFromList = billingCheckout.plans?.find((plan) => plan.id === planId);
+  const amountMinor =
+    planFromList?.amountMinor ?? billingCheckout.amountMinor;
+  const periodDays =
+    planFromList?.periodDays ?? billingCheckout.periodDays;
+  const currency = planFromList?.currency ?? billingCheckout.currency;
+
+  if (!amountMinor) {
+    return null;
+  }
+
   const localized = formatMinorUnits(amountMinor, currency, { currency: customerCurrency });
   const periodLabel = periodDays ? `${periodDays} days` : "billing period";
 

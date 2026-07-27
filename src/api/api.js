@@ -67,7 +67,7 @@ async function request(
     throw new Error("Not authenticated");
   }
 
-  let data = null;
+  let data;
 
   try {
     data = await res.json();
@@ -447,7 +447,8 @@ export const api = {
   billing: {
     config: () => request("GET", "/api/billing/config"),
 
-    checkout: () => request("POST", "/api/billing/checkout"),
+    checkout: (planId) =>
+      request("POST", "/api/billing/checkout", planId ? { planId } : undefined),
 
     portal: () => request("POST", "/api/billing/portal"),
   },
@@ -455,12 +456,6 @@ export const api = {
   revolut: {
     confirm: (orderId) =>
       request("POST", "/api/revolut/confirm", { orderId }),
-  },
-
-  stripe: {
-    checkout: () => request("POST", "/api/stripe/checkout"),
-
-    portal: () => request("POST", "/api/stripe/portal"),
   },
 
   translate: {

@@ -122,6 +122,7 @@ export const PREMIUM_PLANS = [
       "Announce and post rich guides from Discord",
     ],
     checkoutScope: "server",
+    checkoutAvailable: true,
   },
   {
     id: "server-bundle",

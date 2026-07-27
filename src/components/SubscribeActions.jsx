@@ -9,6 +9,7 @@ export default function SubscribeActions({
   billingConfigured = false,
   billingProvider = null,
   billingCheckout = null,
+  planId = null,
   size = "sm",
   showPricingLink = true,
   showPremiumLink = false,
@@ -17,14 +18,14 @@ export default function SubscribeActions({
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [error, setError] = useState(null);
   const btnClass = size === "sm" ? "btn btn-sm" : "btn";
-  const checkoutLabel = describeCheckoutAmount(billingCheckout);
+  const checkoutLabel = describeCheckoutAmount(billingCheckout, { planId });
 
   async function handleCheckout() {
     setCheckoutLoading(true);
     setError(null);
 
     try {
-      const res = await api.billing.checkout();
+      const res = await api.billing.checkout(planId);
       if (res?.url) {
         window.location.href = res.url;
         return;
@@ -78,15 +79,6 @@ export default function SubscribeActions({
           <a href="mailto:underbosshq@outlook.com.au">support</a>.
         </p>
       )}
-      {canSubscribe &&
-        billingConfigured &&
-        billingProvider === "stripe" &&
-        !revolutCheckoutAvailable && (
-          <p className="muted subscribe-actions-note">
-            This server uses Stripe billing. Open{" "}
-            <Link to="/premium">subscription options</Link> from the dashboard.
-          </p>
-        )}
       {error && <p className="muted subscribe-actions-error">{error}</p>}
     </div>
   );

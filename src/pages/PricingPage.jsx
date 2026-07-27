@@ -55,6 +55,7 @@ function PlanCard({ plan, premiumAccess, guildId, pricing }) {
             billingConfigured={premiumAccess.billingConfigured}
             billingProvider={premiumAccess.billingProvider}
             billingCheckout={premiumAccess.billingCheckout}
+            planId={plan.id}
             showPricingLink={false}
             showPremiumLink
           />

@@ -320,7 +320,6 @@ export const HELP_SECTIONS = [
         bullets: [
           "Server owners/admins can pay with Revolut from the paywall",
           "Premium extends by the configured period when Revolut sends ORDER_COMPLETED",
-          "Legacy Stripe subscriptions can still be managed from Premium & Billing if present",
           "Checkout and billing flows still work when the rest of the dashboard is locked",
         ],
       },
@@ -410,7 +409,7 @@ export const HELP_SECTIONS = [
       {
         title: "Safety",
         bullets: [
-          "Never share Discord tokens, Revolut/Stripe keys, or session cookies",
+          "Never share Discord tokens, Revolut keys, or session cookies",
           "Only grant complimentary access to people you trust",
           "Log moderation reasons clearly",
         ],

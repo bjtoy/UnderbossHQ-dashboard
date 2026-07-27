@@ -25,7 +25,6 @@ export default function Drawer({
   if (!open) return null;
 
   // Positioning logic
-  const isHorizontal = side === "left" || side === "right";
   const drawerStyle = {
     position: "fixed",
     background: "#0d0d0d",

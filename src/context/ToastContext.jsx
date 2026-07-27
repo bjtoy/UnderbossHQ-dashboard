@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState, useCallback, useEffect } from "react";
 import { toastRef } from "../utils/toastRef.js";
 
 const ToastContext = createContext();
@@ -16,7 +16,12 @@ export function ToastProvider({ children }) {
     }, 3500);
   }, []);
 
-  toastRef.showToast = showToast;
+  useEffect(() => {
+    toastRef.showToast = showToast;
+    return () => {
+      toastRef.showToast = null;
+    };
+  }, [showToast]);
 
   return (
     <ToastContext.Provider value={{ showToast }}>
