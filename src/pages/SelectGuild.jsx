@@ -3,12 +3,27 @@ import { Link, useNavigate } from "react-router-dom";
 import { api } from "../api/api.js";
 import { useRoles } from "../context/RoleContext.jsx";
 import { getDefaultRoute } from "../utils/getDefaultRoute.js";
+import { getPremiumAccessState } from "../utils/premiumAccess.js";
 import BrandMark from "../components/BrandMark.jsx";
 import { getDiscordBotInviteUrl } from "../utils/discordBotInvite.js";
 
 export default function SelectGuild() {
   const navigate = useNavigate();
-  const { setGuildId, refreshUser } = useRoles();
+  const {
+    setGuildId,
+    refreshUser,
+    user,
+    dashboardAccess,
+    billingProvider,
+    billingConfigured,
+  } = useRoles();
+  const premiumAccess = getPremiumAccessState({
+    user,
+    guildId: null,
+    dashboardAccess,
+    billingProvider,
+    billingConfigured,
+  });
 
   const [guilds, setGuilds] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -72,6 +87,25 @@ export default function SelectGuild() {
         <p className="page-subtitle">
           Choose which Discord server you want to manage.
         </p>
+
+        {premiumAccess.needsUpgrade && (
+          <div className="card page-stack billing-callout select-guild-billing">
+            <p className="muted">
+              <strong>Premium subscription required.</strong> After you pick a
+              server, you will see subscription options and full AUD pricing. Server
+              admins with <strong>Manage Server</strong> can pay via Revolut when
+              checkout is configured.
+            </p>
+            <div className="action-row">
+              <Link to="/pricing" className="btn btn-outline-gold btn-sm">
+                View pricing
+              </Link>
+              <Link to="/premium" className="btn btn-outline-red btn-sm">
+                Subscription options
+              </Link>
+            </div>
+          </div>
+        )}
 
         <div className="standalone-list">
           {guilds.length === 0 ? (

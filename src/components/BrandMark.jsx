@@ -9,14 +9,16 @@ export default function BrandMark({
   const sizes = {
     sidebar: { img: 48, title: "1.45rem" },
     sm: { img: 48, title: "1rem" },
+    nav: { img: 72, title: "1.85rem" },
     header: { img: 64, title: "2rem" },
     md: { img: 120, title: "1.25rem" },
     lg: { img: 200, title: "2.5rem" },
-    hero: { img: 220, title: null },
+    hero: { img: 260, title: null },
   };
 
   const config = sizes[size] || sizes.md;
-  const useClassTitleSize = size === "lg" || size === "md" || size === "hero";
+  const useClassTitleSize =
+    size === "lg" || size === "md" || size === "hero" || size === "nav";
 
   return (
     <div className={`brand-mark brand-mark-${size} ${className}`.trim()}>

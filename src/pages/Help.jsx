@@ -1,12 +1,24 @@
 import { Link } from "react-router-dom";
 import PageHeader from "../components/PageHeader.jsx";
 import HelpSectionBlock from "../components/HelpSectionBlock.jsx";
+import { useRoles } from "../context/RoleContext.jsx";
+import { getPremiumAccessState } from "../utils/premiumAccess.js";
 import {
   HELP_SECTIONS,
   MANUAL_DOWNLOAD_URL,
 } from "../content/userManual.js";
 
 export default function Help() {
+  const { user, guildId, dashboardAccess, billingProvider, billingConfigured } =
+    useRoles();
+  const premiumAccess = getPremiumAccessState({
+    user,
+    guildId,
+    dashboardAccess,
+    billingProvider,
+    billingConfigured,
+  });
+
   return (
     <div className="dashboard-page help-page">
       <PageHeader
@@ -17,6 +29,11 @@ export default function Help() {
             <Link to="/pricing" className="btn btn-outline-gold btn-sm">
               Pricing
             </Link>
+            {premiumAccess.needsUpgrade && (
+              <Link to="/premium" className="btn btn-outline-gold btn-sm">
+                Subscribe
+              </Link>
+            )}
             <a
               href={MANUAL_DOWNLOAD_URL}
               className="btn btn-outline-red btn-sm"

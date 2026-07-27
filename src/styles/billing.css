@@ -143,3 +143,50 @@
 .billing-toc a:hover {
   color: var(--accent-gold);
 }
+
+.upgrade-banner {
+  margin-bottom: 16px;
+  border: 1px solid var(--border-strong, rgba(255, 255, 255, 0.12));
+}
+
+.upgrade-banner-compact {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--red-tint-soft, rgba(139, 0, 24, 0.15));
+  border-left: 3px solid var(--brand-red-glow, #8b0018);
+}
+
+.upgrade-banner-text {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+}
+
+.upgrade-banner-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.upgrade-banner-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  color: var(--accent-gold);
+}
+
+.subscribe-actions-note,
+.subscribe-actions-error {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+}
+
+.sidebar-nav-upgrade {
+  color: var(--accent-gold) !important;
+  font-weight: 600;
+}
+
+.select-guild-billing {
+  margin-bottom: 16px;
+  text-align: left;
+}

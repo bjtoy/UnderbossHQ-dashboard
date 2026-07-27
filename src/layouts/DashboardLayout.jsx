@@ -3,12 +3,15 @@ import { useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar.jsx";
 import BrandMark from "../components/BrandMark.jsx";
 import PremiumPaywall from "../pages/PremiumPaywall.jsx";
+import UpgradeBanner from "../components/UpgradeBanner.jsx";
 import TranslatorWidget from "../components/TranslatorWidget.jsx";
 import { useRoles } from "../context/RoleContext.jsx";
+import { getPremiumAccessState } from "../utils/premiumAccess.js";
 
 function getPageLabel(path) {
   if (path === "/member") return "Member Dashboard";
   if (path === "/help") return "Help";
+  if (path === "/premium") return "Subscribe";
   if (path === "/moderator") return "Moderator Dashboard";
   if (path === "/admin") return "Admin Dashboard";
   if (path.startsWith("/admin/logs")) return "System Logs";
@@ -22,10 +25,25 @@ function getPageLabel(path) {
 }
 
 export default function DashboardLayout({ children }) {
-  const { user, guildId, loading, dashboardAccess, isPlatformOwner } = useRoles();
+  const {
+    user,
+    guildId,
+    loading,
+    dashboardAccess,
+    isPlatformOwner,
+    billingProvider,
+    billingConfigured,
+  } = useRoles();
   const location = useLocation();
   const pageLabel = getPageLabel(location.pathname);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const premiumAccess = getPremiumAccessState({
+    user,
+    guildId,
+    dashboardAccess,
+    billingProvider,
+    billingConfigured,
+  });
 
   useEffect(() => {
     setSidebarOpen(false);
@@ -38,10 +56,10 @@ export default function DashboardLayout({ children }) {
 
   const billingBlocked =
     guildId &&
-    dashboardAccess?.premiumRequired !== false &&
-    dashboardAccess?.allowed === false &&
+    premiumAccess.needsUpgrade &&
     !(isPlatformOwner && location.pathname.startsWith("/admin/premium")) &&
-    location.pathname !== "/help";
+    location.pathname !== "/help" &&
+    location.pathname !== "/premium";
 
   const guildName =
     user?.guilds?.find((guild) => guild.id === guildId)?.name ||
@@ -101,6 +119,11 @@ export default function DashboardLayout({ children }) {
 
         <main className="dashboard-content">
           <div className="dashboard-inner">
+            {premiumAccess.needsUpgrade &&
+              !billingBlocked &&
+              location.pathname !== "/premium" && (
+                <UpgradeBanner compact={location.pathname === "/help"} />
+              )}
             {billingBlocked ? <PremiumPaywall /> : children}
           </div>
         </main>

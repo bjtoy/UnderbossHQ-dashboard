@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import PublicShell from "../components/PublicShell.jsx";
+import SubscribeActions from "../components/SubscribeActions.jsx";
+import { useRoles } from "../context/RoleContext.jsx";
 import { BUSINESS } from "../content/business.js";
+import { getPremiumAccessState } from "../utils/premiumAccess.js";
 import {
   ACCESS_LEVELS,
   PREMIUM_PLANS,
@@ -11,8 +14,16 @@ import {
   formatAud,
 } from "../content/pricing.js";
 
-function PlanCard({ plan }) {
+function PlanCard({ plan, premiumAccess, guildId }) {
   const isServerCheckout = plan.checkoutAvailable;
+  const { user, loading } = useRoles();
+  const loggedIn = !loading && Boolean(user);
+  const showCheckout =
+    loggedIn &&
+    isServerCheckout &&
+    guildId &&
+    premiumAccess.needsUpgrade &&
+    premiumAccess.canSubscribe;
 
   return (
     <article
@@ -39,9 +50,42 @@ function PlanCard({ plan }) {
         ))}
       </ul>
       {isServerCheckout ? (
-        <Link to="/login" className="btn btn-outline-gold btn-sm">
-          Sign in to subscribe
-        </Link>
+        showCheckout ? (
+          <SubscribeActions
+            canSubscribe={premiumAccess.canSubscribe}
+            revolutCheckoutAvailable={premiumAccess.revolutCheckoutAvailable}
+            billingConfigured={premiumAccess.billingConfigured}
+            billingProvider={premiumAccess.billingProvider}
+            showPricingLink={false}
+            showPremiumLink
+          />
+        ) : loggedIn ? (
+          <div className="page-stack">
+            {!guildId ? (
+              <Link to="/select-guild" className="btn btn-outline-gold btn-sm">
+                Select a server to subscribe
+              </Link>
+            ) : premiumAccess.premiumActive ? (
+              <p className="muted pricing-plan-soon">
+                Your selected server already has premium access.
+              </p>
+            ) : !premiumAccess.canSubscribe ? (
+              <p className="muted pricing-plan-soon">
+                Server checkout requires <strong>Manage Server</strong> on your
+                Discord. Ask an admin to subscribe, or open{" "}
+                <Link to="/premium">subscription options</Link>.
+              </p>
+            ) : (
+              <Link to="/premium" className="btn btn-outline-gold btn-sm">
+                Subscribe for your server
+              </Link>
+            )}
+          </div>
+        ) : (
+          <Link to="/login" className="btn btn-outline-gold btn-sm">
+            Sign in to subscribe
+          </Link>
+        )
       ) : (
         <p className="muted pricing-plan-soon">
           Individual plans: email {BUSINESS.contactEmail} or sign in for server
@@ -53,11 +97,42 @@ function PlanCard({ plan }) {
 }
 
 export default function PricingPage() {
+  const { user, guildId, dashboardAccess, billingProvider, billingConfigured, loading } =
+    useRoles();
+  const premiumAccess = getPremiumAccessState({
+    user,
+    guildId,
+    dashboardAccess,
+    billingProvider,
+    billingConfigured,
+  });
+  const loggedIn = !loading && Boolean(user);
+
   return (
     <PublicShell
       title="Pricing"
-      subtitle="All prices in AUD. Public pages are free. Premium unlocks app and/or bot features for individuals or whole servers."
+      subtitle="All prices in AUD. Free accounts include real community tools. Premium unlocks creation, moderation, and Discord publishing."
     >
+      {loggedIn && premiumAccess.needsUpgrade && (
+        <section className="public-section">
+          <div className="card page-stack billing-callout">
+            <h2 className="public-section-title">Subscribe from your account</h2>
+            <p className="muted">
+              You are signed in
+              {guildId ? " with a server selected" : ""}. Server plans unlock the
+              dashboard for everyone on that Discord community.
+            </p>
+            <SubscribeActions
+              canSubscribe={premiumAccess.canSubscribe}
+              revolutCheckoutAvailable={premiumAccess.revolutCheckoutAvailable}
+              billingConfigured={premiumAccess.billingConfigured}
+              billingProvider={premiumAccess.billingProvider}
+              showPremiumLink
+            />
+          </div>
+        </section>
+      )}
+
       <section className="public-section page-stack">
         <h2 className="public-section-title">Free access</h2>
         <div className="public-grid dashboard-grid dashboard-grid-2">
@@ -85,7 +160,12 @@ export default function PricingPage() {
         </p>
         <div className="pricing-plan-grid">
           {PREMIUM_PLANS.map((plan) => (
-            <PlanCard key={plan.id} plan={plan} />
+            <PlanCard
+              key={plan.id}
+              plan={plan}
+              premiumAccess={premiumAccess}
+              guildId={guildId}
+            />
           ))}
         </div>
       </section>
@@ -122,9 +202,15 @@ export default function PricingPage() {
           {formatAud(FOUNDING_OFFER.serverBundleMonthly)}/mo —{" "}
           {FOUNDING_OFFER.note}
         </p>
-        <Link to="/login" className="btn btn-outline-red btn-sm">
-          Sign in to get started
-        </Link>
+        {loggedIn ? (
+          <Link to="/premium" className="btn btn-outline-red btn-sm">
+            Open subscription options
+          </Link>
+        ) : (
+          <Link to="/login" className="btn btn-outline-red btn-sm">
+            Sign in to get started
+          </Link>
+        )}
       </section>
     </PublicShell>
   );

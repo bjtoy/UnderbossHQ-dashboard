@@ -18,7 +18,8 @@ export default function ProtectedRoute({ children, roles = null }) {
 
   const guildId = localStorage.getItem("guildId");
   const path = window.location.pathname;
-  const allowsWithoutGuild = path === "/select-guild" || path === "/help";
+  const allowsWithoutGuild =
+    path === "/select-guild" || path === "/help" || path === "/premium";
 
   if (!guildId && !allowsWithoutGuild) {
     return <Navigate to="/select-guild" replace />;

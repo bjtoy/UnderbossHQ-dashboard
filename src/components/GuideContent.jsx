@@ -4,14 +4,35 @@ function colorClass(colorId) {
   return TEXT_COLORS.find((c) => c.id === colorId)?.className || "guide-color-red";
 }
 
+function renderInlineText(text) {
+  const parts = String(text).split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={index}>{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+}
+
 function renderParagraphs(text) {
   return text.split(/\n{2,}/).map((paragraph, index) => (
-    <p key={index}>{paragraph.split("\n").map((line, i, arr) => (
-      <span key={i}>
-        {line}
-        {i < arr.length - 1 ? <br /> : null}
-      </span>
-    ))}</p>
+    <p key={index}>
+      {paragraph.split("\n").map((line, i, arr) => (
+        <span key={i}>
+          {renderInlineText(line)}
+          {i < arr.length - 1 ? <br /> : null}
+        </span>
+      ))}
+    </p>
+  ));
+}
+
+function renderLines(text) {
+  return text.split("\n").map((line, i, arr) => (
+    <span key={i}>
+      {renderInlineText(line)}
+      {i < arr.length - 1 ? <br /> : null}
+    </span>
   ));
 }
 
@@ -55,12 +76,7 @@ export default function GuideContent({ content, className = "" }) {
         if (block.type === "color") {
           return (
             <p key={index} className={`guide-color-block ${colorClass(block.color)}`}>
-              {block.text.split("\n").map((line, i, arr) => (
-                <span key={i}>
-                  {line}
-                  {i < arr.length - 1 ? <br /> : null}
-                </span>
-              ))}
+              {renderLines(block.text)}
             </p>
           );
         }
@@ -85,7 +101,7 @@ export default function GuideContent({ content, className = "" }) {
               key={index}
               className={`guide-section-title guide-section-${variant}`}
             >
-              {block.text}
+              {renderInlineText(block.text)}
             </h3>
           );
         }
@@ -98,7 +114,7 @@ export default function GuideContent({ content, className = "" }) {
               key={index}
               className={`guide-heading guide-heading-${variant}`}
             >
-              {block.text}
+              {renderInlineText(block.text)}
             </Tag>
           );
         }

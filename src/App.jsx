@@ -31,6 +31,7 @@ import InviteTracking from "./pages/InviteTracking.jsx";
 import FactionAnalytics from "./pages/FactionAnalytics.jsx";
 import AdminWebhooks from "./pages/AdminWebhooks.jsx";
 import AdminPremium from "./pages/AdminPremium.jsx";
+import PremiumPaywall from "./pages/PremiumPaywall.jsx";
 import PremiumSuccess from "./pages/PremiumSuccess.jsx";
 import EventsList from "./pages/events/EventsList.jsx";
 import EventEditor from "./pages/events/EventEditor.jsx";
@@ -274,6 +275,17 @@ export default function App() {
             <ProtectedRoute roles={["Admin"]}>
               <DashboardLayout>
                 <AdminWebhooks />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/premium"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <PremiumPaywall />
               </DashboardLayout>
             </ProtectedRoute>
           }

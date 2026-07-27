@@ -1,9 +1,28 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
+import { getPremiumAccessState } from "../utils/premiumAccess.js";
 import BrandMark from "./BrandMark.jsx";
 
 export default function Sidebar({ onNavigate }) {
-  const { hasAnyRole, roles, user, logout, setGuildId, isPlatformOwner } = useRoles();
+  const {
+    hasAnyRole,
+    roles,
+    user,
+    logout,
+    setGuildId,
+    isPlatformOwner,
+    guildId,
+    dashboardAccess,
+    billingProvider,
+    billingConfigured,
+  } = useRoles();
+  const premiumAccess = getPremiumAccessState({
+    user,
+    guildId,
+    dashboardAccess,
+    billingProvider,
+    billingConfigured,
+  });
   const location = useLocation();
   const navigate = useNavigate();
   const path = location.pathname;
@@ -41,6 +60,18 @@ export default function Sidebar({ onNavigate }) {
           <Link to="/help" className={navClass(path === "/help")} onClick={closeNav}>
             Help
           </Link>
+          <Link to="/pricing" className={navClass(path === "/pricing")} onClick={closeNav}>
+            Pricing
+          </Link>
+          {premiumAccess.needsUpgrade && (
+            <Link
+              to="/premium"
+              className={`${navClass(path === "/premium")} sidebar-nav-upgrade`}
+              onClick={closeNav}
+            >
+              Subscribe
+            </Link>
+          )}
         </div>
 
         <div className="sidebar-section">

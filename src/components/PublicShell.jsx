@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
+import { useRoles } from "../context/RoleContext.jsx";
+import { getPremiumAccessState } from "../utils/premiumAccess.js";
 import BrandMark from "./BrandMark.jsx";
-
-import { BUSINESS } from "../content/business.js";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -13,6 +13,16 @@ const NAV = [
 
 export default function PublicShell({ children, title, subtitle }) {
   const location = useLocation();
+  const { user, loading, guildId, dashboardAccess, billingProvider, billingConfigured } =
+    useRoles();
+  const loggedIn = !loading && Boolean(user);
+  const premiumAccess = getPremiumAccessState({
+    user,
+    guildId,
+    dashboardAccess,
+    billingProvider,
+    billingConfigured,
+  });
 
   function navClass(path) {
     const active =
@@ -24,10 +34,14 @@ export default function PublicShell({ children, title, subtitle }) {
 
   return (
     <div className="public-site">
+      <div className="public-site-bg" aria-hidden="true">
+        <span className="public-glow public-glow-top" />
+        <span className="public-glow public-glow-side" />
+      </div>
       <header className="public-header">
         <div className="public-header-inner">
           <Link to="/" className="public-brand-link">
-            <BrandMark size="sm" showName={false} />
+            <BrandMark size="nav" />
           </Link>
           <nav className="public-nav" aria-label="Public site">
             {NAV.map((item) => (
@@ -36,9 +50,15 @@ export default function PublicShell({ children, title, subtitle }) {
               </Link>
             ))}
           </nav>
-          <Link to="/login" className="btn btn-outline-red btn-sm public-login-btn">
-            Sign in
-          </Link>
+          {loggedIn ? (
+            <Link to="/member" className="btn btn-outline-red btn-sm public-login-btn">
+              Dashboard
+            </Link>
+          ) : (
+            <Link to="/login" className="btn btn-outline-red btn-sm public-login-btn">
+              Sign in
+            </Link>
+          )}
         </div>
       </header>
 
@@ -49,6 +69,11 @@ export default function PublicShell({ children, title, subtitle }) {
             {subtitle ? (
               <p className="public-page-subtitle muted">{subtitle}</p>
             ) : null}
+          </div>
+        )}
+        {!title && location.pathname !== "/" && (
+          <div className="public-page-brand-strip" aria-hidden="true">
+            <span className="public-page-brand-rule" />
           </div>
         )}
         {children}
@@ -69,6 +94,12 @@ export default function PublicShell({ children, title, subtitle }) {
           <a href="/UnderbossHQ-User-Manual.docx" download>
             User manual
           </a>
+          {loggedIn && premiumAccess.needsUpgrade ? (
+            <>
+              {" · "}
+              <Link to="/premium">Subscribe</Link>
+            </>
+          ) : null}
         </p>
       </footer>
     </div>

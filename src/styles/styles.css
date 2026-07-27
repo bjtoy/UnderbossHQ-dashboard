@@ -125,6 +125,20 @@ body {
     text-shadow: none;
 }
 
+a {
+    color: var(--accent-gold);
+    text-decoration-color: rgba(212, 168, 48, 0.4);
+    text-underline-offset: 0.15em;
+}
+
+a:hover {
+    color: var(--accent-gold-hover);
+}
+
+a:visited {
+    color: var(--accent-gold-dim);
+}
+
 /* ===========================
    GLOBAL LAYOUT HELPERS
    =========================== */

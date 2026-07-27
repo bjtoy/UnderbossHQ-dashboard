@@ -73,7 +73,9 @@ export default function PublicHome() {
           <h2 className="public-card-title">Premium when you need it</h2>
           <p className="muted">
             Choose <strong>App</strong> and/or <strong>Bot</strong> premium for
-            individuals or whole servers — from <strong>$9 AUD/mo</strong>.
+            individuals or whole servers — server plans from{" "}
+            <strong>$8 AUD/mo</strong>, bundles capped at{" "}
+            <strong>$20 AUD/mo</strong>.
           </p>
         </div>
       </section>

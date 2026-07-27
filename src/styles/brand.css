@@ -6,6 +6,31 @@
   margin-bottom: 16px;
 }
 
+.brand-mark-nav {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 0;
+}
+
+.brand-mark-nav .brand-mark-image {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(212, 168, 48, 0.22));
+}
+
+.brand-mark-nav .brand-mark-text {
+  align-items: flex-start;
+}
+
+.brand-mark-nav .brand-mark-title {
+  font-size: clamp(1.65rem, 3.5vw, 2.1rem);
+  line-height: 1.05;
+  text-shadow: 0 0 18px rgba(212, 168, 48, 0.18);
+}
+
 .brand-mark-sm {
   flex-direction: row;
   align-items: center;
@@ -146,14 +171,16 @@
 }
 
 .brand-mark-hero .brand-mark-image {
-  width: clamp(140px, 22vw, 240px);
+  width: clamp(180px, 28vw, 280px);
   height: auto;
-  max-height: 240px;
+  max-height: 280px;
+  filter: drop-shadow(0 0 24px rgba(212, 168, 48, 0.28));
 }
 
 .brand-mark-hero .brand-mark-title {
-  font-size: clamp(3.5rem, 12vw, 6.5rem);
+  font-size: clamp(3.75rem, 13vw, 7rem);
   line-height: 1;
+  text-shadow: 0 0 28px rgba(212, 168, 48, 0.22);
 }
 
 .brand-mark-hero .brand-mark-tagline {
