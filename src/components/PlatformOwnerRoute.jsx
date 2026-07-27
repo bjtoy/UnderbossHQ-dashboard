@@ -4,7 +4,7 @@ import { useRoles } from "../context/RoleContext.jsx";
 export default function PlatformOwnerRoute({ children }) {
   const { user, loading, isPlatformOwner } = useRoles();
 
-  if (loading || user === undefined) {
+  if (user === undefined) {
     return (
       <div className="loading-screen">
         Loading...

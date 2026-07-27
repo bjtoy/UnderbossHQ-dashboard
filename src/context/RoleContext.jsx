@@ -99,10 +99,17 @@ export function RoleProvider({
    * =========================
    * LOAD USER
    * =========================
+   * showLoading: only block the UI on first hydrate. Soft refreshes (guild
+   * change, background refresh) must not blank the page — that caused the
+   * /premium "flashing" when navigating to subscription options.
    */
-  async function loadUser() {
+  async function loadUser({ showLoading = false } = {}) {
+    const blockUi = showLoading || user === undefined;
+
     try {
-      setLoading(true);
+      if (blockUi) {
+        setLoading(true);
+      }
 
       const storedGuildId = localStorage.getItem("guildId");
 
@@ -186,42 +193,50 @@ export function RoleProvider({
 
       return { user: null, roles: [], permissions: [], isPlatformOwner: false, dashboardAccess: null };
     } finally {
-      if (!mountedRef.current) {
-        return;
+      if (mountedRef.current) {
+        setLoading(false);
+        loadedRef.current = true;
       }
-
-      setLoading(false);
-      loadedRef.current = true;
     }
   }
 
   /**
    * =========================
-   * INITIAL LOAD
+   * INITIAL LOAD + GUILD CHANGE
    * =========================
+   * Do NOT reload on every pathname change — that flashes the whole layout.
    */
   useEffect(() => {
+    mountedRef.current = true;
 
-    mountedRef.current =
-      true;
+    const needsBlockingLoad = !loadedRef.current && user === undefined;
 
-    if (onPublicPage) {
-      setLoading(false);
-      loadUser();
+    if (onPublicPage && loadedRef.current) {
+      loadUser({ showLoading: false });
       return () => {
         mountedRef.current = false;
       };
     }
 
-    loadUser();
+    loadUser({ showLoading: needsBlockingLoad });
 
     return () => {
-
-      mountedRef.current =
-        false;
+      mountedRef.current = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally omit pathname
+  }, [guildId]);
 
-  }, [guildId, location.pathname]);
+  // Soft refresh when entering authenticated routes from a public page once
+  const prevPublicRef = useRef(onPublicPage);
+  useEffect(() => {
+    const wasPublic = prevPublicRef.current;
+    prevPublicRef.current = onPublicPage;
+
+    if (wasPublic && !onPublicPage && loadedRef.current) {
+      loadUser({ showLoading: false });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onPublicPage]);
 
   /**
    * =========================

@@ -67,7 +67,7 @@ export default function DashboardLayout({ children }) {
     user?.guilds?.find((guild) => guild.id === guildId)?.name ||
     (guildId ? "Selected server" : "No server selected");
 
-  if (loading) {
+  if (loading && user === undefined) {
     return (
       <div className="loading-screen">Loading your dashboard…</div>
     );
