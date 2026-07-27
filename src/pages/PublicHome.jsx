@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import BrandMark from "../components/BrandMark.jsx";
 import PublicShell from "../components/PublicShell.jsx";
 import { BUSINESS } from "../content/business.js";
+import { useCustomerPricing } from "../hooks/useCustomerPricing.js";
 
 export default function PublicHome() {
+  const pricing = useCustomerPricing();
+
   return (
     <PublicShell>
       <section className="public-home-hero page-stack">
@@ -22,7 +25,7 @@ export default function PublicHome() {
         </p>
         <div className="public-hero-actions action-row">
           <Link to="/pricing" className="btn btn-outline-gold">
-            View pricing (AUD)
+            View pricing ({pricing.currencyLabel})
           </Link>
           <Link to="/demo" className="btn btn-outline-red btn-sm">
             See demo guide
@@ -74,8 +77,8 @@ export default function PublicHome() {
           <p className="muted">
             Choose <strong>App</strong> and/or <strong>Bot</strong> premium for
             individuals or whole servers — server plans from{" "}
-            <strong>$8 AUD/mo</strong>, bundles capped at{" "}
-            <strong>$20 AUD/mo</strong>.
+            <strong>{pricing.formatPrice(8)}/mo</strong>, bundles capped at{" "}
+            <strong>{pricing.formatPrice(20)}/mo</strong>.
           </p>
         </div>
       </section>

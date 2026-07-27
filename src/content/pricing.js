@@ -1,6 +1,13 @@
 /** All prices AUD. Server checkout live via Revolut; individual tiers listed for transparency. */
 
-export const PRICING_CURRENCY = "AUD";
+import {
+  formatAudPrice,
+  formatMonthlyPlan,
+  formatAnnualPlan,
+  BASE_CURRENCY as PRICING_CURRENCY,
+} from "../utils/customerCurrency.js";
+
+export { PRICING_CURRENCY };
 
 export const ACCESS_LEVELS = [
   {
@@ -160,13 +167,13 @@ export const FOUNDING_OFFER = {
 };
 
 export function formatAud(amount) {
-  return `$${amount} ${PRICING_CURRENCY}`;
+  return formatAudPrice(amount);
 }
 
 export function formatMonthly(plan) {
-  return `${formatAud(plan.priceMonthly)}/mo`;
+  return formatMonthlyPlan(plan);
 }
 
 export function formatAnnual(plan) {
-  return `${formatAud(plan.priceAnnual)}/yr`;
+  return formatAnnualPlan(plan);
 }

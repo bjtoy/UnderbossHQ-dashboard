@@ -86,6 +86,23 @@ async function request(
     throw new Error(forbiddenMsg);
   }
 
+  if (res.status === 402) {
+    const premiumMsg =
+      data?.message ||
+      data?.error ||
+      "Premium subscription required for this server.";
+
+    if (refreshUserFn) {
+      refreshUserFn();
+    }
+
+    const err = new Error(premiumMsg);
+    err.code = data?.code || "DASHBOARD_PREMIUM_REQUIRED";
+    err.status = 402;
+
+    throw err;
+  }
+
   if (!res.ok) {
     const msg =
       data?.error ||

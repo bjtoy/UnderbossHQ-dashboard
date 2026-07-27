@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api/api.js";
+import { describeCheckoutAmount } from "../utils/customerCurrency.js";
 
 export default function SubscribeActions({
   canSubscribe = false,
   revolutCheckoutAvailable = false,
   billingConfigured = false,
   billingProvider = null,
+  billingCheckout = null,
   size = "sm",
   showPricingLink = true,
   showPremiumLink = false,
@@ -15,6 +17,7 @@ export default function SubscribeActions({
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [error, setError] = useState(null);
   const btnClass = size === "sm" ? "btn btn-sm" : "btn";
+  const checkoutLabel = describeCheckoutAmount(billingCheckout);
 
   async function handleCheckout() {
     setCheckoutLoading(true);
@@ -54,10 +57,20 @@ export default function SubscribeActions({
             disabled={checkoutLoading}
             onClick={handleCheckout}
           >
-            {checkoutLoading ? "Redirecting…" : "Pay with Revolut"}
+            {checkoutLoading
+              ? "Redirecting…"
+              : checkoutLabel
+                ? `Pay ${checkoutLabel} with Revolut`
+                : "Pay with Revolut"}
           </button>
         )}
       </div>
+      {canSubscribe && revolutCheckoutAvailable && checkoutLabel && (
+        <p className="muted subscribe-actions-note">
+          Amount shown in your local currency where possible. Revolut checkout
+          settles in the merchant currency shown in parentheses when different.
+        </p>
+      )}
       {canSubscribe && !revolutCheckoutAvailable && billingConfigured === false && (
         <p className="muted subscribe-actions-note">
           Online checkout is not configured yet. See pricing for plan details, or

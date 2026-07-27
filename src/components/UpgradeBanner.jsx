@@ -10,6 +10,7 @@ export default function UpgradeBanner({ compact = false }) {
     dashboardAccess,
     billingProvider,
     billingConfigured,
+    billingCheckout,
   } = useRoles();
 
   const access = getPremiumAccessState({
@@ -18,6 +19,7 @@ export default function UpgradeBanner({ compact = false }) {
     dashboardAccess,
     billingProvider,
     billingConfigured,
+    billingCheckout,
   });
 
   if (!access.needsUpgrade) {
@@ -89,6 +91,7 @@ export default function UpgradeBanner({ compact = false }) {
         revolutCheckoutAvailable={access.revolutCheckoutAvailable}
         billingConfigured={access.billingConfigured}
         billingProvider={access.billingProvider}
+        billingCheckout={access.billingCheckout}
         showPremiumLink
       />
     </div>

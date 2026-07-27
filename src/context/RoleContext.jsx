@@ -58,6 +58,9 @@ export function RoleProvider({
   const [billingConfigured, setBillingConfigured] =
     useState(false);
 
+  const [billingCheckout, setBillingCheckout] =
+    useState(null);
+
   const [loading,
     setLoading] =
     useState(!onPublicPage);
@@ -120,6 +123,7 @@ export function RoleProvider({
         setDashboardAccess(null);
         setBillingProvider(null);
         setBillingConfigured(false);
+        setBillingCheckout(null);
 
         return { user: null, roles: [], permissions: [], isPlatformOwner: false, dashboardAccess: null };
       }
@@ -143,6 +147,7 @@ export function RoleProvider({
       const nextDashboardAccess = data.dashboardAccess || null;
       const nextBillingProvider = data.billingProvider || null;
       const nextBillingConfigured = Boolean(data.billingConfigured);
+      const nextBillingCheckout = data.billingCheckout || null;
 
       setUser(nextUser);
       setRoles(nextRoles);
@@ -151,6 +156,7 @@ export function RoleProvider({
       setDashboardAccess(nextDashboardAccess);
       setBillingProvider(nextBillingProvider);
       setBillingConfigured(nextBillingConfigured);
+      setBillingCheckout(nextBillingCheckout);
 
       return {
         user: nextUser,
@@ -160,6 +166,7 @@ export function RoleProvider({
         dashboardAccess: nextDashboardAccess,
         billingProvider: nextBillingProvider,
         billingConfigured: nextBillingConfigured,
+        billingCheckout: nextBillingCheckout,
       };
     } catch (error) {
       console.error("Failed loading auth state:", error);
@@ -175,6 +182,7 @@ export function RoleProvider({
       setDashboardAccess(null);
       setBillingProvider(null);
       setBillingConfigured(false);
+      setBillingCheckout(null);
 
       return { user: null, roles: [], permissions: [], isPlatformOwner: false, dashboardAccess: null };
     } finally {
@@ -281,6 +289,7 @@ export function RoleProvider({
     setDashboardAccess(null);
     setBillingProvider(null);
     setBillingConfigured(false);
+    setBillingCheckout(null);
 
     localStorage.removeItem(
       "guildId"
@@ -321,6 +330,7 @@ export function RoleProvider({
         dashboardAccess,
         billingProvider,
         billingConfigured,
+        billingCheckout,
         refreshUser:
           loadUser,
         logout,

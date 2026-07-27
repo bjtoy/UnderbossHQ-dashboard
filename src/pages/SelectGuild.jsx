@@ -92,8 +92,8 @@ export default function SelectGuild() {
           <div className="card page-stack billing-callout select-guild-billing">
             <p className="muted">
               <strong>Premium subscription required.</strong> After you pick a
-              server, you will see subscription options and full AUD pricing. Server
-              admins with <strong>Manage Server</strong> can pay via Revolut when
+              server, you will see subscription options and pricing in your currency.
+              Server admins with <strong>Manage Server</strong> can pay via Revolut when
               checkout is configured.
             </p>
             <div className="action-row">

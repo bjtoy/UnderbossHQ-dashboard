@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar.jsx";
 import BrandMark from "../components/BrandMark.jsx";
 import PremiumPaywall from "../pages/PremiumPaywall.jsx";
@@ -33,6 +33,7 @@ export default function DashboardLayout({ children }) {
     isPlatformOwner,
     billingProvider,
     billingConfigured,
+    billingCheckout,
   } = useRoles();
   const location = useLocation();
   const pageLabel = getPageLabel(location.pathname);
@@ -43,6 +44,7 @@ export default function DashboardLayout({ children }) {
     dashboardAccess,
     billingProvider,
     billingConfigured,
+    billingCheckout,
   });
 
   useEffect(() => {
@@ -114,6 +116,16 @@ export default function DashboardLayout({ children }) {
               <span className="dashboard-topbar-sep"> · </span>
               <span className="dashboard-topbar-guild">{guildName}</span>
             </p>
+            {premiumAccess.needsUpgrade && (
+              <div className="dashboard-topbar-actions">
+                <Link to="/pricing" className="btn btn-outline-gold btn-sm">
+                  Pricing
+                </Link>
+                <Link to="/premium" className="btn btn-outline-red btn-sm">
+                  Subscribe
+                </Link>
+              </div>
+            )}
           </div>
         </header>
 

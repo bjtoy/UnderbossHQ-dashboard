@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useRoles } from "../context/RoleContext.jsx";
 import { canManageGuildBilling } from "../utils/guildBillingAuth.js";
 import { getPremiumAccessState } from "../utils/premiumAccess.js";
+import { useCustomerPricing } from "../hooks/useCustomerPricing.js";
 import SubscribeActions from "../components/SubscribeActions.jsx";
 import PageHeader from "../components/PageHeader.jsx";
 
@@ -13,6 +14,7 @@ export default function PremiumPaywall() {
     dashboardAccess,
     billingProvider,
     billingConfigured,
+    billingCheckout,
   } = useRoles();
 
   const premiumAccess = getPremiumAccessState({
@@ -21,7 +23,9 @@ export default function PremiumPaywall() {
     dashboardAccess,
     billingProvider,
     billingConfigured,
+    billingCheckout,
   });
+  const pricing = useCustomerPricing(billingCheckout);
 
   const canSubscribe = canManageGuildBilling(user, guildId);
   const guildName =
@@ -59,7 +63,14 @@ export default function PremiumPaywall() {
                   <strong className="billing-badge billing-badge-revolut">
                     Revolut
                   </strong>
-                  . One payment extends server premium for the configured period.
+                  {pricing.checkoutDescription ? (
+                    <>
+                      {" "}
+                      — <strong>{pricing.checkoutDescription}</strong>
+                    </>
+                  ) : (
+                    ". One payment extends server premium for the configured period."
+                  )}{" "}
                   After payment, access activates automatically.
                 </p>
               ) : (
@@ -100,6 +111,7 @@ export default function PremiumPaywall() {
             revolutCheckoutAvailable={premiumAccess.revolutCheckoutAvailable}
             billingConfigured={premiumAccess.billingConfigured}
             billingProvider={premiumAccess.billingProvider}
+            billingCheckout={premiumAccess.billingCheckout}
             showPricingLink
           />
 
@@ -122,7 +134,7 @@ export default function PremiumPaywall() {
               <Link to="/pricing">
                 Individual and server plans (App, Bot, bundles)
               </Link>{" "}
-              — see full AUD pricing before you subscribe.
+              — see full pricing in your currency before you subscribe.
             </li>
             <li>
               <strong>Server subscription (Revolut)</strong> — one payment

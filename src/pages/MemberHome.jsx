@@ -4,8 +4,10 @@ import { api } from "../api/api.js";
 import Loader from "../components/Loader.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
 import PageHeader from "../components/PageHeader.jsx";
+import UpgradeBanner from "../components/UpgradeBanner.jsx";
 import { normalizeProfile } from "../utils/profileNormalizer.js";
 import { formatEventRange } from "../utils/eventDates.js";
+import { isPremiumRequiredError } from "../utils/premiumAccess.js";
 
 export default function MemberHome() {
   const [profile, setProfile] = useState(null);
@@ -65,7 +67,11 @@ export default function MemberHome() {
       />
 
       {loading && <Loader />}
-      {error && <ErrorCard message={error} />}
+      {error && isPremiumRequiredError(error) ? (
+        <UpgradeBanner />
+      ) : error ? (
+        <ErrorCard message={error} />
+      ) : null}
 
       {!loading && !error && profile && (
         <div className="page-body">

@@ -129,6 +129,13 @@ body:has(.legal-page) {
     color: var(--text-muted);
 }
 
+.dashboard-topbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
 .dashboard-topbar-brandmark {
   margin-bottom: 0;
 }

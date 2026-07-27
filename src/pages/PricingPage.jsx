@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import PublicShell from "../components/PublicShell.jsx";
 import SubscribeActions from "../components/SubscribeActions.jsx";
 import { useRoles } from "../context/RoleContext.jsx";
+import { useCustomerPricing } from "../hooks/useCustomerPricing.js";
 import { BUSINESS } from "../content/business.js";
 import { getPremiumAccessState } from "../utils/premiumAccess.js";
 import {
@@ -9,12 +10,9 @@ import {
   PREMIUM_PLANS,
   FEATURE_MATRIX,
   FOUNDING_OFFER,
-  formatMonthly,
-  formatAnnual,
-  formatAud,
 } from "../content/pricing.js";
 
-function PlanCard({ plan, premiumAccess, guildId }) {
+function PlanCard({ plan, premiumAccess, guildId, pricing }) {
   const isServerCheckout = plan.checkoutAvailable;
   const { user, loading } = useRoles();
   const loggedIn = !loading && Boolean(user);
@@ -36,11 +34,11 @@ function PlanCard({ plan, premiumAccess, guildId }) {
         {plan.audience} · {plan.product}
       </p>
       <h2 className="pricing-plan-name">{plan.name}</h2>
-      <p className="pricing-plan-price">{formatMonthly(plan)}</p>
-      <p className="pricing-plan-annual muted">{formatAnnual(plan)}</p>
+      <p className="pricing-plan-price">{pricing.formatMonthly(plan)}</p>
+      <p className="pricing-plan-annual muted">{pricing.formatAnnual(plan)}</p>
       {plan.saveVsSeparate ? (
         <p className="pricing-plan-save">
-          Save {formatAud(plan.saveVsSeparate)}/mo vs separate
+          Save {pricing.formatPrice(plan.saveVsSeparate)}/mo vs separate
         </p>
       ) : null}
       <p className="muted">{plan.bestFor}</p>
@@ -56,6 +54,7 @@ function PlanCard({ plan, premiumAccess, guildId }) {
             revolutCheckoutAvailable={premiumAccess.revolutCheckoutAvailable}
             billingConfigured={premiumAccess.billingConfigured}
             billingProvider={premiumAccess.billingProvider}
+            billingCheckout={premiumAccess.billingCheckout}
             showPricingLink={false}
             showPremiumLink
           />
@@ -97,21 +96,30 @@ function PlanCard({ plan, premiumAccess, guildId }) {
 }
 
 export default function PricingPage() {
-  const { user, guildId, dashboardAccess, billingProvider, billingConfigured, loading } =
-    useRoles();
+  const {
+    user,
+    guildId,
+    dashboardAccess,
+    billingProvider,
+    billingConfigured,
+    billingCheckout,
+    loading,
+  } = useRoles();
   const premiumAccess = getPremiumAccessState({
     user,
     guildId,
     dashboardAccess,
     billingProvider,
     billingConfigured,
+    billingCheckout,
   });
+  const pricing = useCustomerPricing(billingCheckout);
   const loggedIn = !loading && Boolean(user);
 
   return (
     <PublicShell
       title="Pricing"
-      subtitle="All prices in AUD. Free accounts include real community tools. Premium unlocks creation, moderation, and Discord publishing."
+      subtitle={pricing.pricingSubtitle}
     >
       {loggedIn && premiumAccess.needsUpgrade && (
         <section className="public-section">
@@ -127,6 +135,7 @@ export default function PricingPage() {
               revolutCheckoutAvailable={premiumAccess.revolutCheckoutAvailable}
               billingConfigured={premiumAccess.billingConfigured}
               billingProvider={premiumAccess.billingProvider}
+              billingCheckout={premiumAccess.billingCheckout}
               showPremiumLink
             />
           </div>
@@ -165,6 +174,7 @@ export default function PricingPage() {
               plan={plan}
               premiumAccess={premiumAccess}
               guildId={guildId}
+              pricing={pricing}
             />
           ))}
         </div>
@@ -197,9 +207,9 @@ export default function PricingPage() {
       <section className="card page-stack billing-callout public-section">
         <h2 className="public-section-title">{FOUNDING_OFFER.label}</h2>
         <p className="muted">
-          Individual bundle {formatAud(FOUNDING_OFFER.individualBundleMonthly)}
+          Individual bundle {pricing.formatPrice(FOUNDING_OFFER.individualBundleMonthly)}
           /mo · Server bundle{" "}
-          {formatAud(FOUNDING_OFFER.serverBundleMonthly)}/mo —{" "}
+          {pricing.formatPrice(FOUNDING_OFFER.serverBundleMonthly)}/mo —{" "}
           {FOUNDING_OFFER.note}
         </p>
         {loggedIn ? (
